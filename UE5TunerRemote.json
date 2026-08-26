@@ -6,7 +6,7 @@
       "id": "mortal-shell-2",
       "title": "Mortal Shell 2",
       "configPath": "%LOCALAPPDATA%\\MortalShell2\\Saved\\Config\\Windows",
-      "engineVersion": null,
+      "engineVersion": 5.1,
       "verified": false,
       "verifiedOn": null,
       "notes": "Reference target. Path came from the user; not yet confirmed against a live install."
