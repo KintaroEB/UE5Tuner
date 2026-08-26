@@ -1,1 +1,24 @@
-;TEST
+{
+  "schema": 1,
+  "updated": "2026-08-27",
+  "games": [
+    {
+      "id": "mortal-shell-2",
+      "title": "Mortal Shell 2",
+      "configPath": "%LOCALAPPDATA%\\MortalShell2\\Saved\\Config\\Windows",
+      "engineVersion": null,
+      "verified": false,
+      "verifiedOn": null,
+      "notes": "Reference target. Path came from the user; not yet confirmed against a live install."
+    },
+    {
+      "id": "example-test-entry",
+      "title": "Example Test Entry (remove me)",
+      "configPath": "%LOCALAPPDATA%\\ExampleGame\\Saved\\Config\\Windows",
+      "engineVersion": "5.6",
+      "verified": false,
+      "verifiedOn": null,
+      "notes": "Only here to prove a second row appears in the picker. Delete once confirmed."
+    }
+  ]
+}
