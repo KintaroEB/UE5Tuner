@@ -3,22 +3,59 @@
   "updated": "2026-08-27",
   "games": [
     {
-      "id": "mortal-shell-2",
-      "title": "Mortal Shell 2",
-      "configPath": "%LOCALAPPDATA%\\MortalShell2\\Saved\\Config\\Windows",
-      "engineVersion": 5.1,
-      "verified": false,
-      "verifiedOn": null,
-      "notes": "Reference target. Path came from the user; not yet confirmed against a live install."
+      "id": "beast-of-reincarnation", "title": "Beast of Reincarnation",
+      "configPath": "%LOCALAPPDATA%\\BeastOfReincarnation\\Saved\\Config\\Windows",
+      "engineVersion": null, "verified": true, "verifiedOn": "2026-08-27", "notes": null
     },
     {
-      "id": "example-test-entry",
-      "title": "Example Test Entry (remove me)",
-      "configPath": "%LOCALAPPDATA%\\ExampleGame\\Saved\\Config\\Windows",
-      "engineVersion": "5.6",
-      "verified": false,
-      "verifiedOn": null,
-      "notes": "Only here to prove a second row appears in the picker. Delete once confirmed."
+      "id": "brigandine-abyss", "title": "Brigandine Abyss",
+      "configPath": "%LOCALAPPDATA%\\BrigandineAbyss\\Saved_Release\\Config\\Windows",
+      "engineVersion": null, "verified": true, "verifiedOn": "2026-08-27",
+      "notes": "Uses Saved_Release, not Saved."
+    },
+    {
+      "id": "echoes-of-aincrad", "title": "Echoes of Aincrad",
+      "configPath": "%LOCALAPPDATA%\\EchoesofAincrad\\Saved\\Config\\WindowsClient",
+      "engineVersion": null, "verified": true, "verifiedOn": "2026-08-27",
+      "notes": "WindowsClient, not Windows. Lowercase 'of' in the folder name."
+    },
+    {
+      "id": "halo-campaign-evolved", "title": "Halo: Campaign Evolved",
+      "configPath": "%LOCALAPPDATA%\\Meteorite\\Saved\\Config\\Windows",
+      "engineVersion": null, "verified": true, "verifiedOn": "2026-08-27",
+      "notes": "Project name is Meteorite, not Halo."
+    },
+    {
+      "id": "hell-let-loose-vietnam", "title": "Hell Let Loose: Vietnam",
+      "configPath": "%LOCALAPPDATA%\\HLLVietnam\\Saved\\Config\\Windows",
+      "engineVersion": null, "verified": true, "verifiedOn": "2026-08-27", "notes": null
+    },
+    {
+      "id": "lego-batman-legacy-of-the-dark-knight", "title": "LEGO Batman: Legacy of the Dark Knight",
+      "configPath": "%LOCALAPPDATA%\\Dinner\\Saved\\Config\\Windows",
+      "engineVersion": null, "verified": true, "verifiedOn": "2026-08-27",
+      "notes": "Project name is Dinner."
+    },
+    {
+      "id": "mortal-shell-2", "title": "Mortal Shell 2",
+      "configPath": "%LOCALAPPDATA%\\MortalShell2\\Saved\\Config\\Windows",
+      "engineVersion": null, "verified": true, "verifiedOn": "2026-08-27", "notes": null
+    },
+    {
+      "id": "no-more-room-in-hell-2", "title": "No More Room in Hell 2",
+      "configPath": "%LOCALAPPDATA%\\NMRiH2\\Saved\\Config\\Windows",
+      "engineVersion": null, "verified": true, "verifiedOn": "2026-08-27", "notes": null
+    },
+    {
+      "id": "palworld", "title": "Palworld",
+      "configPath": "%LOCALAPPDATA%\\Pal\\Saved\\Config\\Windows",
+      "engineVersion": "5.1", "verified": true, "verifiedOn": "2026-08-27",
+      "notes": "Steam build. Game Pass uses WinGDK instead of Windows."
+    },
+    {
+      "id": "the-sinking-city-2", "title": "The Sinking City 2",
+      "configPath": "%LOCALAPPDATA%\\TSC2\\Saved\\Config\\Windows",
+      "engineVersion": null, "verified": true, "verifiedOn": "2026-08-27", "notes": null
     }
   ]
 }
