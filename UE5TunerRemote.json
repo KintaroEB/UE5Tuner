@@ -27,19 +27,7 @@
      "value": "thanks-kintaro@outlook.com"
     },
     {
-     "label": "BEP20 / BNB",
-     "value": "0x516eE6984216fCB610C9740Ca31Ab95b1331dAAc"
-    },
-    {
-     "label": "ERC20",
-     "value": "0x516eE6984216fCB610C9740Ca31Ab95b1331dAAc"
-    },
-    {
-     "label": "Arbitrum One",
-     "value": "0x516eE6984216fCB610C9740Ca31Ab95b1331dAAc"
-    },
-    {
-     "label": "Polygon",
+     "label": "BNB/ERC20/Arbitrum/Polygon",
      "value": "0x516eE6984216fCB610C9740Ca31Ab95b1331dAAc"
     },
     {
