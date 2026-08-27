@@ -5,9 +5,10 @@
  "current_version": "1.0",
  "app": {
   "downloadUrl": "https://ue5tuner.pages.dev/UE5Tuner.zip",
-  "notice": "welcome!",
+  "notice": null,
   "updates": [
-   "1.0 — First public release. Hope you like it! <3"
+   "1.0 — First public release.",
+   "Hope you like it! <3"
   ]
  },
  "games": [
