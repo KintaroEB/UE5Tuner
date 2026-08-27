@@ -829,7 +829,7 @@
     "entries": [
      {
       "name": "r.MotionBlur.Amount",
-      "value": "0.20",
+      "value": "0.25",
       "verdict": "CONDITIONAL",
       "rationale": "Stock CVar; default -1 inherits authored post-process settings. 0.25 globally forces reduced blur, including cutscenes. Suitable only for an opt-in reduced motion-blur control.",
       "sources": [
@@ -844,7 +844,7 @@
      },
      {
       "name": "r.MotionBlur.Max",
-      "value": "0.30",
+      "value": "0.40",
       "verdict": "CONDITIONAL",
       "rationale": "Stock CVar; default -1 inherits. The value is percent of screen width, so 0.40 is a strong 0.4% cap that can substantially change the intended look.",
       "sources": [
@@ -8104,8 +8104,8 @@
     {
      "label": "on",
      "values": {
-      "r.MotionBlur.Amount": "0.25",
-      "r.MotionBlur.Max": "0.40"
+      "r.MotionBlur.Amount": "0.10",
+      "r.MotionBlur.Max": "0.20"
      }
     }
    ]
@@ -8126,7 +8126,7 @@
     {
      "label": "on",
      "values": {
-      "r.Tonemapper.Sharpen": "1.5"
+      "r.Tonemapper.Sharpen": "1.20"
      }
     }
    ]
