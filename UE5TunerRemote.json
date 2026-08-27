@@ -3,6 +3,13 @@
  "schema": 1,
  "generated": "2026-08-27",
  "current_version": "1.0",
+ "app": {
+  "downloadUrl": "https://ue5tuner.pages.dev/UE5Tuner.zip",
+  "notice": null,
+  "updates": [
+   "1.0 — First public release."
+  ]
+ },
  "games": [
   {
    "id": "beast-of-reincarnation",
@@ -11,7 +18,7 @@
    "engineVersion": null,
    "verified": true,
    "verifiedOn": "2026-08-27",
-   "notes": null
+   "notes": "Initial release - nothing special."
   },
   {
    "id": "brigandine-abyss",
@@ -47,7 +54,7 @@
    "engineVersion": null,
    "verified": true,
    "verifiedOn": "2026-08-27",
-   "notes": null
+   "notes": "Initial release - nothing special."
   },
   {
    "id": "lego-batman-legacy-of-the-dark-knight",
@@ -74,7 +81,7 @@
    "engineVersion": null,
    "verified": true,
    "verifiedOn": "2026-08-27",
-   "notes": null
+   "notes": "Initial release - nothing special."
   },
   {
    "id": "palworld",
@@ -92,7 +99,7 @@
    "engineVersion": null,
    "verified": true,
    "verifiedOn": "2026-08-27",
-   "notes": null
+   "notes": "Initial release - nothing special."
   }
  ],
  "catalog": {
@@ -111,6 +118,29 @@
    "vrs-gpu": "Needs a GPU that supports Variable Rate Shading.",
    "hdr-display": "Needs an HDR display with HDR enabled in Windows.",
    "laptop": "Only matters on a battery-powered laptop."
+  },
+  "sectionTitles": {
+   "/Script/Engine.Engine": "Engine",
+   "/Script/Engine.RendererSettings": "Renderer",
+   "/Script/Engine.StreamingSettings": "Streaming",
+   "/Script/Engine.GarbageCollectionSettings": "Garbage Collection",
+   "/Script/Engine.AudioSettings": "Audio",
+   "/Script/Engine.NetworkSettings": "Network",
+   "/Script/D3D12RHI.D3D12Options": "DirectX 12",
+   "/Script/Niagara.NiagaraSettings": "Niagara",
+   "/Script/AKAudio.AkSettings": "Wwise Audio",
+   "ConsoleVariables": "Console Variables",
+   "SystemSettings": "System Settings",
+   "TextureStreaming": "Texture Streaming",
+   "ShaderCompiler": "Shader Compiler",
+   "ShaderPipelineCache": "Shader Pipeline Cache",
+   "DevOptions.Shaders": "Dev Options: Shaders",
+   "Engine.InputSettings": "Input",
+   "RenderingThread": "Rendering Thread",
+   "Physics": "Physics",
+   "Core.Log": "Logging",
+   "Engine.ErrorHandling": "Error Handling",
+   "CrashReportClient": "Crash Report Client"
   },
   "sources": [
    "https://dev.epicgames.com/documentation/en-us/unreal-engine/scalability-reference-for-unreal-engine",
