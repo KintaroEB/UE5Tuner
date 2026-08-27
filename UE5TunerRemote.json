@@ -53,9 +53,18 @@
    "title": "Aphelion",
    "configPath": "%LOCALAPPDATA%\\PIO\\Saved\\Config\\Windows",
    "engineVersion": null,
-   "verified": false,
+   "verified": true,
    "verifiedOn": null,
    "notes": "Project folder is PIO. Microsoft Store / Xbox App build uses %LOCALAPPDATA%\\PIO\\Saved\\Config\\WinGDK instead of Windows."
+  },
+  {
+   "id": "arc-raiders",
+   "title": "ARC Raiders",
+   "configPath": "%LOCALAPPDATA%\\PioneerGame\\Saved\\Config\\WindowsClient",
+   "engineVersion": null,
+   "verified": true,
+   "verifiedOn": null,
+   "notes": "Project folder is PioneerGame. WindowsClient, not Windows. Microsoft Store / Xbox App build uses %LOCALAPPDATA%\\PioneerGame\\Saved\\Config\\WinGDKClient instead of WindowsClient."
   },
   {
    "id": "ark-survival-ascended",
@@ -76,6 +85,24 @@
    "notes": "Microsoft Store / Xbox App build uses %LOCALAPPDATA%\\BeastOfReincarnation\\Saved\\Config\\WinGDK instead of Windows."
   },
   {
+   "id": "black-myth-wukong",
+   "title": "Black Myth: Wukong",
+   "configPath": "%LOCALAPPDATA%\\b1\\Saved\\Config\\Windows",
+   "engineVersion": null,
+   "verified": true,
+   "verifiedOn": null,
+   "notes": "Project folder is b1. Shipped on UE5; only the 2020 pre-alpha was UE4."
+  },
+  {
+   "id": "borderlands-4",
+   "title": "Borderlands 4",
+   "configPath": "%USERPROFILE%\\Documents\\My Games\\Borderlands 4\\Saved\\Config\\Windows",
+   "engineVersion": null,
+   "verified": true,
+   "verifiedOn": null,
+   "notes": "Config lives under Documents\\My Games, not %LOCALAPPDATA%."
+  },
+  {
    "id": "brigandine-abyss",
    "title": "Brigandine Abyss",
    "configPath": "%LOCALAPPDATA%\\BrigandineAbyss\\Saved_Release\\Config\\Windows",
@@ -85,20 +112,38 @@
    "notes": "Uses Saved_Release, not Saved."
   },
   {
+   "id": "clair-obscur-expedition-33",
+   "title": "Clair Obscur: Expedition 33",
+   "configPath": "%LOCALAPPDATA%\\Sandfall\\Saved\\Config\\Windows",
+   "engineVersion": null,
+   "verified": true,
+   "verifiedOn": null,
+   "notes": "Project folder is Sandfall. Microsoft Store / Xbox App build uses %LOCALAPPDATA%\\Sandfall\\Saved\\Config\\WinGDK instead of Windows."
+  },
+  {
    "id": "code-vein-2",
    "title": "Code Vein II",
    "configPath": "%LOCALAPPDATA%\\CodeVein2\\Saved\\Config\\Windows",
    "engineVersion": null,
-   "verified": false,
+   "verified": true,
    "verifiedOn": null,
    "notes": "Initial release - nothing special."
+  },
+  {
+   "id": "cronos-the-new-dawn",
+   "title": "Cronos: The New Dawn",
+   "configPath": "%LOCALAPPDATA%\\Cronos\\Saved\\Config\\Windows",
+   "engineVersion": null,
+   "verified": true,
+   "verifiedOn": null,
+   "notes": "Microsoft Store / Xbox App build uses %LOCALAPPDATA%\\Cronos\\Saved\\Config\\WinGDK instead of Windows."
   },
   {
    "id": "directive-8020",
    "title": "Directive 8020",
    "configPath": "%LOCALAPPDATA%\\Directive8020\\Saved\\Config\\Windows",
    "engineVersion": null,
-   "verified": false,
+   "verified": true,
    "verifiedOn": null,
    "notes": "Initial release - nothing special."
   },
@@ -157,6 +202,15 @@
    "notes": "Project name is Meteorite, not Halo. Microsoft Store / Xbox App build uses %LOCALAPPDATA%\\Meteorite\\Saved\\Config\\WinGDK instead of Windows."
   },
   {
+   "id": "hell-is-us",
+   "title": "Hell is Us",
+   "configPath": "%LOCALAPPDATA%\\HellIsUs\\Saved\\Config\\Windows",
+   "engineVersion": null,
+   "verified": true,
+   "verifiedOn": null,
+   "notes": "Microsoft Store / Xbox App build uses %LOCALAPPDATA%\\HellIsUs\\Saved\\Config\\WinGDK instead of Windows."
+  },
+  {
    "id": "hell-let-loose-vietnam",
    "title": "Hell Let Loose: Vietnam",
    "configPath": "%LOCALAPPDATA%\\HLLVietnam\\Saved\\Config\\Windows",
@@ -170,7 +224,7 @@
    "title": "High on Life 2",
    "configPath": "%LOCALAPPDATA%\\HighOnLife2\\Saved\\Config\\Windows",
    "engineVersion": null,
-   "verified": false,
+   "verified": true,
    "verifiedOn": null,
    "notes": "Microsoft Store / Xbox App build uses %LOCALAPPDATA%\\HighOnLife2\\Saved\\Config\\WinGDK instead of Windows."
   },
@@ -179,7 +233,7 @@
    "title": "inZOI",
    "configPath": "%LOCALAPPDATA%\\BlueClient\\Saved\\Config\\Windows",
    "engineVersion": null,
-   "verified": false,
+   "verified": true,
    "verifiedOn": null,
    "notes": "Project folder is BlueClient."
   },
@@ -197,9 +251,18 @@
    "title": "Lords of the Fallen",
    "configPath": "%LOCALAPPDATA%\\LOTF2\\Saved\\Config\\Windows",
    "engineVersion": null,
-   "verified": false,
+   "verified": true,
    "verifiedOn": null,
    "notes": "Project folder is LOTF2. Microsoft Store / Xbox App build uses %LOCALAPPDATA%\\LOTF2\\Saved\\Config\\WinGDK instead of Windows."
+  },
+  {
+   "id": "mafia-the-old-country",
+   "title": "Mafia: The Old Country",
+   "configPath": "%LOCALAPPDATA%\\MafiaTheOldCountry\\Saved\\Config\\Windows",
+   "engineVersion": null,
+   "verified": true,
+   "verifiedOn": null,
+   "notes": "Initial release - nothing special."
   },
   {
    "id": "manor-lords",
@@ -209,6 +272,15 @@
    "verified": true,
    "verifiedOn": null,
    "notes": "Moved from UE4 to UE5 in version 0.7.987 (August 2024). Microsoft Store / Xbox App build uses %LOCALAPPDATA%\\ManorLords\\Saved\\Config\\WinGDK instead of Windows."
+  },
+  {
+   "id": "metal-gear-solid-delta-snake-eater",
+   "title": "Metal Gear Solid Delta: Snake Eater",
+   "configPath": "%LOCALAPPDATA%\\MGSDelta\\Saved\\Config\\Windows",
+   "engineVersion": null,
+   "verified": true,
+   "verifiedOn": null,
+   "notes": "Project folder is MGSDelta. Microsoft Store / Xbox App build uses %LOCALAPPDATA%\\MGSDelta\\Saved\\Config\\WinGDK instead of Windows."
   },
   {
    "id": "mortal-shell-2",
@@ -224,9 +296,18 @@
    "title": "Neverness to Everness",
    "configPath": "%LOCALAPPDATA%\\HT\\Saved\\_Global\\Config\\Windows",
    "engineVersion": null,
-   "verified": false,
+   "verified": true,
    "verifiedOn": null,
    "notes": "Project folder is HT. Uses Saved\\_Global, not Saved."
+  },
+  {
+   "id": "ninja-gaiden-2-black",
+   "title": "Ninja Gaiden 2 Black",
+   "configPath": "%LOCALAPPDATA%\\NINJAGAIDEN2BLACK\\Saved\\Config\\Windows",
+   "engineVersion": null,
+   "verified": true,
+   "verifiedOn": null,
+   "notes": "Folder is all-caps NINJAGAIDEN2BLACK. Microsoft Store / Xbox App build uses %LOCALAPPDATA%\\NINJAGAIDEN2BLACK\\Saved\\Config\\WinGDK instead of Windows."
   },
   {
    "id": "no-more-room-in-hell-2",
@@ -238,20 +319,38 @@
    "notes": "Initial release - nothing special."
   },
   {
+   "id": "oblivion-remastered",
+   "title": "The Elder Scrolls IV: Oblivion Remastered",
+   "configPath": "%USERPROFILE%\\Documents\\My Games\\Oblivion Remastered\\Saved\\Config\\Windows",
+   "engineVersion": null,
+   "verified": true,
+   "verifiedOn": null,
+   "notes": "Config lives under Documents\\My Games, not %LOCALAPPDATA%. Microsoft Store / Xbox App build uses %USERPROFILE%\\Documents\\My Games\\Oblivion Remastered\\Saved\\Config\\WinGDK instead of Windows."
+  },
+  {
    "id": "palworld",
    "title": "Palworld",
    "configPath": "%LOCALAPPDATA%\\Pal\\Saved\\Config\\Windows",
    "engineVersion": "5.1",
    "verified": true,
    "verifiedOn": "2026-08-27",
-   "notes": "Steam build. Game Pass uses WinGDK instead of Windows."
+   "notes": "Microsoft Store / Xbox App build uses %LOCALAPPDATA%\\Pal\\Saved\\Config\\WinGDK instead of Windows."
+  },
+  {
+   "id": "robocop-rogue-city",
+   "title": "RoboCop: Rogue City",
+   "configPath": "%LOCALAPPDATA%\\RoboCop\\Saved\\Config\\Windows",
+   "engineVersion": null,
+   "verified": true,
+   "verifiedOn": null,
+   "notes": "Microsoft Store / Xbox App build uses %LOCALAPPDATA%\\RoboCop\\Saved\\Config\\WinGDK instead of Windows."
   },
   {
    "id": "routine",
    "title": "Routine",
    "configPath": "%LOCALAPPDATA%\\Routine\\Saved\\Config\\Windows",
    "engineVersion": null,
-   "verified": false,
+   "verified": true,
    "verifiedOn": null,
    "notes": "Microsoft Store / Xbox App build uses %LOCALAPPDATA%\\Routine\\Saved\\Config\\WinGDK instead of Windows."
   },
@@ -260,9 +359,36 @@
    "title": "Samson",
    "configPath": "%LOCALAPPDATA%\\Samson\\Saved\\Config\\Windows",
    "engineVersion": null,
-   "verified": false,
+   "verified": true,
    "verifiedOn": null,
    "notes": "Initial release - nothing special."
+  },
+  {
+   "id": "senuas-saga-hellblade-2",
+   "title": "Senua's Saga: Hellblade II",
+   "configPath": "%LOCALAPPDATA%\\Hellblade2\\Saved\\Config\\Windows",
+   "engineVersion": null,
+   "verified": true,
+   "verifiedOn": null,
+   "notes": "Project folder is Hellblade2. Microsoft Store / Xbox App build uses %LOCALAPPDATA%\\Hellblade2\\Saved\\Config\\WinGDK instead of Windows."
+  },
+  {
+   "id": "silent-hill-2",
+   "title": "Silent Hill 2",
+   "configPath": "%LOCALAPPDATA%\\SilentHill2\\Saved\\Config\\Windows",
+   "engineVersion": null,
+   "verified": true,
+   "verifiedOn": null,
+   "notes": "Microsoft Store / Xbox App build uses %LOCALAPPDATA%\\SilentHill2\\Saved\\Config\\WinGDK instead of Windows."
+  },
+  {
+   "id": "silent-hill-f",
+   "title": "Silent Hill f",
+   "configPath": "%LOCALAPPDATA%\\SHf\\Saved\\Config\\Windows",
+   "engineVersion": null,
+   "verified": true,
+   "verifiedOn": null,
+   "notes": "Project folder is SHf. Microsoft Store / Xbox App build uses %LOCALAPPDATA%\\SHf\\Saved\\Config\\WinGDK instead of Windows."
   },
   {
    "id": "species-unknown",
@@ -274,11 +400,20 @@
    "notes": "UE5, dev-confirmed in the Steam 'Which game engine?' discussion. Initial release - nothing special."
   },
   {
+   "id": "stalker-2-heart-of-chornobyl",
+   "title": "S.T.A.L.K.E.R. 2: Heart of Chornobyl",
+   "configPath": "%LOCALAPPDATA%\\Stalker2\\Saved\\Config\\Windows",
+   "engineVersion": null,
+   "verified": true,
+   "verifiedOn": null,
+   "notes": "Microsoft Store / Xbox App build uses %LOCALAPPDATA%\\Stalker2\\Saved\\Config\\WinGDK instead of Windows."
+  },
+  {
    "id": "subnautica-2",
    "title": "Subnautica 2",
    "configPath": "%LOCALAPPDATA%\\Subnautica2\\Saved\\Config\\Windows",
    "engineVersion": null,
-   "verified": false,
+   "verified": true,
    "verifiedOn": null,
    "notes": "Microsoft Store / Xbox App build uses %LOCALAPPDATA%\\Subnautica2\\Saved\\Config\\WinGDK instead of Windows."
   },
@@ -287,7 +422,7 @@
    "title": "Tekken 8",
    "configPath": "%LOCALAPPDATA%\\TEKKEN 8\\Saved\\Config\\Windows",
    "engineVersion": null,
-   "verified": false,
+   "verified": true,
    "verifiedOn": null,
    "notes": "Config folder is 'TEKKEN 8' with a space."
   },
@@ -296,9 +431,18 @@
    "title": "THE FINALS",
    "configPath": "%LOCALAPPDATA%\\Discovery\\Saved\\Config\\WindowsClient",
    "engineVersion": null,
-   "verified": false,
+   "verified": true,
    "verifiedOn": null,
    "notes": "Project folder is Discovery. WindowsClient, not Windows. Microsoft Store / Xbox App build uses %LOCALAPPDATA%\\Discovery\\Saved\\Config\\WinGDKClient instead of WindowsClient."
+  },
+  {
+   "id": "the-outer-worlds-2",
+   "title": "The Outer Worlds 2",
+   "configPath": "%LOCALAPPDATA%\\Arkansas\\Saved\\Config\\Windows",
+   "engineVersion": null,
+   "verified": true,
+   "verifiedOn": null,
+   "notes": "Project folder is Arkansas. Microsoft Store / Xbox App build uses %LOCALAPPDATA%\\Arkansas\\Saved\\Config\\WinGDK instead of Windows."
   },
   {
    "id": "the-sinking-city-2",
@@ -314,9 +458,18 @@
    "title": "Windrose",
    "configPath": "%LOCALAPPDATA%\\R5\\Saved\\Config\\Windows",
    "engineVersion": null,
-   "verified": false,
+   "verified": true,
    "verifiedOn": null,
    "notes": "Project folder is R5. UE5, migrated from the studio's own engine (Steam discussions)."
+  },
+  {
+   "id": "wuchang-fallen-feathers",
+   "title": "Wuchang: Fallen Feathers",
+   "configPath": "%LOCALAPPDATA%\\Project_Plague\\Saved\\Config\\Windows",
+   "engineVersion": null,
+   "verified": true,
+   "verifiedOn": null,
+   "notes": "Project folder is Project_Plague. Microsoft Store / Xbox App build uses %LOCALAPPDATA%\\Project_Plague\\Saved\\Config\\WinGDK instead of Windows."
   }
  ],
  "catalog": {
