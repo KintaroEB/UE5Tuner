@@ -13,13 +13,31 @@
  },
  "games": [
   {
+   "id": "1666-amsterdam",
+   "title": "1666: Amsterdam",
+   "configPath": "%LOCALAPPDATA%\\Amsterdam\\Saved\\Config\\Windows",
+   "engineVersion": null,
+   "verified": true,
+   "verifiedOn": null,
+   "notes": "Project folder is Amsterdam, not 1666."
+  },
+  {
+   "id": "ark-survival-ascended",
+   "title": "ARK: Survival Ascended",
+   "configPath": "<Game-Install-Folder>\\ShooterGame\\Saved\\Config\\Windows",
+   "engineVersion": null,
+   "verified": true,
+   "verifiedOn": null,
+   "notes": "Config lives in the game install folder, not %LOCALAPPDATA%. Microsoft Store / Xbox App build uses <Game-Install-Folder>\\ShooterGame\\Saved\\Config\\WinGDK instead of Windows."
+  },
+  {
    "id": "beast-of-reincarnation",
    "title": "Beast of Reincarnation",
    "configPath": "%LOCALAPPDATA%\\BeastOfReincarnation\\Saved\\Config\\Windows",
    "engineVersion": null,
    "verified": true,
    "verifiedOn": "2026-08-27",
-   "notes": "Initial release - nothing special."
+   "notes": "Microsoft Store / Xbox App build uses %LOCALAPPDATA%\\BeastOfReincarnation\\Saved\\Config\\WinGDK instead of Windows."
   },
   {
    "id": "brigandine-abyss",
@@ -40,13 +58,40 @@
    "notes": "WindowsClient, not Windows. Lowercase 'of' in the folder name."
   },
   {
+   "id": "fatekeeper",
+   "title": "Fatekeeper",
+   "configPath": "%LOCALAPPDATA%\\SLASHER\\Saved\\Config\\Windows",
+   "engineVersion": null,
+   "verified": true,
+   "verifiedOn": null,
+   "notes": "Project folder is SLASHER, not Fatekeeper."
+  },
+  {
+   "id": "frostpunk-2",
+   "title": "Frostpunk 2",
+   "configPath": "%LOCALAPPDATA%\\11bitstudios\\Frostpunk2\\Steam\\Saved\\Config\\Windows",
+   "engineVersion": null,
+   "verified": true,
+   "verifiedOn": null,
+   "notes": "Steam build lives under 11bitstudios\\Frostpunk2\\Steam. Microsoft Store / Xbox App build uses %LOCALAPPDATA%\\11bitstudios\\Frostpunk2\\MS\\Saved\\Config\\WinGDK instead of Windows."
+  },
+  {
    "id": "gears-of-war-e-day",
    "title": "Gears of War: E-Day",
    "configPath": "%LOCALAPPDATA%\\FairlightConcept\\Saved\\Config\\Windows",
    "engineVersion": null,
-   "verified": false,
+   "verified": true,
    "verifiedOn": null,
-   "notes": "Project folder is FairlightConcept. Game Pass build uses WinGDK instead of Windows."
+   "notes": "Project folder is FairlightConcept. Microsoft Store / Xbox App build uses %LOCALAPPDATA%\\FairlightConcept\\Saved\\Config\\WinGDK instead of Windows."
+  },
+  {
+   "id": "gothic-1-remake",
+   "title": "Gothic 1 Remake",
+   "configPath": "%LOCALAPPDATA%\\G1R\\Saved\\Config\\Windows",
+   "engineVersion": null,
+   "verified": true,
+   "verifiedOn": null,
+   "notes": "Project folder is G1R."
   },
   {
    "id": "halo-campaign-evolved",
@@ -55,7 +100,7 @@
    "engineVersion": null,
    "verified": true,
    "verifiedOn": "2026-08-27",
-   "notes": "Project name is Meteorite, not Halo."
+   "notes": "Project name is Meteorite, not Halo. Microsoft Store / Xbox App build uses %LOCALAPPDATA%\\Meteorite\\Saved\\Config\\WinGDK instead of Windows."
   },
   {
    "id": "hell-let-loose-vietnam",
@@ -74,6 +119,15 @@
    "verified": true,
    "verifiedOn": "2026-08-27",
    "notes": "Project name is Dinner."
+  },
+  {
+   "id": "manor-lords",
+   "title": "Manor Lords",
+   "configPath": "%LOCALAPPDATA%\\ManorLords\\Saved\\Config\\Windows",
+   "engineVersion": null,
+   "verified": true,
+   "verifiedOn": null,
+   "notes": "Moved from UE4 to UE5 in version 0.7.987 (August 2024). Microsoft Store / Xbox App build uses %LOCALAPPDATA%\\ManorLords\\Saved\\Config\\WinGDK instead of Windows."
   },
   {
    "id": "mortal-shell-2",
@@ -101,6 +155,15 @@
    "verified": true,
    "verifiedOn": "2026-08-27",
    "notes": "Steam build. Game Pass uses WinGDK instead of Windows."
+  },
+  {
+   "id": "species-unknown",
+   "title": "Species: Unknown",
+   "configPath": "%LOCALAPPDATA%\\SpeciesUnknown\\Saved\\Config\\Windows",
+   "engineVersion": null,
+   "verified": true,
+   "verifiedOn": null,
+   "notes": "UE5, dev-confirmed in the Steam 'Which game engine?' discussion. Initial release - nothing special."
   },
   {
    "id": "the-sinking-city-2",
