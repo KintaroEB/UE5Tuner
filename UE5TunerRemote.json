@@ -40,7 +40,7 @@
     {
       "id": "mortal-shell-2", "title": "Mortal Shell 2",
       "configPath": "%LOCALAPPDATA%\\MortalShell2\\Saved\\Config\\Windows",
-      "engineVersion": 5.6, "verified": true, "verifiedOn": "2026-08-27", "notes": null
+      "engineVersion": "5.6", "verified": true, "verifiedOn": "2026-08-27", "notes": null
     },
     {
       "id": "no-more-room-in-hell-2", "title": "No More Room in Hell 2",
