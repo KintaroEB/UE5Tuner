@@ -409,6 +409,15 @@
    "notes": "Microsoft Store / Xbox App build uses %LOCALAPPDATA%\\Stalker2\\Saved\\Config\\WinGDK instead of Windows."
   },
   {
+   "id": "star-wars-zero-company",
+   "title": "Star Wars: Zero Company",
+   "configPath": "%LOCALAPPDATA%\\SWZeroCompany\\Saved\\Config\\Windows",
+   "engineVersion": null,
+   "verified": true,
+   "verifiedOn": null,
+   "notes": "Initial release - nothing special."
+  },
+  {
    "id": "subnautica-2",
    "title": "Subnautica 2",
    "configPath": "%LOCALAPPDATA%\\Subnautica2\\Saved\\Config\\Windows",
@@ -8104,8 +8113,8 @@
     {
      "label": "on",
      "values": {
-      "r.MotionBlur.Amount": "0.10",
-      "r.MotionBlur.Max": "0.20"
+      "r.MotionBlur.Amount": "0.15",
+      "r.MotionBlur.Max": "0.30"
      }
     }
    ]
