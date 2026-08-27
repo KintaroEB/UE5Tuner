@@ -40,6 +40,15 @@
    "notes": "WindowsClient, not Windows. Lowercase 'of' in the folder name."
   },
   {
+   "id": "gears-of-war-e-day",
+   "title": "Gears of War: E-Day",
+   "configPath": "%LOCALAPPDATA%\\FairlightConcept\\Saved\\Config\\Windows",
+   "engineVersion": null,
+   "verified": false,
+   "verifiedOn": null,
+   "notes": "Project folder is FairlightConcept. Game Pass build uses WinGDK instead of Windows."
+  },
+  {
    "id": "halo-campaign-evolved",
    "title": "Halo: Campaign Evolved",
    "configPath": "%LOCALAPPDATA%\\Meteorite\\Saved\\Config\\Windows",
