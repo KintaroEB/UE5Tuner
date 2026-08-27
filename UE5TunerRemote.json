@@ -9,7 +9,46 @@
   "updates": [
    "1.0 — First public release.",
    "Hope you like it! <3"
-  ]
+  ],
+  "support": {
+   "icon": "♥",
+   "buttonLabel": "Support",
+   "title": "Support this app",
+   "heading": "Free, and staying that way.",
+   "paragraphs": [
+    "Nothing here is locked, timed, or nagged about, and nothing changes if you skip this page. It is here because people asked where to send something.",
+    "If the app saved you an evening of editing config files, that is already the nicest outcome."
+   ],
+   "url": "https://paypal.me/KintaroPalPay",
+   "urlLabel": "Open PayPal",
+   "lines": [
+    {
+     "label": "Or by email",
+     "value": "thanks-kintaro@outlook.com"
+    },
+    {
+     "label": "BEP20 / BNB",
+     "value": "0x516eE6984216fCB610C9740Ca31Ab95b1331dAAc"
+    },
+    {
+     "label": "ERC20",
+     "value": "0x516eE6984216fCB610C9740Ca31Ab95b1331dAAc"
+    },
+    {
+     "label": "Arbitrum One",
+     "value": "0x516eE6984216fCB610C9740Ca31Ab95b1331dAAc"
+    },
+    {
+     "label": "Polygon",
+     "value": "0x516eE6984216fCB610C9740Ca31Ab95b1331dAAc"
+    },
+    {
+     "label": "USDT TRC20",
+     "value": "TJtctWU9uetJaTBoSybd1RErW7n9duTKVG"
+    }
+   ],
+   "footnote": "Thank you either way. Enjoy the games."
+  }
  },
  "games": [
   {
@@ -20,6 +59,15 @@
    "verified": true,
    "verifiedOn": null,
    "notes": "Project folder is Amsterdam, not 1666."
+  },
+  {
+   "id": "aphelion",
+   "title": "Aphelion",
+   "configPath": "%LOCALAPPDATA%\\PIO\\Saved\\Config\\Windows",
+   "engineVersion": null,
+   "verified": false,
+   "verifiedOn": null,
+   "notes": "Project folder is PIO. Microsoft Store / Xbox App build uses %LOCALAPPDATA%\\PIO\\Saved\\Config\\WinGDK instead of Windows."
   },
   {
    "id": "ark-survival-ascended",
@@ -47,6 +95,15 @@
    "verified": true,
    "verifiedOn": "2026-08-27",
    "notes": "Uses Saved_Release, not Saved."
+  },
+  {
+   "id": "directive-8020",
+   "title": "Directive 8020",
+   "configPath": "%LOCALAPPDATA%\\Directive8020\\Saved\\Config\\Windows",
+   "engineVersion": null,
+   "verified": false,
+   "verifiedOn": null,
+   "notes": "Initial release - nothing special."
   },
   {
    "id": "echoes-of-aincrad",
@@ -121,6 +178,15 @@
    "notes": "Project name is Dinner."
   },
   {
+   "id": "lords-of-the-fallen-2023",
+   "title": "Lords of the Fallen",
+   "configPath": "%LOCALAPPDATA%\\LOTF2\\Saved\\Config\\Windows",
+   "engineVersion": null,
+   "verified": false,
+   "verifiedOn": null,
+   "notes": "Project folder is LOTF2. Microsoft Store / Xbox App build uses %LOCALAPPDATA%\\LOTF2\\Saved\\Config\\WinGDK instead of Windows."
+  },
+  {
    "id": "manor-lords",
    "title": "Manor Lords",
    "configPath": "%LOCALAPPDATA%\\ManorLords\\Saved\\Config\\Windows",
@@ -137,6 +203,15 @@
    "verified": true,
    "verifiedOn": "2026-08-27",
    "notes": "Reference target, confirmed by hand."
+  },
+  {
+   "id": "neverness-to-everness",
+   "title": "Neverness to Everness",
+   "configPath": "%LOCALAPPDATA%\\HT\\Saved\\_Global\\Config\\Windows",
+   "engineVersion": null,
+   "verified": false,
+   "verifiedOn": null,
+   "notes": "Project folder is HT. Uses Saved\\_Global, not Saved."
   },
   {
    "id": "no-more-room-in-hell-2",
@@ -157,6 +232,15 @@
    "notes": "Steam build. Game Pass uses WinGDK instead of Windows."
   },
   {
+   "id": "samson",
+   "title": "Samson",
+   "configPath": "%LOCALAPPDATA%\\Samson\\Saved\\Config\\Windows",
+   "engineVersion": null,
+   "verified": false,
+   "verifiedOn": null,
+   "notes": "Initial release - nothing special."
+  },
+  {
    "id": "species-unknown",
    "title": "Species: Unknown",
    "configPath": "%LOCALAPPDATA%\\SpeciesUnknown\\Saved\\Config\\Windows",
@@ -166,6 +250,33 @@
    "notes": "UE5, dev-confirmed in the Steam 'Which game engine?' discussion. Initial release - nothing special."
   },
   {
+   "id": "subnautica-2",
+   "title": "Subnautica 2",
+   "configPath": "%LOCALAPPDATA%\\Subnautica2\\Saved\\Config\\Windows",
+   "engineVersion": null,
+   "verified": false,
+   "verifiedOn": null,
+   "notes": "Microsoft Store / Xbox App build uses %LOCALAPPDATA%\\Subnautica2\\Saved\\Config\\WinGDK instead of Windows."
+  },
+  {
+   "id": "tekken-8",
+   "title": "Tekken 8",
+   "configPath": "%LOCALAPPDATA%\\TEKKEN 8\\Saved\\Config\\Windows",
+   "engineVersion": null,
+   "verified": false,
+   "verifiedOn": null,
+   "notes": "Config folder is 'TEKKEN 8' with a space."
+  },
+  {
+   "id": "the-finals",
+   "title": "THE FINALS",
+   "configPath": "%LOCALAPPDATA%\\Discovery\\Saved\\Config\\WindowsClient",
+   "engineVersion": null,
+   "verified": false,
+   "verifiedOn": null,
+   "notes": "Project folder is Discovery. WindowsClient, not Windows. Microsoft Store / Xbox App build uses %LOCALAPPDATA%\\Discovery\\Saved\\Config\\WinGDKClient instead of WindowsClient."
+  },
+  {
    "id": "the-sinking-city-2",
    "title": "The Sinking City 2",
    "configPath": "%LOCALAPPDATA%\\TSC2\\Saved\\Config\\Windows",
@@ -173,6 +284,15 @@
    "verified": true,
    "verifiedOn": "2026-08-27",
    "notes": "Initial release - nothing special."
+  },
+  {
+   "id": "windrose",
+   "title": "Windrose",
+   "configPath": "%LOCALAPPDATA%\\R5\\Saved\\Config\\Windows",
+   "engineVersion": null,
+   "verified": false,
+   "verifiedOn": null,
+   "notes": "Project folder is R5. UE5, migrated from the studio's own engine (Steam discussions)."
   }
  ],
  "catalog": {
