@@ -23,15 +23,15 @@
    "urlLabel": "Open PayPal",
    "lines": [
     {
-     "label": "Or by email",
+     "label": "PayPal Email",
      "value": "thanks-kintaro@outlook.com"
     },
     {
-     "label": "BNB/ERC20/Arbitrum/Polygon",
-     "value": "0x516eE6984216fCB610C9740Ca31Ab95b1331dAAc"
+     "label": "USDC/USDT: BNB/ERC20/Arbitrum/Polygon",
+     "value": "0x4d559C765AA8BFe336E36d5b76024926767eD38d"
     },
     {
-     "label": "USDT TRC20",
+     "label": "USDT ONLY: TRC20",
      "value": "TJtctWU9uetJaTBoSybd1RErW7n9duTKVG"
     }
    ],
@@ -83,6 +83,15 @@
    "verified": true,
    "verifiedOn": "2026-08-27",
    "notes": "Uses Saved_Release, not Saved."
+  },
+  {
+   "id": "code-vein-2",
+   "title": "Code Vein II",
+   "configPath": "%LOCALAPPDATA%\\CodeVein2\\Saved\\Config\\Windows",
+   "engineVersion": null,
+   "verified": false,
+   "verifiedOn": null,
+   "notes": "Initial release - nothing special."
   },
   {
    "id": "directive-8020",
@@ -157,6 +166,24 @@
    "notes": "Initial release - nothing special."
   },
   {
+   "id": "high-on-life-2",
+   "title": "High on Life 2",
+   "configPath": "%LOCALAPPDATA%\\HighOnLife2\\Saved\\Config\\Windows",
+   "engineVersion": null,
+   "verified": false,
+   "verifiedOn": null,
+   "notes": "Microsoft Store / Xbox App build uses %LOCALAPPDATA%\\HighOnLife2\\Saved\\Config\\WinGDK instead of Windows."
+  },
+  {
+   "id": "inzoi",
+   "title": "inZOI",
+   "configPath": "%LOCALAPPDATA%\\BlueClient\\Saved\\Config\\Windows",
+   "engineVersion": null,
+   "verified": false,
+   "verifiedOn": null,
+   "notes": "Project folder is BlueClient."
+  },
+  {
    "id": "lego-batman-legacy-of-the-dark-knight",
    "title": "LEGO Batman: Legacy of the Dark Knight",
    "configPath": "%LOCALAPPDATA%\\Dinner\\Saved\\Config\\Windows",
@@ -218,6 +245,15 @@
    "verified": true,
    "verifiedOn": "2026-08-27",
    "notes": "Steam build. Game Pass uses WinGDK instead of Windows."
+  },
+  {
+   "id": "routine",
+   "title": "Routine",
+   "configPath": "%LOCALAPPDATA%\\Routine\\Saved\\Config\\Windows",
+   "engineVersion": null,
+   "verified": false,
+   "verifiedOn": null,
+   "notes": "Microsoft Store / Xbox App build uses %LOCALAPPDATA%\\Routine\\Saved\\Config\\WinGDK instead of Windows."
   },
   {
    "id": "samson",
