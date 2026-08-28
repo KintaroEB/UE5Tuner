@@ -853,7 +853,9 @@
       "destinations": [
        "SystemSettings"
       ],
-      "presetValues": {}
+      "presetValues": {
+       "quality": "3"
+      }
      },
      {
       "name": "r.Tonemapper.Sharpen",
@@ -982,7 +984,9 @@
       "destinations": [
        "SystemSettings"
       ],
-      "presetValues": {}
+      "presetValues": {
+       "performance": "0"
+      }
      },
      {
       "name": "r.Lumen.RadianceCache.SupersampleDistanceFromCamera",
@@ -1082,7 +1086,9 @@
       "destinations": [
        "SystemSettings"
       ],
-      "presetValues": {}
+      "presetValues": {
+       "quality": "64"
+      }
      },
      {
       "name": "r.Lumen.ScreenProbeGather.ScreenTraces",
@@ -1169,7 +1175,9 @@
       "destinations": [
        "SystemSettings"
       ],
-      "presetValues": {}
+      "presetValues": {
+       "performance": "8"
+      }
      },
      {
       "name": "r.Lumen.TraceMeshSDFs",
@@ -1183,7 +1191,9 @@
       "destinations": [
        "SystemSettings"
       ],
-      "presetValues": {}
+      "presetValues": {
+       "performance": "0"
+      }
      },
      {
       "name": "r.Lumen.TraceMeshSDFs.Allow",
@@ -1225,7 +1235,9 @@
       "destinations": [
        "SystemSettings"
       ],
-      "presetValues": {}
+      "presetValues": {
+       "performance": "0"
+      }
      },
      {
       "name": "r.Lumen.TranslucencyVolume.RadianceCache.NumProbesToTraceBudget",
@@ -1857,7 +1869,7 @@
      },
      {
       "name": "r.Nanite.MaxPixelsPerEdge",
-      "value": "1.5",
+      "value": "1",
       "verdict": "CONDITIONAL",
       "rationale": "Valid primary Nanite detail/performance control; current default 1. Raising it reduces geometric detail/work and can expose visual issues. Older UE5 revisions need extra caution. Explicit Nanite performance profile only.",
       "sources": [
@@ -1869,7 +1881,9 @@
        "/Script/Engine.RendererSettings",
        "ConsoleVariables"
       ],
-      "presetValues": {}
+      "presetValues": {
+       "performance": "1.5"
+      }
      },
      {
       "name": "r.Nanite.SoftwareVRS",
@@ -1940,7 +1954,9 @@
       "destinations": [
        "SystemSettings"
       ],
-      "presetValues": {}
+      "presetValues": {
+       "performance": "512"
+      }
      },
      {
       "name": "wp.Runtime.HLOD.WarmupNanite",
@@ -3941,7 +3957,9 @@
       "destinations": [
        "SystemSettings"
       ],
-      "presetValues": {}
+      "presetValues": {
+       "performance": "0"
+      }
      }
     ]
    },
