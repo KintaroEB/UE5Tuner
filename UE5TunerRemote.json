@@ -6293,6 +6293,7 @@
    "order": 9,
    "title": "Anti-aliasing method",
    "summary": "Leave this alone if the game has its own anti-aliasing setting, or if you use DLSS or FSR. Pick one only if the game gives you no choice.",
+   "important": true,
    "default": "Leave it alone",
    "states": [
     {
