@@ -6294,10 +6294,10 @@
    "title": "Anti-aliasing method",
    "summary": "Leave this alone if the game has its own anti-aliasing setting, or if you use DLSS or FSR. Pick one only if the game gives you no choice.",
    "important": true,
-   "default": "Leave it alone",
+   "default": "GAME DLSS/FSR",
    "states": [
     {
-     "label": "Leave it alone",
+     "label": "GAME DLSS/FSR",
      "values": {
       "r.AntiAliasingMethod": "omit"
      }
