@@ -533,7 +533,7 @@
   "counts": {
    "categories": 27,
    "entries": 238,
-   "inert": 384,
+   "inert": 373,
    "sources": 57
   },
   "conditions": {
@@ -1342,7 +1342,7 @@
      },
      {
       "name": "r.RayTracing.Culling.Radius",
-      "value": "30000",
+      "value": "15000",
       "verdict": "CONDITIONAL",
       "rationale": "Source state: commented/inert under [SystemSettings]. Valid stock ray-tracing culling radius. Current registry help reports 30000 cm while Epic's current performance guide still says 10000 cm; do not force it universally while the primary guidance conflicts.",
       "sources": [
@@ -1352,7 +1352,10 @@
       "destinations": [
        "SystemSettings"
       ],
-      "presetValues": {}
+      "presetValues": {
+       "quality": "25000",
+       "performance": "10000"
+      }
      },
      {
       "name": "r.RayTracing.Enable",
@@ -1454,7 +1457,7 @@
      },
      {
       "name": "r.RayTracing.Shadows.EnableTwoSidedGeometry",
-      "value": "0",
+      "value": "1",
       "verdict": "CONDITIONAL",
       "rationale": "Valid, default 1. Disabling can reduce ray-tracing work but makes open/two-sided geometry miss shadow occluders. Hardware-RT/content profile only.",
       "sources": [
@@ -1465,7 +1468,9 @@
        "/Script/Engine.RendererSettings",
        "ConsoleVariables"
       ],
-      "presetValues": {}
+      "presetValues": {
+       "performance": "0"
+      }
      },
      {
       "name": "r.Lumen.HardwareRayTracing",
@@ -1484,7 +1489,7 @@
      },
      {
       "name": "r.Lumen.HardwareRayTracing.HitLighting.ReflectionCaptures",
-      "value": "1",
+      "value": "0",
       "verdict": "CONDITIONAL",
       "rationale": "Source state: active under [SystemSettings]. Valid Lumen HWRT hit-lighting option, default 0. Reflection-capture lighting at ray hits is renderer-specific and adds quality/cost.",
       "sources": [
@@ -1494,7 +1499,9 @@
       "destinations": [
        "SystemSettings"
       ],
-      "presetValues": {}
+      "presetValues": {
+       "quality": "1"
+      }
      },
      {
       "name": "r.Lumen.Reflections.HardwareRayTracing",
@@ -1512,7 +1519,7 @@
      },
      {
       "name": "r.Lumen.Reflections.HardwareRayTracing.HitLighting",
-      "value": "1",
+      "value": "0",
       "verdict": "CONDITIONAL",
       "rationale": "Source state: active under [SystemSettings]. Valid UE 5.6+ Lumen HWRT option, default 0. It fires a second hit-lighting trace for invalid Surface Cache hits, improving quality at extra cost.",
       "sources": [
@@ -1522,7 +1529,9 @@
       "destinations": [
        "SystemSettings"
       ],
-      "presetValues": {}
+      "presetValues": {
+       "quality": "1"
+      }
      }
     ]
    },
@@ -1533,11 +1542,8 @@
     "summary": "MegaLights — UE5's newer lighting system for scenes with many lights; tuning for games that use it.",
     "condition": "game-feature",
     "defaultEnabled": true,
-    "presetEnabled": {
-     "balanced": false,
-     "performance": false
-    },
-    "reviewerPresetNote": "quality=on balanced=off performance=off",
+    "presetEnabled": {},
+    "reviewerPresetNote": "quality=on balanced=on performance=on",
     "entries": [
      {
       "name": "r.MegaLights.AsyncCompute.GenerateSamples",
@@ -1551,7 +1557,9 @@
        "/Script/Engine.RendererSettings",
        "ConsoleVariables"
       ],
-      "presetValues": {}
+      "presetValues": {
+       "quality": "0"
+      }
      },
      {
       "name": "r.MegaLights.AsyncCompute.Volume",
@@ -1565,7 +1573,9 @@
        "/Script/Engine.RendererSettings",
        "ConsoleVariables"
       ],
-      "presetValues": {}
+      "presetValues": {
+       "quality": "0"
+      }
      },
      {
       "name": "r.MegaLights.DirectionalLights",
@@ -4609,10 +4619,6 @@
     "value": "1"
    },
    {
-    "name": "D3D12.RayTracing.AllowSpecializedStateObjects",
-    "value": "0"
-   },
-   {
     "name": "EnableMathOptimisations",
     "value": "1"
    },
@@ -4801,19 +4807,11 @@
     "value": "all off"
    },
    {
-    "name": "LogNFORDenoise",
-    "value": "all off"
-   },
-   {
     "name": "LogNiagara",
     "value": "all off"
    },
    {
     "name": "LogNiagaraDebuggerClient",
-    "value": "all off"
-   },
-   {
-    "name": "LogNNEDenoiser",
     "value": "all off"
    },
    {
@@ -5109,10 +5107,6 @@
     "value": "0"
    },
    {
-    "name": "r.D3D12.RayTracing.AllowSpecializedStateObjects",
-    "value": "0"
-   },
-   {
     "name": "r.DumpGPU",
     "value": "0"
    },
@@ -5243,26 +5237,6 @@
    {
     "name": "r.Materials.ParallelUpdate",
     "value": "1"
-   },
-   {
-    "name": "r.MegaLights.HardwareRayTracing.ForceTwoSided",
-    "value": "1"
-   },
-   {
-    "name": "r.MegaLights.RayTracing.SamplesPerPixel",
-    "value": "4"
-   },
-   {
-    "name": "r.MegaLights.RayTracing.SER",
-    "value": "1"
-   },
-   {
-    "name": "r.MegaLights.Shadow.Cache",
-    "value": "1"
-   },
-   {
-    "name": "r.MegaLights.Shadow.Cache.MaxAge",
-    "value": "8"
    },
    {
     "name": "r.MeshDrawCommands.UseParallelPassSetup",
@@ -5573,10 +5547,6 @@
     "value": "1"
    },
    {
-    "name": "r.RayTracing.Culling",
-    "value": "1"
-   },
-   {
     "name": "r.RDG.AsyncClothTick",
     "value": "1"
    },
@@ -5675,10 +5645,6 @@
    {
     "name": "r.Shadow.Virtual.Cache.MaxLightAgeSinceLastRequest",
     "value": "8"
-   },
-   {
-    "name": "r.Shadow.Virtual.MegaLights.Cache",
-    "value": "1"
    },
    {
     "name": "r.Shadow.Virtual.ParallelBuild",
@@ -6298,6 +6264,37 @@
      "label": "on",
      "values": {
       "r.Lumen.Reflections.RadianceCache": "1"
+     }
+    }
+   ]
+  },
+  {
+   "id": "megalights-async-compute",
+   "order": 15,
+   "title": "MegaLights: use the async compute queue",
+   "summary": "Runs MegaLights sampling and volume work alongside the rest of the frame instead of in line. Epic asks for a test rather than giving an answer, because the gain depends on your GPU and the scene. Leave it on Preset decides unless you are measuring.",
+   "tab": "experimental",
+   "default": "Preset decides",
+   "states": [
+    {
+     "label": "Preset decides",
+     "values": {
+      "r.MegaLights.AsyncCompute.GenerateSamples": null,
+      "r.MegaLights.AsyncCompute.Volume": null
+     }
+    },
+    {
+     "label": "Off",
+     "values": {
+      "r.MegaLights.AsyncCompute.GenerateSamples": "0",
+      "r.MegaLights.AsyncCompute.Volume": "0"
+     }
+    },
+    {
+     "label": "On",
+     "values": {
+      "r.MegaLights.AsyncCompute.GenerateSamples": "1",
+      "r.MegaLights.AsyncCompute.Volume": "1"
      }
     }
    ]
