@@ -335,7 +335,7 @@
    "engineVersion": null,
    "verified": true,
    "verifiedOn": "2026-08-27",
-   "notes": "Reference target, confirmed by hand."
+   "notes": "Reference target, confirmed by hand. Reflex disturbs frame pacing in this game and its menu offers no way to switch it off, so turn on \"Turn off NVIDIA Reflex\" on the Important tab. Measured: pacing is smooth afterwards and input latency stays good."
   },
   {
    "id": "neverness-to-everness",
@@ -532,9 +532,9 @@
   "generated": "2026-08-31",
   "counts": {
    "categories": 27,
-   "entries": 238,
-   "inert": 373,
-   "sources": 57
+   "entries": 237,
+   "inert": 303,
+   "sources": 56
   },
   "conditions": {
    "always": "Applies to any supported setup.",
@@ -601,7 +601,6 @@
    "https://dev.epicgames.com/documentation/en-us/unreal-engine/texture-streaming-configuration-in-unreal-engine",
    "https://dev.epicgames.com/documentation/en-us/unreal-engine/texture-streaming-metrics-in-unreal-engine",
    "https://dev.epicgames.com/documentation/unreal-engine/virtual-texturing-in-unreal-engine",
-   "https://dev.epicgames.com/documentation/en-us/unreal-engine/low-latency-frame-syncing-in-unreal-engine",
    "https://dev.epicgames.com/documentation/en-us/unreal-engine/asynchronous-asset-loading-in-unreal-engine",
    "https://dev.epicgames.com/documentation/en-us/unreal-engine/python-api/class/MoverComponent",
    "https://dev.epicgames.com/documentation/en-us/unreal-engine/unreal-engine-5-6-release-notes",
@@ -1633,7 +1632,7 @@
     "entries": [
      {
       "name": "r.DFShadowAsyncCompute",
-      "value": "1",
+      "value": "0",
       "verdict": "CONDITIONAL",
       "rationale": "Valid, default 0. Can overlap distance-field shadow work where supported, but benefit depends on renderer, GPU queues, and available overlap. A/B test.",
       "sources": [
@@ -1647,7 +1646,7 @@
      },
      {
       "name": "r.Shadow.Virtual.Cache.AllocateViaLRU",
-      "value": "1",
+      "value": "0",
       "verdict": "CONDITIONAL",
       "rationale": "Valid VSM cache policy, default 0. Changes page retention/allocation behavior; scene- and memory-sensitive, so test per title rather than force generally.",
       "sources": [
@@ -1688,7 +1687,9 @@
        "/Script/Engine.RendererSettings",
        "ConsoleVariables"
       ],
-      "presetValues": {}
+      "presetValues": {
+       "quality": "4096"
+      }
      },
      {
       "name": "r.Shadow.Virtual.ResolutionLodBiasDirectional",
@@ -1703,7 +1704,9 @@
        "/Script/Engine.RendererSettings",
        "ConsoleVariables"
       ],
-      "presetValues": {}
+      "presetValues": {
+       "quality": "-1.5"
+      }
      },
      {
       "name": "r.Shadow.Virtual.ResolutionLodBiasDirectionalMoving",
@@ -1718,7 +1721,9 @@
        "/Script/Engine.RendererSettings",
        "ConsoleVariables"
       ],
-      "presetValues": {}
+      "presetValues": {
+       "quality": "-1.5"
+      }
      },
      {
       "name": "r.Shadow.Virtual.SMRT.SamplesPerRayDirectional",
@@ -1763,7 +1768,9 @@
        "/Script/Engine.RendererSettings",
        "ConsoleVariables"
       ],
-      "presetValues": {}
+      "presetValues": {
+       "quality": "1"
+      }
      },
      {
       "name": "r.VolumetricFog.GridPixelSize",
@@ -1778,7 +1785,9 @@
        "/Script/Engine.RendererSettings",
        "ConsoleVariables"
       ],
-      "presetValues": {}
+      "presetValues": {
+       "quality": "8"
+      }
      },
      {
       "name": "r.VolumetricFog.InjectShadowedLightsSeparately",
@@ -1866,7 +1875,7 @@
      },
      {
       "name": "r.Water.SingleLayer.Reflection.ScreenSpaceReconstruction",
-      "value": "1",
+      "value": "0",
       "verdict": "CONDITIONAL",
       "rationale": "Source state: active under [SystemSettings]. Valid UE 5.6+ Single Layer Water option, default 0. Screen-space reconstruction is water-path-specific and usually unnecessary for mirror-like reflections.",
       "sources": [
@@ -1877,7 +1886,7 @@
        "SystemSettings"
       ],
       "presetValues": {
-       "performance": "0"
+       "quality": "1"
       }
      }
     ]
@@ -2025,7 +2034,7 @@
      },
      {
       "name": "r.Nanite.Streaming.StreamingPoolSize",
-      "value": "768",
+      "value": "512",
       "verdict": "CONDITIONAL",
       "rationale": "Source state: active under [SystemSettings]. Valid Nanite streaming control; current default is 512 MB. A 768-MB pool may reduce pressure but reserves another 256 MB of GPU memory.",
       "sources": [
@@ -2036,7 +2045,7 @@
        "SystemSettings"
       ],
       "presetValues": {
-       "performance": "512"
+       "quality": "768"
       }
      },
      {
@@ -2070,7 +2079,7 @@
     "entries": [
      {
       "name": "r.VRS.BasePass",
-      "value": "1",
+      "value": "2",
       "verdict": "CONDITIONAL",
       "rationale": "Valid, current default 2 (conservative). Value 1 selects full VRS for the base pass and can trade image quality for performance. Hardware/title testing needed.",
       "sources": [
@@ -2081,7 +2090,9 @@
        "/Script/Engine.RendererSettings",
        "ConsoleVariables"
       ],
-      "presetValues": {}
+      "presetValues": {
+       "performance": "1"
+      }
      },
      {
       "name": "r.VRS.ContrastAdaptiveShading",
@@ -2160,7 +2171,7 @@
      },
      {
       "name": "r.VRS.NaniteEmitGBuffer",
-      "value": "1",
+      "value": "2",
       "verdict": "CONDITIONAL",
       "rationale": "Valid, current default 2 (conservative). Value 1 requests full VRS for this pass; hardware/Nanite quality testing required.",
       "sources": [
@@ -2172,11 +2183,13 @@
        "/Script/Engine.RendererSettings",
        "ConsoleVariables"
       ],
-      "presetValues": {}
+      "presetValues": {
+       "performance": "1"
+      }
      },
      {
       "name": "r.VRS.ReflectionEnvironmentSky",
-      "value": "1",
+      "value": "2",
       "verdict": "CONDITIONAL",
       "rationale": "Valid, current default 2 (conservative). Value 1 is a title/hardware-specific quality/performance tradeoff.",
       "sources": [
@@ -2187,11 +2200,13 @@
        "/Script/Engine.RendererSettings",
        "ConsoleVariables"
       ],
-      "presetValues": {}
+      "presetValues": {
+       "performance": "1"
+      }
      },
      {
       "name": "r.VRS.SSAO",
-      "value": "1",
+      "value": "0",
       "verdict": "CONDITIONAL",
       "rationale": "Valid, current default 0. Enabling full VRS for SSAO can save work but may create visible artifacts. Test per platform/title.",
       "sources": [
@@ -2202,11 +2217,13 @@
        "/Script/Engine.RendererSettings",
        "ConsoleVariables"
       ],
-      "presetValues": {}
+      "presetValues": {
+       "performance": "1"
+      }
      },
      {
       "name": "r.VRS.SSR",
-      "value": "1",
+      "value": "2",
       "verdict": "CONDITIONAL",
       "rationale": "Valid, current default 2 (conservative). Value 1 is a quality/performance tradeoff requiring hardware/title testing.",
       "sources": [
@@ -2217,7 +2234,9 @@
        "/Script/Engine.RendererSettings",
        "ConsoleVariables"
       ],
-      "presetValues": {}
+      "presetValues": {
+       "performance": "1"
+      }
      },
      {
       "name": "r.VRS.Translucency",
@@ -2276,7 +2295,7 @@
      },
      {
       "name": "FX.BatchAsyncBatchSize",
-      "value": "8",
+      "value": "16",
       "verdict": "CONDITIONAL",
       "rationale": "Valid, current default 32 and only relevant with line 747. Task-overhead versus latency tradeoff.",
       "sources": [
@@ -2303,7 +2322,7 @@
      },
      {
       "name": "fx.GPUSimulationTextureSizeX",
-      "value": "512",
+      "value": "1024",
       "verdict": "CONDITIONAL",
       "rationale": "Valid, current default 1024. Reduces legacy GPU-particle capacity/memory and can truncate effects. Device-profile/content-specific.",
       "sources": [
@@ -2313,11 +2332,13 @@
       "destinations": [
        "ConsoleVariables"
       ],
-      "presetValues": {}
+      "presetValues": {
+       "performance": "512"
+      }
      },
      {
       "name": "fx.GPUSimulationTextureSizeY",
-      "value": "512",
+      "value": "1024",
       "verdict": "CONDITIONAL",
       "rationale": "Same capacity/quality tradeoff as line 752.",
       "sources": [
@@ -2327,7 +2348,9 @@
       "destinations": [
        "ConsoleVariables"
       ],
-      "presetValues": {}
+      "presetValues": {
+       "performance": "512"
+      }
      },
      {
       "name": "fx.NiagaraAllowRuntimeScalabilityChanges",
@@ -2346,7 +2369,7 @@
      },
      {
       "name": "fx.NiagaraBatcher.FreeBufferEarly",
-      "value": "0",
+      "value": "1",
       "verdict": "CONDITIONAL",
       "rationale": "Valid, current default 1. Keeping buffers can avoid reallocations for oscillating emitters but retains GPU memory. Niagara-content-specific.",
       "sources": [
@@ -2361,7 +2384,7 @@
      },
      {
       "name": "fx.NiagaraDataBufferMinSize",
-      "value": "2048",
+      "value": "1536",
       "verdict": "CONDITIONAL",
       "rationale": "Valid, current default 512 bytes. Larger minimum allocations reduce small-buffer churn but waste memory for light Niagara workloads. Content-specific.",
       "sources": [
@@ -2390,7 +2413,7 @@
      },
      {
       "name": "fx.ScalabilityManParallelThreshold",
-      "value": "25",
+      "value": "50",
       "verdict": "CONDITIONAL",
       "rationale": "Valid, current default 50. Parallel-task crossover depends on CPU and Niagara instance workload.",
       "sources": [
@@ -2646,7 +2669,7 @@
      },
      {
       "name": "r.Streaming.HLODStrategy",
-      "value": "2",
+      "value": "0",
       "verdict": "CONDITIONAL",
       "rationale": "Valid stock CVar, default 0. Value 2 keeps all HLOD texture mips resident, trading reduced streaming and pop-in for potentially large memory use.",
       "sources": [
@@ -2656,11 +2679,13 @@
       "destinations": [
        "ConsoleVariables"
       ],
-      "presetValues": {}
+      "presetValues": {
+       "quality": "2"
+      }
      },
      {
       "name": "r.Streaming.LimitPoolSizeToVRAM",
-      "value": "1",
+      "value": "0",
       "verdict": "CONDITIONAL",
       "rationale": "Valid, default 0. Can prevent VRAM oversubscription, but may shrink the pool and increase lower mips, churn, or pop-in. Test with each game's pool policy.",
       "sources": [
@@ -2672,7 +2697,9 @@
        "/Script/Engine.RendererSettings",
        "ConsoleVariables"
       ],
-      "presetValues": {}
+      "presetValues": {
+       "performance": "1"
+      }
      },
      {
       "name": "r.Streaming.ParallelRenderAssetsNumWorkgroups",
@@ -2792,7 +2819,7 @@
      },
      {
       "name": "r.VT.ParallelFeedbackTasks",
-      "value": "1",
+      "value": "0",
       "verdict": "CONDITIONAL",
       "rationale": "Valid, default 0. Uses worker threads for VT feedback, but only VT-enabled titles benefit and scheduling overhead depends on CPU/workload. Test per title.",
       "sources": [
@@ -2846,17 +2873,15 @@
       "presetValues": {}
      },
      {
-      "name": "r.GTSyncType",
-      "value": "2",
+      "name": "t.Streamline.Reflex.Mode",
+      "value": "0",
       "verdict": "CONDITIONAL",
-      "rationale": "Current stock low-latency mode. It relies on swap-chain/VSync frame pacing and coordinated settings, trades hitch tolerance for latency, and contradicts the earlier r.VSync=0. Keep only in a tested platform/display latency profile.",
+      "rationale": "Source state: active under [SystemSettings]. Not a stock UE5 CVar. It belongs to NVIDIA Streamline/Reflex integration and only disables that plugin when present.",
       "sources": [
-       2,
-       32
+       2
       ],
       "destinations": [
-       "/Script/Engine.RendererSettings",
-       "ConsoleVariables"
+       "SystemSettings"
       ],
       "presetValues": {}
      },
@@ -2887,19 +2912,6 @@
        "ConsoleVariables"
       ],
       "presetValues": {}
-     },
-     {
-      "name": "t.MaxFPS",
-      "value": "0",
-      "verdict": "DEFAULT",
-      "rationale": "Valid stock frame-rate limiter; 0 is the uncapped default. Omit it so the game and user-selected limiter remain authoritative.",
-      "sources": [
-       2
-      ],
-      "destinations": [
-       "ConsoleVariables"
-      ],
-      "presetValues": {}
      }
     ]
    },
@@ -2920,7 +2932,7 @@
       "rationale": "Valid, default 0. Replaces a fixed AddToWorld time slice with adaptive budgeting; loading smoothness/latency depends on title and CPU.",
       "sources": [
        2,
-       33
+       32
       ],
       "destinations": [
        "/Script/Engine.StreamingSettings",
@@ -2935,7 +2947,7 @@
       "rationale": "Valid, current default 5 ms. Lower budget can reduce frame spikes but extends loading. Title/CPU-specific.",
       "sources": [
        2,
-       33
+       32
       ],
       "destinations": [
        "/Script/Engine.StreamingSettings",
@@ -2949,7 +2961,7 @@
       "verdict": "CONDITIONAL",
       "rationale": "Current stock CVar, confirmed by Epic's UE 5.8 Mover API. It only affects components authored to use deferred group movement; delayed transforms can be unsuitable for high-fidelity/player movement, so it needs title-level testing.",
       "sources": [
-       34
+       33
       ],
       "destinations": [
        "/Script/Engine.StreamingSettings",
@@ -2964,7 +2976,7 @@
       "rationale": "Valid, current default 8 MB. More buffer memory may help I/O throughput but adds fixed RAM use; storage/title-specific.",
       "sources": [
        2,
-       33
+       32
       ],
       "destinations": [
        "/Script/Engine.StreamingSettings",
@@ -2979,7 +2991,7 @@
       "rationale": "Valid, current default 0. A fixed 2-GB cache is a very large RAM reservation; only a deliberately profiled high-memory title should consider it.",
       "sources": [
        2,
-       33
+       32
       ],
       "destinations": [
        "/Script/Engine.StreamingSettings",
@@ -3008,7 +3020,7 @@
       "rationale": "Valid, default 0/unlimited. Capping concurrent level requests can reduce spikes but delay streaming; title-specific.",
       "sources": [
        2,
-       33
+       32
       ],
       "destinations": [
        "/Script/Engine.StreamingSettings",
@@ -3023,7 +3035,7 @@
       "rationale": "Valid, default 0. Only useful when a cooked title generated and relies on prestreaming requests. Project-specific.",
       "sources": [
        2,
-       33
+       32
       ],
       "destinations": [
        "/Script/Engine.StreamingSettings",
@@ -3038,7 +3050,7 @@
       "rationale": "Valid UE 5.6+ opt-in control. A unified async-loading and level-streaming budget changes frame ordering and latency, so it requires title-specific testing.",
       "sources": [
        2,
-       35
+       34
       ],
       "destinations": [
        "ConsoleVariables"
@@ -3052,7 +3064,7 @@
       "rationale": "Valid current World Partition CVar and exactly default 1. Omit and inherit.",
       "sources": [
        2,
-       36,
+       35,
        24
       ],
       "destinations": [
@@ -3083,7 +3095,7 @@
       "rationale": "Valid, current default 64. Higher threshold delays incremental GC, trading less frequent work for more pending memory. WP/title-specific.",
       "sources": [
        2,
-       36
+       35
       ],
       "destinations": [
        "/Script/Engine.StreamingSettings",
@@ -3098,7 +3110,7 @@
       "rationale": "Valid, current default 4. More concurrent cell loads can improve throughput but spike I/O, CPU, and memory. Open-world/hardware-specific.",
       "sources": [
        2,
-       36
+       35
       ],
       "destinations": [
        "/Script/Engine.StreamingSettings",
@@ -3113,7 +3125,7 @@
       "rationale": "Valid, current default 0. Time-slicing WP state updates can reduce spikes but delay streaming convergence. Profile per open-world title.",
       "sources": [
        2,
-       36
+       35
       ],
       "destinations": [
        "/Script/Engine.StreamingSettings",
@@ -3140,7 +3152,7 @@
       "rationale": "Valid, current default 60 seconds. Faster eviction may save memory but can cause more PSO recreation and hitches. Title/memory-specific.",
       "sources": [
        2,
-       37
+       36
       ],
       "destinations": [
        "/Script/Engine.RendererSettings",
@@ -3155,7 +3167,7 @@
       "rationale": "Valid stock cache control, but it overrides the current default of 1. A larger background batch can reduce warm-up time while increasing frame-time pressure.",
       "sources": [
        2,
-       38
+       37
       ],
       "destinations": [
        "ShaderPipelineCache",
@@ -3170,7 +3182,7 @@
       "rationale": "Valid, current default 50. Smaller batches can reduce one-frame compilation work but prolong cache warmup. Requires a valid title-supplied PSO cache.",
       "sources": [
        2,
-       39
+       38
       ],
       "destinations": [
        "ShaderPipelineCache",
@@ -3185,7 +3197,7 @@
       "rationale": "Valid and exactly current default 16 ms. Omit.",
       "sources": [
        2,
-       39
+       38
       ],
       "destinations": [
        "ShaderPipelineCache",
@@ -3200,8 +3212,8 @@
       "rationale": "Valid, default 0. Only useful when the game ships or records a compatible PipelineFileCache; blindly enabling an absent/incomplete cache adds nothing.",
       "sources": [
        2,
-       39,
-       37
+       38,
+       36
       ],
       "destinations": [
        "ShaderPipelineCache",
@@ -3216,7 +3228,7 @@
       "rationale": "Valid, default 0. Requires cache recording with usage masks; title-build policy.",
       "sources": [
        2,
-       39
+       38
       ],
       "destinations": [
        "ShaderPipelineCache",
@@ -3231,7 +3243,7 @@
       "rationale": "Valid, current default 50. Batch tradeoff only matters when pre-optimizing a valid PSO cache; title/platform-specific.",
       "sources": [
        2,
-       39
+       38
       ],
       "destinations": [
        "ShaderPipelineCache",
@@ -3246,7 +3258,7 @@
       "rationale": "Valid nonzero time budget; current table/help contains legacy default wording. Startup/frame-time tradeoff requiring title profiling.",
       "sources": [
        2,
-       39
+       38
       ],
       "destinations": [
        "ShaderPipelineCache",
@@ -3261,8 +3273,8 @@
       "rationale": "Valid current stock PSO-cache control, default 0. Enabling pre-optimization only makes sense when the title supplies a compatible cache and startup flow.",
       "sources": [
        2,
-       40,
-       41
+       39,
+       40
       ],
       "destinations": [
        "ConsoleVariables"
@@ -3276,7 +3288,7 @@
       "rationale": "Valid shader-build setting and already default 1. Omit; packaged shaders are already compiled.",
       "sources": [
        2,
-       42
+       41
       ],
       "destinations": [
        "/Script/Engine.RendererSettings",
@@ -3291,7 +3303,7 @@
       "rationale": "Valid shader-preprocessing setting and already default 1. Omit.",
       "sources": [
        2,
-       42
+       41
       ],
       "destinations": [
        "/Script/Engine.RendererSettings",
@@ -3334,7 +3346,7 @@
       "rationale": "Valid D3D12 PSO cache. Current reference table/help disagree about the default; it can improve later runs but remains D3D12/title cache policy. Test per game.",
       "sources": [
        2,
-       37
+       36
       ],
       "destinations": [
        "/Script/D3D12RHI.D3D12Options"
@@ -3348,7 +3360,7 @@
       "rationale": "Valid, default 0. Machine/driver-specific cache may improve subsequent PSO creation but needs invalidation/storage testing.",
       "sources": [
        2,
-       37
+       36
       ],
       "destinations": [
        "/Script/D3D12RHI.D3D12Options",
@@ -3665,7 +3677,7 @@
       "rationale": "Current stock CVar; 1 is already the default asynchronous PSO behavior. Omit.",
       "sources": [
        2,
-       37
+       36
       ],
       "destinations": [
        "/Script/Engine.RendererSettings",
@@ -3680,7 +3692,7 @@
       "rationale": "Valid stock renderer CVar and already default 1. Omit and inherit.",
       "sources": [
        2,
-       43
+       42
       ],
       "destinations": [
        "/Script/Engine.RendererSettings",
@@ -3695,7 +3707,7 @@
       "rationale": "Valid stock renderer CVar and already default 1. Omit and inherit; it only has effect when parallel rendering is supported.",
       "sources": [
        2,
-       44
+       43
       ],
       "destinations": [
        "/Script/Engine.RendererSettings",
@@ -3710,7 +3722,7 @@
       "rationale": "Exact stock renderer CVar and already default 1. Omit and inherit.",
       "sources": [
        2,
-       44
+       43
       ],
       "destinations": [
        "/Script/Engine.RendererSettings",
@@ -3725,7 +3737,7 @@
       "rationale": "Exact stock renderer CVar and already default 1. Omit and inherit.",
       "sources": [
        2,
-       44
+       43
       ],
       "destinations": [
        "/Script/Engine.RendererSettings",
@@ -3740,7 +3752,7 @@
       "rationale": "Exact stock renderer CVar and already default 1. Omit and inherit.",
       "sources": [
        2,
-       44
+       43
       ],
       "destinations": [
        "/Script/Engine.RendererSettings",
@@ -3755,7 +3767,7 @@
       "rationale": "Valid stock RDG policy and already default 1 for tagged passes. Omit and inherit engine/platform scheduling.",
       "sources": [
        2,
-       45
+       44
       ],
       "destinations": [
        "/Script/Engine.RendererSettings",
@@ -3770,7 +3782,7 @@
       "rationale": "Valid stock CVar; 1 is already default and enables parallel pass execution when supported. Omit and inherit engine/platform capability handling.",
       "sources": [
        2,
-       45
+       44
       ],
       "destinations": [
        "/Script/Engine.RendererSettings",
@@ -3784,7 +3796,7 @@
       "verdict": "DEFAULT",
       "rationale": "Valid stock rendering control; 1 is already default. Omit and let platform/ engine policy manage frontend parallelization.",
       "sources": [
-       44
+       43
       ],
       "destinations": [
        "/Script/Engine.RendererSettings",
@@ -3825,7 +3837,7 @@
       "verdict": "CONDITIONAL",
       "rationale": "Valid stock CVar, default 0. Automatic tick batching can reduce task overhead, but Epic notes that the benefit depends on the game's exact tick workload.",
       "sources": [
-       46
+       45
       ],
       "destinations": [
        "ConsoleVariables"
@@ -3853,7 +3865,7 @@
       "rationale": "Valid stock CVar (canonical rhi.ResourceTableCaching); names are case- insensitive. Value 1 is already default. Omit and inherit.",
       "sources": [
        2,
-       47
+       46
       ],
       "destinations": [
        "/Script/Engine.RendererSettings",
@@ -3976,7 +3988,7 @@
       "rationale": "Valid and exactly current default 1. Omit.",
       "sources": [
        2,
-       48
+       47
       ],
       "destinations": [
        "/Script/Engine.GarbageCollectionSettings",
@@ -3991,7 +4003,7 @@
       "rationale": "Valid and exactly current default 1. Omit and inherit project behavior.",
       "sources": [
        2,
-       48
+       47
       ],
       "destinations": [
        "/Script/Engine.GarbageCollectionSettings",
@@ -4006,7 +4018,7 @@
       "rationale": "Valid and exactly current default 1. Omit.",
       "sources": [
        2,
-       48
+       47
       ],
       "destinations": [
        "/Script/Engine.GarbageCollectionSettings",
@@ -4033,7 +4045,7 @@
       "rationale": "Valid stock CVar and exactly default 1. Omit and inherit.",
       "sources": [
        2,
-       49
+       48
       ],
       "destinations": [
        "/Script/Engine.RendererSettings",
@@ -4048,7 +4060,7 @@
       "rationale": "Valid stock CVar and exactly default 1. Omit and inherit.",
       "sources": [
        2,
-       49
+       48
       ],
       "destinations": [
        "/Script/Engine.RendererSettings",
@@ -4063,7 +4075,7 @@
       "rationale": "Valid stock CVar and exactly default 1. Worker eligibility still requires safe project/Animation Blueprint configuration. Omit and inherit.",
       "sources": [
        2,
-       49
+       48
       ],
       "destinations": [
        "/Script/Engine.RendererSettings",
@@ -4103,7 +4115,7 @@
       "rationale": "Valid, current default 1. Value 0 enables async source processing; benefit depends on source count, CPU scheduling, backend, and platform.",
       "sources": [
        2,
-       50
+       49
       ],
       "destinations": [
        "ConsoleVariables"
@@ -4117,7 +4129,7 @@
       "rationale": "Valid, default 0. May reduce audio underruns but steals CPU scheduling priority from other work. Hardware/title-specific.",
       "sources": [
        2,
-       50
+       49
       ],
       "destinations": [
        "ConsoleVariables"
@@ -4131,7 +4143,7 @@
       "rationale": "Valid, current default 128. Larger batches trade command throughput against latency; no universal optimum.",
       "sources": [
        2,
-       50
+       49
       ],
       "destinations": [
        "ConsoleVariables"
@@ -4145,7 +4157,7 @@
       "rationale": "Valid and exactly current default 1. Omit.",
       "sources": [
        2,
-       50
+       49
       ],
       "destinations": [
        "ConsoleVariables"
@@ -4171,7 +4183,7 @@
       "rationale": "Source state: active under [SystemSettings]. Valid stock HDR-output switch, default 0. It requires compatible display, OS, RHI, output-device and gamut handling, so expose it only as an explicit display choice.",
       "sources": [
        2,
-       51
+       50
       ],
       "destinations": [
        "SystemSettings"
@@ -4222,7 +4234,7 @@
       "verdict": "CONDITIONAL",
       "rationale": "Real CrashReportClient privacy control. On Windows/macOS it already defaults false; Linux defaults true. Retain only as an explicit user privacy choice, not a performance preset.",
       "sources": [
-       52
+       51
       ],
       "destinations": [
        "CrashReportClient",
@@ -4237,7 +4249,7 @@
       "rationale": "Valid D3D12 crash-debug option and exactly default 0. Omit.",
       "sources": [
        2,
-       53
+       52
       ],
       "destinations": [
        "/Script/Engine.RendererSettings",
@@ -4266,7 +4278,7 @@
       "rationale": "Valid vendor crash-analysis master option; 0 is stock default. Omit. Diagnostic features should be enabled deliberately when investigating a crash.",
       "sources": [
        2,
-       53
+       52
       ],
       "destinations": [
        "/Script/Engine.RendererSettings",
@@ -4281,7 +4293,7 @@
       "rationale": "Valid NVIDIA Aftermath option; 0 is the stock default. Omit and inherit.",
       "sources": [
        2,
-       54
+       53
       ],
       "destinations": [
        "/Script/Engine.RendererSettings",
@@ -4296,7 +4308,7 @@
       "rationale": "Valid NVIDIA Aftermath option; 0 is the stock default. Omit and inherit.",
       "sources": [
        2,
-       54
+       53
       ],
       "destinations": [
        "/Script/Engine.RendererSettings",
@@ -4311,7 +4323,7 @@
       "rationale": "Valid vendor crash-dump option; 0 is stock default. Omit and inherit.",
       "sources": [
        2,
-       53
+       52
       ],
       "destinations": [
        "/Script/Engine.RendererSettings",
@@ -4326,7 +4338,7 @@
       "rationale": "Valid stock debugging CVar; 0 is already default and leaves the multithreaded renderer active. Value 1 is a low-level debugging bypass. Omit.",
       "sources": [
        2,
-       55
+       54
       ],
       "destinations": [
        "/Script/Engine.RendererSettings",
@@ -4395,7 +4407,7 @@
       "rationale": "Valid stock CVar; 1 is the documented default, so real-time Sky Light capture already uses time slicing.",
       "sources": [
        2,
-       56
+       55
       ],
       "destinations": [
        "ConsoleVariables"
@@ -4559,10 +4571,6 @@
     "value": "1"
    },
    {
-    "name": "bSmoothFrameRate",
-    "value": "0"
-   },
-   {
     "name": "bSupportsGPUScene",
     "value": "1"
    },
@@ -4611,10 +4619,6 @@
     "value": "0"
    },
    {
-    "name": "D3D12.MaximumFrameLatency",
-    "value": "1"
-   },
-   {
     "name": "D3D12.MultithreadedCommandListBuilding",
     "value": "1"
    },
@@ -4623,68 +4627,12 @@
     "value": "1"
    },
    {
-    "name": "fx.AllowFastPathFunctionLibrary",
-    "value": "1"
-   },
-   {
-    "name": "fx.DeferrPSCDeactivation",
-    "value": "1"
-   },
-   {
-    "name": "fx.EnableCircularAnimTrailDump",
-    "value": "0"
-   },
-   {
-    "name": "FX.GPUSpawnWarningThreshold",
-    "value": "99999999"
-   },
-   {
-    "name": "fx.Niagara.AsyncCompute",
-    "value": "1"
-   },
-   {
-    "name": "fx.Niagara.DebugDraw.Enabled",
-    "value": "0"
-   },
-   {
-    "name": "fx.Niagara.GpuComputeDebug.DrawDebugEnabled",
-    "value": "0"
-   },
-   {
-    "name": "fx.Niagara.WarnComponentRenderCount",
-    "value": "999999"
-   },
-   {
-    "name": "fx.NiagaraAllowAsyncWork",
-    "value": "1"
-   },
-   {
-    "name": "fx.NiagaraParallelSpawn",
-    "value": "1"
-   },
-   {
-    "name": "fx.NiagaraParallelUpdate",
-    "value": "1"
-   },
-   {
-    "name": "fx.NiagaraRuntimeCycleHistorySize",
-    "value": "30"
-   },
-   {
-    "name": "fx.SkipVectorVMBackendOptimizations",
-    "value": "0"
-   },
-   {
     "name": "gc.AllowParallelDestruction",
     "value": "1"
    },
    {
     "name": "Global",
     "value": "all off"
-   },
-   {
-    "name": "grass.UseHaltonDistribution",
-    "value": "1"
    },
    {
     "name": "LevelSequence.InvalidBindingTagWarnings",
@@ -4807,14 +4755,6 @@
     "value": "all off"
    },
    {
-    "name": "LogNiagara",
-    "value": "all off"
-   },
-   {
-    "name": "LogNiagaraDebuggerClient",
-    "value": "all off"
-   },
-   {
     "name": "LogNNERuntimeORT",
     "value": "all off"
    },
@@ -4903,10 +4843,6 @@
     "value": "all off"
    },
    {
-    "name": "LogStreaming",
-    "value": "all off"
-   },
-   {
     "name": "LogStudioTelemetry",
     "value": "all off"
    },
@@ -4920,18 +4856,6 @@
    },
    {
     "name": "LogTemp",
-    "value": "all off"
-   },
-   {
-    "name": "LogTextureEncodingSettings",
-    "value": "all off"
-   },
-   {
-    "name": "LogTextureFormatManager",
-    "value": "all off"
-   },
-   {
-    "name": "LogTextureFormatOodle",
     "value": "all off"
    },
    {
@@ -4952,10 +4876,6 @@
    },
    {
     "name": "LogVirtualization",
-    "value": "all off"
-   },
-   {
-    "name": "LogVRS",
     "value": "all off"
    },
    {
@@ -5043,20 +4963,12 @@
     "value": "OGG"
    },
    {
-    "name": "PlatformStreamingFormat",
-    "value": "OGG"
-   },
-   {
     "name": "r.AllowAsyncRenderThreadUpdatesDuringGamethreadUpdates",
     "value": "0"
    },
    {
     "name": "r.AllowMultiThreadedShaderCreation",
     "value": "1"
-   },
-   {
-    "name": "r.AmbientOcclusionRadiusScale",
-    "value": "2"
    },
    {
     "name": "r.AsyncCompute",
@@ -5111,20 +5023,12 @@
     "value": "0"
    },
    {
-    "name": "r.EnableAsyncComputeVolumetricFog",
-    "value": "1"
-   },
-   {
     "name": "r.EnableDebugSpam_GetObjectPositionAndScale",
     "value": "0"
    },
    {
     "name": "r.EnableMultiThreadedRendering",
     "value": "1"
-   },
-   {
-    "name": "r.FidelityFX.FSR.RCAS",
-    "value": "0"
    },
    {
     "name": "r.FidelityFX.FSR2.Sharpness",
@@ -5137,22 +5041,6 @@
    {
     "name": "r.FidelityFX.FSR4.Sharpness",
     "value": "0.0"
-   },
-   {
-    "name": "r.FidelityFX.RCAS",
-    "value": "0"
-   },
-   {
-    "name": "r.FidelityFX.RCAS.Sharpness",
-    "value": "0"
-   },
-   {
-    "name": "r.FogDensityVolumes.Parallel",
-    "value": "1"
-   },
-   {
-    "name": "r.Foliage.UsePrecomputedLODScreenSize",
-    "value": "1"
    },
    {
     "name": "r.ForceAllCoresForShaderCompiling",
@@ -5169,10 +5057,6 @@
    {
     "name": "r.GameThread.PriorityRedirectThreshold",
     "value": "3"
-   },
-   {
-    "name": "r.GeometryCollection.Nanite.AsyncCompute",
-    "value": "1"
    },
    {
     "name": "r.GPUCrash.Collectionenable",
@@ -5199,10 +5083,6 @@
     "value": "1"
    },
    {
-    "name": "r.Grass.ParallelCull",
-    "value": "1"
-   },
-   {
     "name": "r.HZBOcclusion.Parallel",
     "value": "1"
    },
@@ -5216,10 +5096,6 @@
    },
    {
     "name": "r.IO.UseDirectStorage",
-    "value": "1"
-   },
-   {
-    "name": "r.IO.VirtualTextures",
     "value": "1"
    },
    {
@@ -5243,38 +5119,6 @@
     "value": "1"
    },
    {
-    "name": "r.Nanite.Builder.AsyncHelpers",
-    "value": "1"
-   },
-   {
-    "name": "r.Nanite.CompressedStreamingPages",
-    "value": "1"
-   },
-   {
-    "name": "r.Nanite.Culling.MinLOD",
-    "value": "1"
-   },
-   {
-    "name": "r.Nanite.LargePageRectThreshold",
-    "value": "512"
-   },
-   {
-    "name": "r.Nanite.PrimeHZB",
-    "value": "1"
-   },
-   {
-    "name": "r.Nanite.Streaming.MaxPageInstallsPerFrame",
-    "value": "32"
-   },
-   {
-    "name": "r.Nanite.Streaming.MaxPendingPages",
-    "value": "32"
-   },
-   {
-    "name": "r.Nanite.VSMMeshShaderRasterization",
-    "value": "1"
-   },
-   {
     "name": "r.NGX.DLSS.Sharpness",
     "value": "0"
    },
@@ -5288,10 +5132,6 @@
    },
    {
     "name": "r.Occlusion.ParallelPrimFetch",
-    "value": "1"
-   },
-   {
-    "name": "r.Occlusion.SingleRHIThreadStall",
     "value": "1"
    },
    {
@@ -5443,10 +5283,6 @@
     "value": "1"
    },
    {
-    "name": "r.ParallelParticleUpdate",
-    "value": "1"
-   },
-   {
     "name": "r.ParallelPhysicsScene",
     "value": "1"
    },
@@ -5456,14 +5292,6 @@
    },
    {
     "name": "r.ParallelPostProcessing",
-    "value": "1"
-   },
-   {
-    "name": "r.ParallelReflectionCaptures",
-    "value": "1"
-   },
-   {
-    "name": "r.ParallelReflectionEnvironment",
     "value": "1"
    },
    {
@@ -5587,14 +5415,6 @@
     "value": "1"
    },
    {
-    "name": "r.RHIThread",
-    "value": "1"
-   },
-   {
-    "name": "r.RHIThread.Priority",
-    "value": "2"
-   },
-   {
     "name": "r.SceneRenderingThreadAffinity",
     "value": "-1"
    },
@@ -5635,59 +5455,7 @@
     "value": "1"
    },
    {
-    "name": "r.Shadow.CacheWPOPrimitives",
-    "value": "1"
-   },
-   {
-    "name": "r.Shadow.CSMCaching",
-    "value": "1"
-   },
-   {
-    "name": "r.Shadow.Virtual.Cache.MaxLightAgeSinceLastRequest",
-    "value": "8"
-   },
-   {
-    "name": "r.Shadow.Virtual.ParallelBuild",
-    "value": "1"
-   },
-   {
-    "name": "r.Shadow.Virtual.ParallelProjection",
-    "value": "1"
-   },
-   {
     "name": "r.Skylight.RealTimeCapture.TimeSlice",
-    "value": "1"
-   },
-   {
-    "name": "r.Streaming.AmortizeCPUToGPUCopy",
-    "value": "1"
-   },
-   {
-    "name": "r.Streaming.BuildTextureStreamingDataOnLoad",
-    "value": "1"
-   },
-   {
-    "name": "r.Streaming.EnableAssetUpdateAbandons",
-    "value": "1"
-   },
-   {
-    "name": "r.Streaming.MinFudgeFactor",
-    "value": "0.5"
-   },
-   {
-    "name": "r.Streaming.MinMipForSplitRequest",
-    "value": "0"
-   },
-   {
-    "name": "r.Streaming.PredictiveBoost",
-    "value": "1"
-   },
-   {
-    "name": "r.Streaming.PredictiveBoostHintSize",
-    "value": "512"
-   },
-   {
-    "name": "r.Streaming.UseMaterialDataStreaming",
     "value": "1"
    },
    {
@@ -5705,18 +5473,6 @@
    {
     "name": "r.Streamline.XeSS.Sharpness",
     "value": "0"
-   },
-   {
-    "name": "r.TextureStreaming.DiscardUnusedMips",
-    "value": "1"
-   },
-   {
-    "name": "r.TextureStreaming.UseBackgroundThreadPool",
-    "value": "1"
-   },
-   {
-    "name": "r.TextureStreaming.UseDeferredLock",
-    "value": "1"
    },
    {
     "name": "r.ThreadedShaderCompilation",
@@ -5756,26 +5512,6 @@
    },
    {
     "name": "r.Visibility.TaskSchedule",
-    "value": "0"
-   },
-   {
-    "name": "r.VRS.MaterialAdaptiveShading",
-    "value": "1"
-   },
-   {
-    "name": "r.VRS.Method",
-    "value": "1"
-   },
-   {
-    "name": "r.VRS.MotionAdaptiveShading",
-    "value": "1"
-   },
-   {
-    "name": "r.VRS.Tier",
-    "value": "2"
-   },
-   {
-    "name": "r.VT.CsvStats",
     "value": "0"
    },
    {
@@ -5832,10 +5568,6 @@
    },
    {
     "name": "Slate.bAllowThrottling",
-    "value": "0"
-   },
-   {
-    "name": "t.Streamline.Reflex.Mode",
     "value": "0"
    },
    {
@@ -6117,7 +5849,7 @@
     {
      "label": "off",
      "values": {
-      "r.Streaming.LimitPoolSizeToVRAM": "0",
+      "r.Streaming.LimitPoolSizeToVRAM": null,
       "s.IoDispatcherCacheSizeMB": "0"
      }
     },
@@ -6295,6 +6027,99 @@
      "values": {
       "r.MegaLights.AsyncCompute.GenerateSamples": "1",
       "r.MegaLights.AsyncCompute.Volume": "1"
+     }
+    }
+   ]
+  },
+  {
+   "id": "df-shadow-async-compute",
+   "order": 16,
+   "title": "Distance field shadows: use the async compute queue",
+   "summary": "Runs distance field shadow work alongside the rest of the frame instead of in line. Epic asks for a test rather than giving an answer, because the gain depends on your GPU. Off writes the engine's own value.",
+   "tab": "experimental",
+   "default": "off",
+   "states": [
+    {
+     "label": "off",
+     "values": {
+      "r.DFShadowAsyncCompute": "0"
+     }
+    },
+    {
+     "label": "on",
+     "values": {
+      "r.DFShadowAsyncCompute": "1"
+     }
+    }
+   ]
+  },
+  {
+   "id": "vsm-cache-allocate-lru",
+   "order": 17,
+   "title": "Shadow cache: evict the least recently used page",
+   "summary": "Changes which shadow map pages the cache throws away first. It may help a scene that keeps revisiting the same views and hurt one that does not. Off writes the engine's own value.",
+   "tab": "experimental",
+   "default": "off",
+   "states": [
+    {
+     "label": "off",
+     "values": {
+      "r.Shadow.Virtual.Cache.AllocateViaLRU": "0"
+     }
+    },
+    {
+     "label": "on",
+     "values": {
+      "r.Shadow.Virtual.Cache.AllocateViaLRU": "1"
+     }
+    }
+   ]
+  },
+  {
+   "id": "ambient-occlusion-method",
+   "order": 18,
+   "title": "Ambient occlusion method",
+   "summary": "The soft darkening where surfaces meet. Leave this alone unless corners look wrong to you. GTAO is usually cleaner and SSAO is the older method; which one performs better depends on your GPU.",
+   "default": "Leave it alone",
+   "states": [
+    {
+     "label": "Leave it alone",
+     "values": {
+      "r.AmbientOcclusion.Method": "omit"
+     }
+    },
+    {
+     "label": "SSAO",
+     "values": {
+      "r.AmbientOcclusion.Method": "0"
+     }
+    },
+    {
+     "label": "GTAO",
+     "values": {
+      "r.AmbientOcclusion.Method": "1"
+     }
+    }
+   ]
+  },
+  {
+   "id": "disable-nvidia-reflex",
+   "order": 19,
+   "title": "Turn off NVIDIA Reflex",
+   "summary": "Turn this on if the game stutters or the frame timing feels uneven on an NVIDIA card. Reflex lowers input delay, but in some games it disturbs frame pacing and the game gives you no way to switch it off.",
+   "tab": "important",
+   "default": "off",
+   "states": [
+    {
+     "label": "off",
+     "values": {
+      "t.Streamline.Reflex.Mode": "omit"
+     }
+    },
+    {
+     "label": "on",
+     "values": {
+      "t.Streamline.Reflex.Mode": "0"
      }
     }
    ]
