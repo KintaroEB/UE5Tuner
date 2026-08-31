@@ -532,9 +532,9 @@
   "generated": "2026-08-31",
   "counts": {
    "categories": 27,
-   "entries": 237,
-   "inert": 303,
-   "sources": 56
+   "entries": 238,
+   "inert": 280,
+   "sources": 55
   },
   "conditions": {
    "always": "Applies to any supported setup.",
@@ -602,7 +602,6 @@
    "https://dev.epicgames.com/documentation/en-us/unreal-engine/texture-streaming-metrics-in-unreal-engine",
    "https://dev.epicgames.com/documentation/unreal-engine/virtual-texturing-in-unreal-engine",
    "https://dev.epicgames.com/documentation/en-us/unreal-engine/asynchronous-asset-loading-in-unreal-engine",
-   "https://dev.epicgames.com/documentation/en-us/unreal-engine/python-api/class/MoverComponent",
    "https://dev.epicgames.com/documentation/en-us/unreal-engine/unreal-engine-5-6-release-notes",
    "https://dev.epicgames.com/documentation/unreal-engine/world-partition-in-unreal-engine",
    "https://dev.epicgames.com/documentation/unreal-engine/pso-precaching-for-unreal-engine",
@@ -2956,22 +2955,8 @@
       "presetValues": {}
      },
      {
-      "name": "s.GroupedComponentMovement.Enable",
-      "value": "1",
-      "verdict": "CONDITIONAL",
-      "rationale": "Current stock CVar, confirmed by Epic's UE 5.8 Mover API. It only affects components authored to use deferred group movement; delayed transforms can be unsuitable for high-fidelity/player movement, so it needs title-level testing.",
-      "sources": [
-       33
-      ],
-      "destinations": [
-       "/Script/Engine.StreamingSettings",
-       "ConsoleVariables"
-      ],
-      "presetValues": {}
-     },
-     {
       "name": "s.IoDispatcherBufferMemoryMB",
-      "value": "64",
+      "value": "96",
       "verdict": "CONDITIONAL",
       "rationale": "Valid, current default 8 MB. More buffer memory may help I/O throughput but adds fixed RAM use; storage/title-specific.",
       "sources": [
@@ -3001,7 +2986,7 @@
      },
      {
       "name": "s.IoDispatcherDecompressionWorkerCount",
-      "value": "4",
+      "value": "8",
       "verdict": "DEFAULT",
       "rationale": "Valid and exactly current default 4. Omit and inherit.",
       "sources": [
@@ -3014,8 +2999,36 @@
       "presetValues": {}
      },
      {
+      "name": "s.MaxIncomingRequestsToStall",
+      "value": "100",
+      "verdict": "CONDITIONAL",
+      "rationale": "Valid, current default 100. Stalling after a single request can serialize I/O and destroy throughput; not a sensible general policy.",
+      "sources": [
+       2
+      ],
+      "destinations": [
+       "/Script/Engine.StreamingSettings",
+       "ConsoleVariables"
+      ],
+      "presetValues": {}
+     },
+     {
+      "name": "s.MaxReadyRequestsToStallMB",
+      "value": "30",
+      "verdict": "CONDITIONAL",
+      "rationale": "Valid, current default 30 MB. Value 0 removes memory backpressure and can allow unhandled I/O requests to grow dangerously.",
+      "sources": [
+       2
+      ],
+      "destinations": [
+       "/Script/Engine.StreamingSettings",
+       "ConsoleVariables"
+      ],
+      "presetValues": {}
+     },
+     {
       "name": "s.MaxLevelRequestsAtOnceWhileInMatch",
-      "value": "4",
+      "value": "0",
       "verdict": "CONDITIONAL",
       "rationale": "Valid, default 0/unlimited. Capping concurrent level requests can reduce spikes but delay streaming; title-specific.",
       "sources": [
@@ -3030,7 +3043,7 @@
      },
      {
       "name": "s.ProcessPrestreamingRequests",
-      "value": "1",
+      "value": "0",
       "verdict": "CONDITIONAL",
       "rationale": "Valid, default 0. Only useful when a cooked title generated and relies on prestreaming requests. Project-specific.",
       "sources": [
@@ -3050,7 +3063,7 @@
       "rationale": "Valid UE 5.6+ opt-in control. A unified async-loading and level-streaming budget changes frame ordering and latency, so it requires title-specific testing.",
       "sources": [
        2,
-       34
+       33
       ],
       "destinations": [
        "ConsoleVariables"
@@ -3064,7 +3077,7 @@
       "rationale": "Valid current World Partition CVar and exactly default 1. Omit and inherit.",
       "sources": [
        2,
-       35,
+       34,
        24
       ],
       "destinations": [
@@ -3075,7 +3088,7 @@
      },
      {
       "name": "wp.Runtime.HLOD.WarmupVT",
-      "value": "0",
+      "value": "1",
       "verdict": "CONDITIONAL",
       "rationale": "Valid, current default 1. Disabling VT warmup may save work but can expose HLOD virtual-texture pop-in. WP/HLOD/VT titles only.",
       "sources": [
@@ -3090,12 +3103,12 @@
      },
      {
       "name": "wp.Runtime.LevelStreamingContinuouslyIncrementalGCWhileLevelsPendingPurgeForWP",
-      "value": "128",
+      "value": "256",
       "verdict": "CONDITIONAL",
       "rationale": "Valid, current default 64. Higher threshold delays incremental GC, trading less frequent work for more pending memory. WP/title-specific.",
       "sources": [
        2,
-       35
+       34
       ],
       "destinations": [
        "/Script/Engine.StreamingSettings",
@@ -3105,12 +3118,12 @@
      },
      {
       "name": "wp.Runtime.MaxLoadingStreamingCells",
-      "value": "12",
+      "value": "10",
       "verdict": "CONDITIONAL",
       "rationale": "Valid, current default 4. More concurrent cell loads can improve throughput but spike I/O, CPU, and memory. Open-world/hardware-specific.",
       "sources": [
        2,
-       35
+       34
       ],
       "destinations": [
        "/Script/Engine.StreamingSettings",
@@ -3120,12 +3133,12 @@
      },
      {
       "name": "wp.Runtime.UpdateStreamingStateTimeLimit",
-      "value": "0.25",
+      "value": "0.33",
       "verdict": "CONDITIONAL",
       "rationale": "Valid, current default 0. Time-slicing WP state updates can reduce spikes but delay streaming convergence. Profile per open-world title.",
       "sources": [
        2,
-       35
+       34
       ],
       "destinations": [
        "/Script/Engine.StreamingSettings",
@@ -3152,7 +3165,7 @@
       "rationale": "Valid, current default 60 seconds. Faster eviction may save memory but can cause more PSO recreation and hitches. Title/memory-specific.",
       "sources": [
        2,
-       36
+       35
       ],
       "destinations": [
        "/Script/Engine.RendererSettings",
@@ -3167,7 +3180,7 @@
       "rationale": "Valid stock cache control, but it overrides the current default of 1. A larger background batch can reduce warm-up time while increasing frame-time pressure.",
       "sources": [
        2,
-       37
+       36
       ],
       "destinations": [
        "ShaderPipelineCache",
@@ -3182,7 +3195,7 @@
       "rationale": "Valid, current default 50. Smaller batches can reduce one-frame compilation work but prolong cache warmup. Requires a valid title-supplied PSO cache.",
       "sources": [
        2,
-       38
+       37
       ],
       "destinations": [
        "ShaderPipelineCache",
@@ -3197,7 +3210,7 @@
       "rationale": "Valid and exactly current default 16 ms. Omit.",
       "sources": [
        2,
-       38
+       37
       ],
       "destinations": [
        "ShaderPipelineCache",
@@ -3212,8 +3225,8 @@
       "rationale": "Valid, default 0. Only useful when the game ships or records a compatible PipelineFileCache; blindly enabling an absent/incomplete cache adds nothing.",
       "sources": [
        2,
-       38,
-       36
+       37,
+       35
       ],
       "destinations": [
        "ShaderPipelineCache",
@@ -3228,7 +3241,7 @@
       "rationale": "Valid, default 0. Requires cache recording with usage masks; title-build policy.",
       "sources": [
        2,
-       38
+       37
       ],
       "destinations": [
        "ShaderPipelineCache",
@@ -3243,7 +3256,7 @@
       "rationale": "Valid, current default 50. Batch tradeoff only matters when pre-optimizing a valid PSO cache; title/platform-specific.",
       "sources": [
        2,
-       38
+       37
       ],
       "destinations": [
        "ShaderPipelineCache",
@@ -3258,7 +3271,7 @@
       "rationale": "Valid nonzero time budget; current table/help contains legacy default wording. Startup/frame-time tradeoff requiring title profiling.",
       "sources": [
        2,
-       38
+       37
       ],
       "destinations": [
        "ShaderPipelineCache",
@@ -3273,8 +3286,8 @@
       "rationale": "Valid current stock PSO-cache control, default 0. Enabling pre-optimization only makes sense when the title supplies a compatible cache and startup flow.",
       "sources": [
        2,
-       39,
-       40
+       38,
+       39
       ],
       "destinations": [
        "ConsoleVariables"
@@ -3288,7 +3301,7 @@
       "rationale": "Valid shader-build setting and already default 1. Omit; packaged shaders are already compiled.",
       "sources": [
        2,
-       41
+       40
       ],
       "destinations": [
        "/Script/Engine.RendererSettings",
@@ -3303,7 +3316,7 @@
       "rationale": "Valid shader-preprocessing setting and already default 1. Omit.",
       "sources": [
        2,
-       41
+       40
       ],
       "destinations": [
        "/Script/Engine.RendererSettings",
@@ -3346,7 +3359,7 @@
       "rationale": "Valid D3D12 PSO cache. Current reference table/help disagree about the default; it can improve later runs but remains D3D12/title cache policy. Test per game.",
       "sources": [
        2,
-       36
+       35
       ],
       "destinations": [
        "/Script/D3D12RHI.D3D12Options"
@@ -3360,7 +3373,7 @@
       "rationale": "Valid, default 0. Machine/driver-specific cache may improve subsequent PSO creation but needs invalidation/storage testing.",
       "sources": [
        2,
-       36
+       35
       ],
       "destinations": [
        "/Script/D3D12RHI.D3D12Options",
@@ -3677,7 +3690,7 @@
       "rationale": "Current stock CVar; 1 is already the default asynchronous PSO behavior. Omit.",
       "sources": [
        2,
-       36
+       35
       ],
       "destinations": [
        "/Script/Engine.RendererSettings",
@@ -3692,7 +3705,7 @@
       "rationale": "Valid stock renderer CVar and already default 1. Omit and inherit.",
       "sources": [
        2,
-       42
+       41
       ],
       "destinations": [
        "/Script/Engine.RendererSettings",
@@ -3707,7 +3720,7 @@
       "rationale": "Valid stock renderer CVar and already default 1. Omit and inherit; it only has effect when parallel rendering is supported.",
       "sources": [
        2,
-       43
+       42
       ],
       "destinations": [
        "/Script/Engine.RendererSettings",
@@ -3722,7 +3735,7 @@
       "rationale": "Exact stock renderer CVar and already default 1. Omit and inherit.",
       "sources": [
        2,
-       43
+       42
       ],
       "destinations": [
        "/Script/Engine.RendererSettings",
@@ -3737,7 +3750,7 @@
       "rationale": "Exact stock renderer CVar and already default 1. Omit and inherit.",
       "sources": [
        2,
-       43
+       42
       ],
       "destinations": [
        "/Script/Engine.RendererSettings",
@@ -3752,7 +3765,7 @@
       "rationale": "Exact stock renderer CVar and already default 1. Omit and inherit.",
       "sources": [
        2,
-       43
+       42
       ],
       "destinations": [
        "/Script/Engine.RendererSettings",
@@ -3767,7 +3780,7 @@
       "rationale": "Valid stock RDG policy and already default 1 for tagged passes. Omit and inherit engine/platform scheduling.",
       "sources": [
        2,
-       44
+       43
       ],
       "destinations": [
        "/Script/Engine.RendererSettings",
@@ -3782,7 +3795,7 @@
       "rationale": "Valid stock CVar; 1 is already default and enables parallel pass execution when supported. Omit and inherit engine/platform capability handling.",
       "sources": [
        2,
-       44
+       43
       ],
       "destinations": [
        "/Script/Engine.RendererSettings",
@@ -3796,7 +3809,7 @@
       "verdict": "DEFAULT",
       "rationale": "Valid stock rendering control; 1 is already default. Omit and let platform/ engine policy manage frontend parallelization.",
       "sources": [
-       43
+       42
       ],
       "destinations": [
        "/Script/Engine.RendererSettings",
@@ -3837,7 +3850,7 @@
       "verdict": "CONDITIONAL",
       "rationale": "Valid stock CVar, default 0. Automatic tick batching can reduce task overhead, but Epic notes that the benefit depends on the game's exact tick workload.",
       "sources": [
-       45
+       44
       ],
       "destinations": [
        "ConsoleVariables"
@@ -3865,7 +3878,7 @@
       "rationale": "Valid stock CVar (canonical rhi.ResourceTableCaching); names are case- insensitive. Value 1 is already default. Omit and inherit.",
       "sources": [
        2,
-       46
+       45
       ],
       "destinations": [
        "/Script/Engine.RendererSettings",
@@ -3988,7 +4001,7 @@
       "rationale": "Valid and exactly current default 1. Omit.",
       "sources": [
        2,
-       47
+       46
       ],
       "destinations": [
        "/Script/Engine.GarbageCollectionSettings",
@@ -4003,7 +4016,7 @@
       "rationale": "Valid and exactly current default 1. Omit and inherit project behavior.",
       "sources": [
        2,
-       47
+       46
       ],
       "destinations": [
        "/Script/Engine.GarbageCollectionSettings",
@@ -4018,7 +4031,7 @@
       "rationale": "Valid and exactly current default 1. Omit.",
       "sources": [
        2,
-       47
+       46
       ],
       "destinations": [
        "/Script/Engine.GarbageCollectionSettings",
@@ -4045,7 +4058,7 @@
       "rationale": "Valid stock CVar and exactly default 1. Omit and inherit.",
       "sources": [
        2,
-       48
+       47
       ],
       "destinations": [
        "/Script/Engine.RendererSettings",
@@ -4060,7 +4073,7 @@
       "rationale": "Valid stock CVar and exactly default 1. Omit and inherit.",
       "sources": [
        2,
-       48
+       47
       ],
       "destinations": [
        "/Script/Engine.RendererSettings",
@@ -4075,7 +4088,7 @@
       "rationale": "Valid stock CVar and exactly default 1. Worker eligibility still requires safe project/Animation Blueprint configuration. Omit and inherit.",
       "sources": [
        2,
-       48
+       47
       ],
       "destinations": [
        "/Script/Engine.RendererSettings",
@@ -4115,7 +4128,7 @@
       "rationale": "Valid, current default 1. Value 0 enables async source processing; benefit depends on source count, CPU scheduling, backend, and platform.",
       "sources": [
        2,
-       49
+       48
       ],
       "destinations": [
        "ConsoleVariables"
@@ -4129,7 +4142,7 @@
       "rationale": "Valid, default 0. May reduce audio underruns but steals CPU scheduling priority from other work. Hardware/title-specific.",
       "sources": [
        2,
-       49
+       48
       ],
       "destinations": [
        "ConsoleVariables"
@@ -4143,7 +4156,7 @@
       "rationale": "Valid, current default 128. Larger batches trade command throughput against latency; no universal optimum.",
       "sources": [
        2,
-       49
+       48
       ],
       "destinations": [
        "ConsoleVariables"
@@ -4157,7 +4170,7 @@
       "rationale": "Valid and exactly current default 1. Omit.",
       "sources": [
        2,
-       49
+       48
       ],
       "destinations": [
        "ConsoleVariables"
@@ -4183,7 +4196,7 @@
       "rationale": "Source state: active under [SystemSettings]. Valid stock HDR-output switch, default 0. It requires compatible display, OS, RHI, output-device and gamut handling, so expose it only as an explicit display choice.",
       "sources": [
        2,
-       50
+       49
       ],
       "destinations": [
        "SystemSettings"
@@ -4234,7 +4247,7 @@
       "verdict": "CONDITIONAL",
       "rationale": "Real CrashReportClient privacy control. On Windows/macOS it already defaults false; Linux defaults true. Retain only as an explicit user privacy choice, not a performance preset.",
       "sources": [
-       51
+       50
       ],
       "destinations": [
        "CrashReportClient",
@@ -4249,7 +4262,7 @@
       "rationale": "Valid D3D12 crash-debug option and exactly default 0. Omit.",
       "sources": [
        2,
-       52
+       51
       ],
       "destinations": [
        "/Script/Engine.RendererSettings",
@@ -4278,7 +4291,7 @@
       "rationale": "Valid vendor crash-analysis master option; 0 is stock default. Omit. Diagnostic features should be enabled deliberately when investigating a crash.",
       "sources": [
        2,
-       52
+       51
       ],
       "destinations": [
        "/Script/Engine.RendererSettings",
@@ -4293,7 +4306,7 @@
       "rationale": "Valid NVIDIA Aftermath option; 0 is the stock default. Omit and inherit.",
       "sources": [
        2,
-       53
+       52
       ],
       "destinations": [
        "/Script/Engine.RendererSettings",
@@ -4308,7 +4321,7 @@
       "rationale": "Valid NVIDIA Aftermath option; 0 is the stock default. Omit and inherit.",
       "sources": [
        2,
-       53
+       52
       ],
       "destinations": [
        "/Script/Engine.RendererSettings",
@@ -4323,7 +4336,7 @@
       "rationale": "Valid vendor crash-dump option; 0 is stock default. Omit and inherit.",
       "sources": [
        2,
-       52
+       51
       ],
       "destinations": [
        "/Script/Engine.RendererSettings",
@@ -4338,7 +4351,7 @@
       "rationale": "Valid stock debugging CVar; 0 is already default and leaves the multithreaded renderer active. Value 1 is a low-level debugging bypass. Omit.",
       "sources": [
        2,
-       54
+       53
       ],
       "destinations": [
        "/Script/Engine.RendererSettings",
@@ -4407,7 +4420,7 @@
       "rationale": "Valid stock CVar; 1 is the documented default, so real-time Sky Light capture already uses time slicing.",
       "sources": [
        2,
-       55
+       54
       ],
       "destinations": [
        "ConsoleVariables"
@@ -4799,10 +4812,6 @@
     "value": "all off"
    },
    {
-    "name": "LogPakFile",
-    "value": "all off"
-   },
-   {
     "name": "LogPhysics",
     "value": "all off"
    },
@@ -4928,30 +4937,6 @@
    },
    {
     "name": "p.RemoveFarBodiesFromBVH",
-    "value": "1"
-   },
-   {
-    "name": "pakcache.CachePerPakFile",
-    "value": "1"
-   },
-   {
-    "name": "pakcache.MaxBlockMemory",
-    "value": "384"
-   },
-   {
-    "name": "pakcache.MaxRequestSizeToLowerLevellKB",
-    "value": "3072"
-   },
-   {
-    "name": "pakcache.MaxRequestsToLowerLevel",
-    "value": "3"
-   },
-   {
-    "name": "pakcache.NumUnreferencedBlocksToCache",
-    "value": "20"
-   },
-   {
-    "name": "pakcache.UseNewTrim",
     "value": "1"
    },
    {
@@ -5527,46 +5512,6 @@
     "value": "512"
    },
    {
-    "name": "s.AllowParallelUObjectCreationFromRequests",
-    "value": "1"
-   },
-   {
-    "name": "s.AsyncLoadingThreadEnabled",
-    "value": "1"
-   },
-   {
-    "name": "s.AsyncLoadingThreadPriority",
-    "value": "2"
-   },
-   {
-    "name": "s.IoDispatcherUseAsyncPriority",
-    "value": "1"
-   },
-   {
-    "name": "s.MaxIncomingRequestsToStall",
-    "value": "1"
-   },
-   {
-    "name": "s.MaxReadyRequestsToStallMB",
-    "value": "0"
-   },
-   {
-    "name": "s.MinBulkDataSizeForAsyncLoading",
-    "value": "0"
-   },
-   {
-    "name": "s.PriorityAsyncLoadingExtraTime",
-    "value": "0.0"
-   },
-   {
-    "name": "s.PriorityLevelStreamingActorsUpdateExtraTime",
-    "value": "0.0"
-   },
-   {
-    "name": "s.Zen.AllowAsyncIO",
-    "value": "1"
-   },
-   {
     "name": "Slate.bAllowThrottling",
     "value": "0"
    },
@@ -5633,30 +5578,6 @@
    {
     "name": "WorkerThreadPriority",
     "value": "0"
-   },
-   {
-    "name": "wp.Runtime.HLODStreaming",
-    "value": "1"
-   },
-   {
-    "name": "wp.Runtime.HLODStreaming.Async",
-    "value": "1"
-   },
-   {
-    "name": "wp.Runtime.PartitionStreaming.Async",
-    "value": "1"
-   },
-   {
-    "name": "wp.Runtime.PartitionStreaming.NumThreads",
-    "value": "4"
-   },
-   {
-    "name": "wp.runtime.UpdateStreaming.EnableAsyncUpdate",
-    "value": "1"
-   },
-   {
-    "name": "wp.Runtime.UpdateStreaming.UseAsyncWorkloadProfile",
-    "value": "1"
    }
   ]
  },
@@ -5836,28 +5757,18 @@
    "order": 8,
    "title": "I have a weaker PC",
    "summary": "Turn this on if your PC has little memory to spare. Textures may look softer, but the game is less likely to run out.",
-   "_note": [
-    "s.IoDispatcherCacheSizeMB is 0 in BOTH states, not switched. The catalog",
-    "carries 2048 -- a 2 GB reservation the audit allows only for 'a",
-    "deliberately profiled high-memory title'. Nobody here has profiled",
-    "anything, so 2048 is made unreachable rather than offered as a choice. It",
-    "rides in this option because low memory is why it matters, even though",
-    "the value does not move with the switch."
-   ],
    "default": "off",
    "states": [
     {
      "label": "off",
      "values": {
-      "r.Streaming.LimitPoolSizeToVRAM": null,
-      "s.IoDispatcherCacheSizeMB": "0"
+      "r.Streaming.LimitPoolSizeToVRAM": null
      }
     },
     {
      "label": "on",
      "values": {
-      "r.Streaming.LimitPoolSizeToVRAM": "1",
-      "s.IoDispatcherCacheSizeMB": "0"
+      "r.Streaming.LimitPoolSizeToVRAM": "1"
      }
     }
    ]
