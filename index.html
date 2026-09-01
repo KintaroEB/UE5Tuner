@@ -45,6 +45,38 @@ code {
 }
 strong { color: #f4f7fa; font-weight: 600; }
 
+/* --------------------------------------------------------- scrollbars */
+/* The category list is longer than the viewport, so the sidebar always
+   shows a bar. The platform default is a pale strip that lands on this
+   page like a piece of a different design, so both engines are styled.
+   Firefox and the standard property take the two-keyword form; Chromium
+   and Safari need the pseudo-elements. */
+
+* { scrollbar-width: thin; scrollbar-color: var(--line) var(--bg); }
+
+::-webkit-scrollbar { width: 10px; height: 10px; }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb {
+  background: var(--line);
+  border-radius: 6px;
+  /* The border is the track colour, so the thumb reads as a slim pill
+     floating in the gutter rather than filling it. */
+  border: 2px solid var(--bg);
+}
+::-webkit-scrollbar-thumb:hover { background: #333b47; }
+::-webkit-scrollbar-thumb:active { background: var(--accent); }
+::-webkit-scrollbar-corner { background: var(--bg); }
+
+/* The sidebar sits on --panel, one step lighter than the page, so its
+   gutter and thumb move up with it or the pill would show a dark halo. */
+nav { scrollbar-color: #2c333d var(--panel); }
+nav::-webkit-scrollbar-track { background: var(--panel); }
+nav::-webkit-scrollbar-thumb {
+  background: #2c333d; border: 2px solid var(--panel);
+}
+nav::-webkit-scrollbar-thumb:hover { background: #3b4453; }
+nav::-webkit-scrollbar-thumb:active { background: var(--accent); }
+
 /* ------------------------------------------------------------- layout */
 .shell { display: flex; min-height: 100vh; }
 
