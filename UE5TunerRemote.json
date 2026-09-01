@@ -633,6 +633,7 @@
     "summary": "How jagged edges are smoothed and how the image is upscaled, including TSR — UE5's default upscaler.",
     "condition": "preference",
     "defaultEnabled": true,
+    "locked": false,
     "presetEnabled": {},
     "reviewerPresetNote": "quality=on balanced=on performance=off",
     "entries": [
@@ -777,6 +778,7 @@
     "summary": "Lens-style image effects: film grain, chromatic aberration (colour fringing), depth of field, bloom, lens flares and image sharpening.",
     "condition": "preference",
     "defaultEnabled": true,
+    "locked": false,
     "presetEnabled": {},
     "reviewerPresetNote": "quality=off balanced=on performance=on",
     "entries": [
@@ -880,6 +882,7 @@
     "summary": "How much motion blur the game applies.",
     "condition": "preference",
     "defaultEnabled": true,
+    "locked": false,
     "presetEnabled": {},
     "reviewerPresetNote": "quality=on balanced=on performance=off",
     "entries": [
@@ -953,6 +956,7 @@
     "summary": "Lumen — UE5's lighting and reflections system; how detailed and accurate indirect light and reflections are.",
     "condition": "always",
     "defaultEnabled": true,
+    "locked": false,
     "presetEnabled": {},
     "reviewerPresetNote": "quality=on balanced=on performance=off",
     "entries": [
@@ -1319,6 +1323,7 @@
     "summary": "Hardware ray tracing — more accurate reflections, shadows and lighting on GPUs that support it, including Lumen's ray-traced mode.",
     "condition": "raytracing-gpu",
     "defaultEnabled": true,
+    "locked": false,
     "presetEnabled": {
      "performance": false
     },
@@ -1540,6 +1545,7 @@
     "summary": "MegaLights — UE5's newer lighting system for scenes with many lights; tuning for games that use it.",
     "condition": "game-feature",
     "defaultEnabled": true,
+    "locked": false,
     "presetEnabled": {},
     "reviewerPresetNote": "quality=on balanced=on performance=on",
     "entries": [
@@ -1626,6 +1632,7 @@
     "summary": "Shadow resolution and memory use, how detailed volumetric fog (light shafts, haze) is, and which method draws the soft contact shadows in corners and crevices.",
     "condition": "always",
     "defaultEnabled": true,
+    "locked": false,
     "presetEnabled": {},
     "reviewerPresetNote": "quality=off balanced=on performance=on",
     "entries": [
@@ -1841,6 +1848,7 @@
     "summary": "Screen-space reflections and water reflection quality.",
     "condition": "always",
     "defaultEnabled": true,
+    "locked": false,
     "presetEnabled": {},
     "reviewerPresetNote": "quality=on balanced=on performance=off",
     "entries": [
@@ -1897,6 +1905,7 @@
     "summary": "Nanite — UE5's geometry system; how much detail it keeps and how much memory it uses.",
     "condition": "always",
     "defaultEnabled": true,
+    "locked": false,
     "presetEnabled": {},
     "reviewerPresetNote": "quality=on balanced=on performance=on",
     "entries": [
@@ -2071,6 +2080,7 @@
     "summary": "Variable Rate Shading — renders parts of the screen at lower detail to save GPU time, on hardware that supports it.",
     "condition": "vrs-gpu",
     "defaultEnabled": true,
+    "locked": false,
     "presetEnabled": {
      "quality": false
     },
@@ -2261,6 +2271,7 @@
     "summary": "Particle effects (Niagara and older emitter systems) — quality, memory use and how they are processed.",
     "condition": "preference",
     "defaultEnabled": true,
+    "locked": false,
     "presetEnabled": {},
     "reviewerPresetNote": "quality=off balanced=on performance=on",
     "entries": [
@@ -2491,6 +2502,7 @@
     "summary": "How much grass and foliage appears and how quickly it builds up around you.",
     "condition": "preference",
     "defaultEnabled": true,
+    "locked": false,
     "presetEnabled": {},
     "reviewerPresetNote": "quality=on balanced=on performance=on",
     "entries": [
@@ -2559,6 +2571,7 @@
     "summary": "How textures are streamed into memory and how sharp they look at an angle — texture sharpness, memory use and loading.",
     "condition": "always",
     "defaultEnabled": true,
+    "locked": false,
     "presetEnabled": {},
     "reviewerPresetNote": "quality=on balanced=on performance=on",
     "entries": [
@@ -2838,6 +2851,7 @@
     "summary": "VSync, frame limits and input latency — how frames reach the screen and how fast they get there.",
     "condition": "preference",
     "defaultEnabled": true,
+    "locked": false,
     "presetEnabled": {},
     "reviewerPresetNote": "quality=off balanced=on performance=on",
     "entries": [
@@ -2919,6 +2933,7 @@
     "summary": "How levels and areas load and unload around the player, and how much memory loading uses.",
     "condition": "always",
     "defaultEnabled": true,
+    "locked": false,
     "presetEnabled": {},
     "reviewerPresetNote": "quality=on balanced=on performance=on",
     "entries": [
@@ -3153,6 +3168,7 @@
     "summary": "Options that pre-compile shaders to reduce hitches and stutter, at the cost of startup time, memory or disk space.",
     "condition": "always",
     "defaultEnabled": true,
+    "locked": false,
     "presetEnabled": {},
     "reviewerPresetNote": "quality=on balanced=on performance=on",
     "entries": [
@@ -3492,6 +3508,7 @@
     "summary": "Occlusion culling — skipping work for objects hidden behind others; more aggressive culling can save CPU but may show late pop-in.",
     "condition": "always",
     "defaultEnabled": true,
+    "locked": false,
     "presetEnabled": {},
     "reviewerPresetNote": "quality=off balanced=on performance=on",
     "entries": [
@@ -3601,6 +3618,7 @@
     "summary": "How graphics memory (VRAM) is organised, defragmented and reused — advanced internals, safe to leave on.",
     "condition": "always",
     "defaultEnabled": true,
+    "locked": false,
     "presetEnabled": {},
     "reviewerPresetNote": "quality=on balanced=on performance=on",
     "entries": [
@@ -3767,6 +3785,7 @@
     "summary": "How much work the engine spreads across CPU cores — advanced internals, safe to leave on.",
     "condition": "always",
     "defaultEnabled": true,
+    "locked": false,
     "presetEnabled": {},
     "reviewerPresetNote": "quality=on balanced=on performance=on",
     "entries": [
@@ -4022,6 +4041,7 @@
     "summary": "Chaos — the physics system; internal optimisations, safe to leave on.",
     "condition": "always",
     "defaultEnabled": true,
+    "locked": false,
     "presetEnabled": {},
     "reviewerPresetNote": "quality=on balanced=on performance=on",
     "entries": [
@@ -4104,6 +4124,7 @@
     "summary": "How the engine frees unused memory — internal, safe to leave on.",
     "condition": "always",
     "defaultEnabled": true,
+    "locked": false,
     "presetEnabled": {},
     "reviewerPresetNote": "quality=on balanced=on performance=on",
     "entries": [
@@ -4174,6 +4195,7 @@
     "summary": "How character, object and recorded-mesh animation is processed — internal, safe to leave on.",
     "condition": "always",
     "defaultEnabled": true,
+    "locked": false,
     "presetEnabled": {},
     "reviewerPresetNote": "quality=on balanced=on performance=on",
     "entries": [
@@ -4241,6 +4263,7 @@
     "summary": "How audio processing is scheduled to avoid stutter and crackle.",
     "condition": "preference",
     "defaultEnabled": true,
+    "locked": false,
     "presetEnabled": {},
     "reviewerPresetNote": "quality=on balanced=on performance=on",
     "entries": [
@@ -4309,6 +4332,7 @@
     "summary": "HDR — brighter highlights and wider colour range on an HDR-capable display.",
     "condition": "hdr-display",
     "defaultEnabled": true,
+    "locked": false,
     "presetEnabled": {},
     "reviewerPresetNote": "quality=on balanced=on performance=on",
     "entries": [
@@ -4335,6 +4359,7 @@
     "summary": "Whether the game limits itself to save battery on laptops.",
     "condition": "laptop",
     "defaultEnabled": true,
+    "locked": false,
     "presetEnabled": {},
     "reviewerPresetNote": "quality=on balanced=on performance=on",
     "entries": [
@@ -4361,6 +4386,7 @@
     "summary": "Crash reporting (privacy choice) and GPU debugging data — the debugging options are safe to leave off.",
     "condition": "preference",
     "defaultEnabled": true,
+    "locked": true,
     "presetEnabled": {},
     "reviewerPresetNote": "quality=on balanced=on performance=on",
     "entries": [
@@ -4547,6 +4573,7 @@
     "summary": "Low-level rendering internals — detail level, sky, skin and transparent-object handling; safe to leave on.",
     "condition": "always",
     "defaultEnabled": true,
+    "locked": false,
     "presetEnabled": {},
     "reviewerPresetNote": "quality=on balanced=on performance=on",
     "entries": [
