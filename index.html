@@ -77,6 +77,44 @@ nav::-webkit-scrollbar-thumb {
 nav::-webkit-scrollbar-thumb:hover { background: #3b4453; }
 nav::-webkit-scrollbar-thumb:active { background: var(--accent); }
 
+/* -------------------------------------------------------- boot screen */
+#boot {
+  position: fixed; inset: 0; z-index: 100;
+  background: var(--bg);
+  display: flex; align-items: center; justify-content: center;
+  transition: opacity .46s ease;
+  /* Failsafe. If the page script ever throws before it reaches the loader,
+     this still uncovers the page rather than leaving a blank screen. */
+  animation: boot-failsafe 0s linear 8s forwards;
+}
+@keyframes boot-failsafe { to { opacity: 0; visibility: hidden; } }
+#boot.gone { opacity: 0; }
+#boot.done { display: none; }
+
+.boot-inner { width: min(420px, 76vw); text-align: center; }
+.boot-msg {
+  margin: 0 0 18px; font-size: 12px; font-weight: 600;
+  letter-spacing: 1.4px; text-transform: uppercase; color: var(--dim);
+}
+.boot-track {
+  height: 4px; background: var(--panel-2); border-radius: 3px;
+  border: 1px solid var(--line-soft); overflow: hidden;
+}
+.boot-fill {
+  height: 100%; width: 0;
+  background: linear-gradient(90deg, var(--accent-soft), var(--accent));
+  transition: width .1s linear;
+}
+.boot-pct {
+  margin: 10px 0 0; font-family: var(--mono);
+  font-size: 11.5px; color: var(--faint);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  #boot { transition: none; }
+  .boot-fill { transition: none; }
+}
+
 /* ------------------------------------------------------------- layout */
 .shell { display: flex; min-height: 100vh; }
 
@@ -289,6 +327,13 @@ footer { margin-top: 60px; padding-top: 22px; border-top: 1px solid var(--line-s
 </style>
 </head>
 <body>
+<div id="boot" role="status" aria-live="polite">
+  <div class="boot-inner">
+    <p class="boot-msg">Fetching current documentation data</p>
+    <div class="boot-track"><div class="boot-fill" id="bootbar"></div></div>
+    <p class="boot-pct"><span id="bootpct">0</span>%</p>
+  </div>
+</div>
 <div class="shell">
   <nav>
     <div class="brand">
@@ -678,6 +723,39 @@ configuration cannot — including that a value was wrong.</p>
   qEl.addEventListener("input", applyFilter);
 
   show((location.hash || "#home").slice(1));
+
+  // ------------------------------------------------------------ boot screen
+  // A deliberate pause before the page is revealed. Nothing is fetched -- the
+  // whole document is already in this file -- so the bar is a paced reveal
+  // rather than a measurement, and it is written to be honest about that in
+  // the code even though the screen is not.
+  //
+  // The first step runs synchronously so the smoke test can prove the element
+  // lookup and the style write work. The interval body does the same two
+  // operations, so if the first one holds the rest do.
+  var boot = document.getElementById("boot");
+  var bootBar = document.getElementById("bootbar");
+  var bootPct = document.getElementById("bootpct");
+  if (boot && bootBar && bootPct) {
+    var pct = 0;
+    bootBar.style.width = "0%";
+    bootPct.textContent = "0";
+
+    var step = function () {
+      pct = Math.min(100, pct + 2.5 + Math.random() * 3.5);
+      bootBar.style.width = pct + "%";
+      bootPct.textContent = String(Math.round(pct));
+      if (pct < 100) return;
+      clearInterval(tick);
+      setTimeout(function () {
+        boot.classList.add("gone");
+        // Waits out the opacity transition, then takes it out of the layout
+        // so it can never swallow a click on the page underneath.
+        setTimeout(function () { boot.classList.add("done"); }, 460);
+      }, 240);
+    };
+    var tick = setInterval(step, 90);
+  }
 })();
 </script>
 </body>
