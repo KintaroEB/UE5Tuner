@@ -751,19 +751,24 @@ configuration cannot — including that a value was wrong.</p>
     bootBar.style.width = "0%";
     bootPct.textContent = "0";
 
-    // One hold, somewhere in the middle third, so the fill reads as work
-    // rather than as a timer. Its position and length are picked once per
-    // load, so two visits do not stall in the same place.
-    var stutterAt = 34 + Math.random() * 30;
-    var stuttered = false;
+    // Three or four brief catches rather than one long pause. Each is short
+    // enough to read as a judder instead of a stall, and they are placed one
+    // per band across the middle of the fill so they cannot clump into what
+    // would look like a single hold. Count, position and length are all
+    // picked per load, so two visits never catch in the same places.
+    var holdCount = 3 + Math.round(Math.random());
+    var holds = [];
+    for (var h = 0; h < holdCount; h++) {
+      holds.push(20 + h * (62 / holdCount) + Math.random() * (62 / holdCount));
+    }
     var held = false;
 
     var step = function () {
       if (held) return;
-      if (!stuttered && pct >= stutterAt) {
-        stuttered = true;
+      if (holds.length && pct >= holds[0]) {
+        holds.shift();
         held = true;
-        setTimeout(function () { held = false; }, 230 + Math.random() * 250);
+        setTimeout(function () { held = false; }, 70 + Math.random() * 70);
         return;
       }
       // Small steps at frame rate rather than large ones four times a
