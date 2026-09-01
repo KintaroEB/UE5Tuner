@@ -91,23 +91,32 @@ nav::-webkit-scrollbar-thumb:active { background: var(--accent); }
 #boot.gone { opacity: 0; }
 #boot.done { display: none; }
 
-.boot-inner { width: min(420px, 76vw); text-align: center; }
+.boot-inner { width: min(560px, 84vw); text-align: center; }
+.boot-logo {
+  /* clamp so it stays a wordmark on a phone instead of wrapping. */
+  margin: 0 0 22px; font-size: clamp(36px, 7.5vw, 56px);
+  font-weight: 700; letter-spacing: -1px; line-height: 1;
+  color: var(--text);
+}
+.boot-logo span { color: var(--accent); }
 .boot-msg {
-  margin: 0 0 18px; font-size: 12px; font-weight: 600;
+  margin: 0 0 20px; font-size: 12px; font-weight: 600;
   letter-spacing: 1.4px; text-transform: uppercase; color: var(--dim);
 }
 .boot-track {
-  height: 4px; background: var(--panel-2); border-radius: 3px;
+  height: 9px; background: var(--panel-2); border-radius: 6px;
   border: 1px solid var(--line-soft); overflow: hidden;
 }
 .boot-fill {
-  height: 100%; width: 0;
+  height: 100%; width: 0; border-radius: 6px;
   background: linear-gradient(90deg, var(--accent-soft), var(--accent));
+  /* Just enough glow to read as lit rather than painted. */
+  box-shadow: 0 0 14px rgba(10, 163, 255, .35);
   transition: width .1s linear;
 }
 .boot-pct {
-  margin: 10px 0 0; font-family: var(--mono);
-  font-size: 11.5px; color: var(--faint);
+  margin: 12px 0 0; font-family: var(--mono);
+  font-size: 12.5px; color: var(--faint);
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -329,6 +338,7 @@ footer { margin-top: 60px; padding-top: 22px; border-top: 1px solid var(--line-s
 <body>
 <div id="boot" role="status" aria-live="polite">
   <div class="boot-inner">
+    <h2 class="boot-logo"><span>UE5</span> Tuner</h2>
     <p class="boot-msg">Fetching current documentation data</p>
     <div class="boot-track"><div class="boot-fill" id="bootbar"></div></div>
     <p class="boot-pct"><span id="bootpct">0</span>%</p>
