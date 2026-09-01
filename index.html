@@ -112,7 +112,7 @@ nav::-webkit-scrollbar-thumb:active { background: var(--accent); }
   background: linear-gradient(90deg, var(--accent-soft), var(--accent));
   /* Just enough glow to read as lit rather than painted. */
   box-shadow: 0 0 14px rgba(10, 163, 255, .35);
-  transition: width .1s linear;
+  transition: width .05s linear;
 }
 .boot-pct {
   margin: 12px 0 0; font-family: var(--mono);
@@ -751,9 +751,26 @@ configuration cannot — including that a value was wrong.</p>
     bootBar.style.width = "0%";
     bootPct.textContent = "0";
 
+    // One hold, somewhere in the middle third, so the fill reads as work
+    // rather than as a timer. Its position and length are picked once per
+    // load, so two visits do not stall in the same place.
+    var stutterAt = 34 + Math.random() * 30;
+    var stuttered = false;
+    var held = false;
+
     var step = function () {
-      pct = Math.min(100, pct + 2.5 + Math.random() * 3.5);
-      bootBar.style.width = pct + "%";
+      if (held) return;
+      if (!stuttered && pct >= stutterAt) {
+        stuttered = true;
+        held = true;
+        setTimeout(function () { held = false; }, 230 + Math.random() * 250);
+        return;
+      }
+      // Small steps at frame rate rather than large ones four times a
+      // second: the bar moves instead of jumping, and the CSS transition is
+      // short enough that it smooths the jitter without trailing behind.
+      pct = Math.min(100, pct + 0.65 + Math.random() * 0.5);
+      bootBar.style.width = pct.toFixed(1) + "%";
       bootPct.textContent = String(Math.round(pct));
       if (pct < 100) return;
       clearInterval(tick);
@@ -764,7 +781,7 @@ configuration cannot — including that a value was wrong.</p>
         setTimeout(function () { boot.classList.add("done"); }, 460);
       }, 240);
     };
-    var tick = setInterval(step, 90);
+    var tick = setInterval(step, 16);
   }
 })();
 </script>
