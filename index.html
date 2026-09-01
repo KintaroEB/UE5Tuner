@@ -31,6 +31,11 @@
   --good: #3fd39b;
   --warn: #f0a94c;
   --bad: #ff6b6b;
+  /* Two colours used only on the boot screen: the host's own orange, and a
+     light magenta for the build stamp, which belongs to neither the page
+     palette nor the host and should not be mistaken for either. */
+  --cloudflare: #f6821f;
+  --stamp: #e08add;
   --mono: ui-monospace, "Cascadia Mono", "JetBrains Mono", Consolas, monospace;
   --sans: "Segoe UI", -apple-system, BlinkMacSystemFont, Roboto, system-ui, sans-serif;
   --r: 4px;
@@ -124,6 +129,14 @@ nav::-webkit-scrollbar-thumb:active { background: var(--accent); }
   margin: 12px 0 0; font-family: var(--mono);
   font-size: 12.5px; color: var(--faint);
 }
+.boot-host {
+  margin: 22px 0 0; font-size: 11.5px; font-weight: 600;
+  letter-spacing: .8px; color: var(--dim); text-transform: uppercase;
+}
+/* Cloudflare's own orange, which also sits a shade above the burnt orange
+   the app icon uses for its fader handles, so the two do not clash. */
+.boot-cf { color: var(--cloudflare); }
+.boot-date { color: var(--stamp); }
 
 @media (prefers-reduced-motion: reduce) {
   #boot { transition: none; }
@@ -348,6 +361,7 @@ footer { margin-top: 60px; padding-top: 22px; border-top: 1px solid var(--line-s
     <p class="boot-msg">Fetching current documentation data</p>
     <div class="boot-track"><div class="boot-fill" id="bootbar"></div></div>
     <p class="boot-pct"><span id="bootpct">0</span>%</p>
+    <p class="boot-host">Powered by <span class="boot-cf">Cloudflare</span><span id="bootbuild" class="boot-date"></span></p>
   </div>
 </div>
 <div class="shell">
@@ -749,6 +763,14 @@ configuration cannot — including that a value was wrong.</p>
   // The first step runs synchronously so the smoke test can prove the element
   // lookup and the style write work. The interval body does the same two
   // operations, so if the first one holds the rest do.
+  // Cloudflare publishes no version a page can read, and inventing one would
+  // be worse than saying nothing. The build date is real and comes from the
+  // data block, so that is what goes beside the name.
+  var bootBuild = document.getElementById("bootbuild");
+  if (bootBuild && DATA.generated) {
+    bootBuild.textContent = " · data built " + DATA.generated;
+  }
+
   var boot = document.getElementById("boot");
   var bootBar = document.getElementById("bootbar");
   var bootPct = document.getElementById("bootpct");
