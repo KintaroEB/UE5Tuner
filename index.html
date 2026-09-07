@@ -35,13 +35,26 @@
      light magenta for the build stamp, which belongs to neither the page
      palette nor the host and should not be mistaken for either. */
   --cloudflare: #f6821f;
+  /* The catalogue tab. Magenta rather than orange: the boot screen already
+     spends orange on Cloudflare's own mark, and two oranges on one site
+     read as one of them being wrong. It also sits opposite the blue rather
+     than beside it, so the two tabs cannot be mistaken for each other.
+
+     It takes the build stamp's value rather than a copy of it, so the two
+     magentas on this page cannot drift a shade apart in a later edit. */
   --stamp: #e08add;
+  --games: var(--stamp);
   --mono: ui-monospace, "Cascadia Mono", "JetBrains Mono", Consolas, monospace;
   --sans: "Segoe UI", -apple-system, BlinkMacSystemFont, Roboto, system-ui, sans-serif;
   --r: 4px;
 }
 * { box-sizing: border-box; }
-html { scroll-behavior: smooth; }
+/* scrollbar-gutter reserves the scrollbar's width whether or not one is
+   showing. Without it a short page has no scrollbar and a long one does,
+   so the whole layout shifts sideways by ten pixels as you move between
+   them. The gutter is invisible when unused -- the track is painted the
+   same colour as what it sits on. */
+html { scroll-behavior: smooth; scrollbar-gutter: stable; }
 body {
   margin: 0; background: var(--bg); color: var(--text);
   font-family: var(--sans); font-size: 15px; line-height: 1.65;
@@ -79,13 +92,19 @@ strong { color: #f4f7fa; font-weight: 600; }
 ::-webkit-scrollbar-corner { background: var(--bg); }
 
 /* The sidebar sits on --panel, one step lighter than the page, so its
-   gutter and thumb move up with it or the pill would show a dark halo. */
-nav { scrollbar-color: #2c333d var(--panel); }
-nav::-webkit-scrollbar-track { background: var(--panel); }
+   gutter and thumb move up with it or the pill would show a dark halo.
+
+   The track is drawn rather than hidden, so the rail runs the full height
+   whether or not there is anything to scroll. Reserving the space was not
+   enough on its own: an empty gutter reads as a missing scrollbar, and the
+   sidebar looked like two different components on the two tabs. The thumb
+   is a clear step brighter, so it still reads as the part that moves. */
+nav { scrollbar-color: #39424f #20262e; }
+nav::-webkit-scrollbar-track { background: #20262e; }
 nav::-webkit-scrollbar-thumb {
-  background: #2c333d; border: 2px solid var(--panel);
+  background: #39424f; border: 2px solid #20262e;
 }
-nav::-webkit-scrollbar-thumb:hover { background: #3b4453; }
+nav::-webkit-scrollbar-thumb:hover { background: #4a5566; }
 nav::-webkit-scrollbar-thumb:active { background: var(--accent); }
 
 /* -------------------------------------------------------- boot screen */
@@ -147,19 +166,41 @@ nav::-webkit-scrollbar-thumb:active { background: var(--accent); }
 .shell { display: flex; min-height: 100vh; }
 
 nav {
-  width: 300px; flex: 0 0 300px; background: var(--panel);
+  width: 450px; flex: 0 0 450px; background: var(--panel);
   border-right: 1px solid var(--line); padding: 0 0 60px;
-  position: sticky; top: 0; height: 100vh; overflow-y: auto;
+  position: sticky; top: 0; height: 100vh;
+  /* Twenty-seven categories overflow and scroll, the game panel does not,
+     so switching tabs moved every element in the sidebar ten pixels.
+
+     "scroll" rather than "auto" because the gutter has to be painted, not
+     merely reserved: the rail is part of the sidebar's edge, and a tab
+     where it vanishes looks like a different component. scrollbar-gutter
+     stays for the browsers that overlay their scrollbars instead. */
+  overflow-y: scroll; scrollbar-gutter: stable;
 }
-nav .brand {
-  padding: 24px 22px 18px; border-bottom: 1px solid var(--line);
-  border-top: 2px solid var(--accent);
+/* ------------------------------------------------------------- tabs */
+/* The coloured rule on top is the whole of the selected state. A tab that
+   is not current keeps its colour at a third strength, so you can see
+   where the other one is without it competing. */
+.tabs { border-bottom: 1px solid var(--line); }
+.tab {
+  display: block; text-decoration: none;
+  padding: 20px 22px; font-size: 13px; font-weight: 700;
+  letter-spacing: 1.2px; text-transform: uppercase;
+  color: var(--dim); border-top: 3px solid transparent;
 }
-nav .brand h1 {
-  font-size: 12px; margin: 0 0 6px; letter-spacing: 1.4px;
-  text-transform: uppercase; color: var(--text); font-weight: 700;
-}
-nav .brand h1 { margin-bottom: 0; }
+.tab + .tab { border-bottom: 1px solid var(--line-soft); }
+
+/* Each tab carries its own colour at all times, so the pair reads as two
+   buttons rather than as a heading with something under it. The current
+   one is the same colour turned up, with white text and a solid rule. */
+.tab-doc { background: #0b1e2e; border-top-color: #16405e; }
+.tab-doc:hover { background: #0f2c43; color: var(--text); }
+.tab-doc.on { background: #123a58; border-top-color: var(--accent); color: var(--text); }
+
+.tab-games { background: #341031; border-top-color: #632159; }
+.tab-games:hover { background: #4a1744; color: var(--text); }
+.tab-games.on { background: #6e1f63; border-top-color: var(--games); color: var(--text); }
 
 /* ------------------------------------------------------- get the app */
 .get { padding: 16px 18px 4px; }
@@ -381,6 +422,140 @@ footer { margin-top: 60px; padding-top: 22px; border-top: 1px solid var(--line-s
   .kv dt { padding-bottom: 0; border-top: 1px solid var(--line-soft); }
   .kv dd { border-top: 0; padding-top: 2px; }
 }
+
+/* ---------------------------------------------------- the game catalog */
+.ggrid {
+  display: grid; gap: 16px; margin: 26px 0 0;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+}
+.gcard {
+  display: block; text-decoration: none; background: var(--panel);
+  border: 1px solid var(--line); border-radius: var(--r); overflow: hidden;
+}
+.gcard:hover { border-color: var(--games); }
+.gcard.on { border-color: var(--games); box-shadow: 0 0 0 1px var(--games); }
+/* Most games will have extras and some will not, so the mark says which.
+   Without it a reader learns only by clicking, and half the clicks would
+   answer "nothing recorded yet", which reads as the feature being broken
+   rather than as that one game being thin. */
+/* The command filter already owns this class, and a hidden tile has to be
+   out of the grid rather than merely invisible, or the rows keep its gap. */
+.gcard.hidden { display: none; }
+.gcard.has { position: relative; }
+.gcard.has::after {
+  content: ""; position: absolute; top: 8px; right: 8px;
+  width: 7px; height: 7px; border-radius: 50%;
+  background: var(--games); box-shadow: 0 0 0 2px rgba(8, 9, 12, .75);
+}
+/* 16:9, the shape the covers are already in, so nothing is cropped and a
+   slow image leaves a hole the right size rather than jumping the grid. */
+.gcard-art { display: block; width: 100%; aspect-ratio: 16 / 9; object-fit: cover; background: var(--panel-2); }
+.gcard-name {
+  display: block; padding: 10px 12px; font-size: 12.5px; font-weight: 600;
+  color: var(--text); line-height: 1.35;
+}
+
+/* ------------------------------------------- the sidebar, on that tab */
+.gameside { padding: 18px; }
+.gs-hint { margin: 0; font-size: 12px; color: var(--faint); line-height: 1.6; }
+.gs-art {
+  display: block; width: 100%; aspect-ratio: 16 / 9; object-fit: cover;
+  border-radius: var(--r); border: 1px solid var(--line); background: var(--panel-2);
+}
+.gs-name { margin: 14px 0 0; font-size: 15px; color: var(--text); line-height: 1.3; }
+.gs-label {
+  margin: 18px 0 5px; font-size: 10px; font-weight: 700; letter-spacing: 1.1px;
+  text-transform: uppercase; color: var(--games);
+}
+/* The path is the one thing here somebody retypes, so it gets the mono face
+   and is allowed to break anywhere rather than overflow a 300px column. */
+.gs-path {
+  margin: 0; font-family: var(--mono); font-size: 11px; color: var(--dim);
+  line-height: 1.55; word-break: break-all;
+}
+.gs-note { margin: 0; font-size: 11.5px; color: var(--dim); line-height: 1.6; }
+
+/* ------------------------------------------------ the picked game panel */
+/* Sits above the heading, so a pick is the first thing on the page, and the
+   grid below simply starts lower. Nothing inside the grid moves. */
+.gpanel {
+  margin: 0 0 34px; padding: 0; background: var(--panel);
+  border: 1px solid var(--line); border-left: 3px solid var(--games);
+  border-radius: var(--r); overflow: hidden;
+}
+
+.gp-head {
+  display: flex; align-items: center; gap: 16px; padding: 14px 16px;
+  background: var(--panel-2); border-bottom: 1px solid var(--line);
+}
+.gp-art {
+  width: 132px; aspect-ratio: 16 / 9; object-fit: cover; flex: none;
+  border-radius: var(--r); background: var(--panel);
+}
+.gp-name { margin: 0; font-size: 19px; line-height: 1.25; flex: 1 1 auto; min-width: 0; }
+.gp-x {
+  flex: none; width: 30px; height: 30px; border-radius: var(--r);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 20px; line-height: 1; color: var(--faint);
+  border: 1px solid var(--line); background: var(--panel);
+}
+.gp-x:hover { color: var(--text); border-color: var(--games); }
+
+/* A two-column list rather than a table: the label column is fixed so the
+   values line up, and it collapses to stacked rows on a narrow window. */
+.gp-rows { padding: 6px 16px 14px; }
+.gp-row {
+  display: grid; grid-template-columns: 132px 1fr; gap: 14px;
+  padding: 8px 0; border-bottom: 1px solid var(--line-soft);
+}
+.gp-row:last-child { border-bottom: 0; }
+.gp-key {
+  font-size: 10px; font-weight: 700; letter-spacing: 1.1px;
+  text-transform: uppercase; color: var(--faint); padding-top: 4px;
+}
+.gp-val { font-size: 13.5px; color: var(--text); min-width: 0; }
+.gp-prose { color: var(--dim); line-height: 1.65; }
+/* A field we have no value for. Quiet enough to scan past, present enough
+   that the row is obviously empty rather than obviously broken. */
+.gp-none { color: var(--faint); }
+.gp-a { color: var(--accent); word-break: break-all; }
+
+/* Two rows of chips whether or not the tags fill them. Twelve tags run
+   between 88 and 146 characters across our fifty games, which is the
+   difference between two wrapped lines and three, and that difference
+   moved the grid below. */
+.gp-tags { display: flex; flex-wrap: wrap; gap: 6px; min-height: 52px; align-content: flex-start; }
+.gp-tag {
+  padding: 2px 9px; font-size: 11.5px; color: var(--dim);
+  background: var(--panel-2); border: 1px solid var(--line);
+  border-radius: 999px;
+}
+
+.gp-links {
+  display: flex; flex-wrap: wrap; gap: 8px;
+  padding: 14px 16px; border-top: 1px solid var(--line-soft);
+}
+.gp-btn {
+  padding: 6px 13px; font-size: 12px; color: var(--dim);
+  background: var(--panel-2); border: 1px solid var(--line);
+  border-radius: var(--r);
+}
+.gp-btn:hover { color: var(--text); border-color: var(--games); }
+
+.gp-stamp {
+  margin: 0; padding: 0 16px 13px; font-size: 11px; color: var(--faint);
+  font-family: var(--mono);
+}
+/* Not an error, and it must not look like one: this is the normal state for
+   a game nobody has written up yet. */
+.gp-empty {
+  margin: 0; padding: 13px 16px 0; font-size: 12.5px; color: var(--faint);
+}
+
+@media (max-width: 720px) {
+  .gp-row { grid-template-columns: 1fr; gap: 2px; }
+  .gp-art { width: 92px; }
+}
 </style>
 </head>
 <body>
@@ -395,8 +570,11 @@ footer { margin-top: 60px; padding-top: 22px; border-top: 1px solid var(--line-s
 </div>
 <div class="shell">
   <nav>
-    <div class="brand">
-      <h1>UE5 Tuner — Technical Analysis</h1>
+    <!-- Two tabs, and the coloured rule above each is what marks the one
+         you are on. The paper is the default, so the page opens on it. -->
+    <div class="tabs" id="tabs">
+      <a class="tab tab-doc on" href="#home">UE5 Tuner — Technical Analysis</a>
+      <a class="tab tab-games" href="#games">Game Catalog</a>
     </div>
 
     <!-- The only place the app is offered, so it sits above the filter and
@@ -413,8 +591,13 @@ footer { margin-top: 60px; padding-top: 22px; border-top: 1px solid var(--line-s
         needs <a href="https://dotnet.microsoft.com/en-us/download/dotnet/thank-you/runtime-desktop-8.0.30-windows-x64-installer"
            target="_blank" rel="noopener">.NET 8 Desktop Runtime (x64)</a></p>
     </div>
-    <div class="filter"><input id="q" type="search" placeholder="Filter commands…" autocomplete="off"></div>
+    <div class="filter" id="filter"><input id="q" type="search" placeholder="Filter commands…" autocomplete="off"></div>
     <ol id="nav"></ol>
+
+    <!-- Swapped in for the category list on the catalogue tab. A list of
+         categories means nothing while looking at games, and a sidebar of
+         links that go elsewhere is worse than an empty one. -->
+    <div id="gameside" class="gameside" hidden></div>
   </nav>
   <main id="main"></main>
 </div>
@@ -591,6 +774,8 @@ every command the app writes has an entry here.</p>
 are written by hand and read no other file, so they are free to say things the
 configuration cannot — including that a value was wrong.</p>
 </script>
+<script id="games" type="application/json">[{"id":"1666-amsterdam","title":"1666: Amsterdam","path":"%LOCALAPPDATA%\\Amsterdam\\Saved\\Config\\Windows","note":"Project folder is Amsterdam, not 1666.","extra":{"steamAppId":3949550,"type":"game","developers":["Panache Digital Games"],"publishers":["Panache Digital Games"],"platforms":["windows"],"releaseDate":"25 Aug, 2026","genres":["Adventure","Early Access"],"tags":["Female Protagonist","Third Person","Action-Adventure","Cats","Historical","Lore-Rich","Alternate History","Magic","Dark Fantasy","Story Rich","Open World","Action","Early Access","Adventure","Supernatural","Singleplayer","Atmospheric","Dark","Investigation","LGBTQ+"],"players":179,"reviewScore":"Mixed","reviewsUp":565,"reviewsDown":296,"fetchedOn":"2026-09-07","engine":"Unreal Engine 5"}},{"id":"aphelion","title":"Aphelion","path":"%LOCALAPPDATA%\\PIO\\Saved\\Config\\Windows","note":"Project folder is PIO. Microsoft Store / Xbox App build uses %LOCALAPPDATA%\\PIO\\Saved\\Config\\WinGDK instead of Windows.","extra":{"steamAppId":1966410,"type":"game","developers":["DON'T NOD"],"publishers":["DON'T NOD"],"platforms":["windows"],"releaseDate":"28 Apr, 2026","genres":["Action","Adventure"],"tags":["Sci-fi","Action-Adventure","Cinematic","Parkour","Stealth","Third Person","Emotional","Exploration","Atmospheric","Story Rich","Singleplayer","Mystery","Space","Linear","Narrative","Thriller","Controller","Action","Platformer","LGBTQ+"],"website":"https://dont-nod.com/en/games/aphelion/","players":3,"reviewScore":"Mixed","reviewsUp":219,"reviewsDown":119,"fetchedOn":"2026-09-07","engine":"Unreal Engine 5"}},{"id":"arc-raiders","title":"ARC Raiders","path":"%LOCALAPPDATA%\\PioneerGame\\Saved\\Config\\WindowsClient","note":"Project folder is PioneerGame. WindowsClient, not Windows. Microsoft Store / Xbox App build uses %LOCALAPPDATA%\\PioneerGame\\Saved\\Config\\WinGDKClient instead of WindowsClient.","extra":{"steamAppId":1808500,"type":"game","developers":["Embark Studios"],"publishers":["Embark Studios"],"platforms":["windows"],"releaseDate":"30 Oct, 2025","genres":["Action"],"tags":["Extraction Shooter","Multiplayer","PvP","PvE","Third-Person Shooter","Shooter","Post-apocalyptic","Online Co-Op","Survival","Sci-fi","Third Person","Atmospheric","Crafting","Inventory Management","Action","Open World","Combat","Futuristic","Character Customization","Realistic"],"website":"https://arcraiders.com/","players":26199,"reviewScore":"Very Positive","reviewsUp":340393,"reviewsDown":74651,"fetchedOn":"2026-09-07","engine":"Unreal Engine 5"}},{"id":"ark-survival-ascended","title":"ARK: Survival Ascended","path":"<Game-Install-Folder>\\ShooterGame\\Saved\\Config\\Windows","note":"Config lives in the game install folder, not %LOCALAPPDATA%. Microsoft Store / Xbox App build uses <Game-Install-Folder>\\ShooterGame\\Saved\\Config\\WinGDK instead of Windows.","extra":{"steamAppId":2399830,"type":"game","developers":["Studio Wildcard","Grove Street Games","Instinct Games"],"publishers":["Studio Wildcard","Snail Games USA"],"platforms":["windows"],"releaseDate":"25 Oct, 2023","genres":["Action","Adventure","Indie","Massively Multiplayer","RPG","Early Access"],"tags":["Survival","Open World","Multiplayer","Dinosaurs","Base Building","Crafting","Building","Adventure","Sandbox","Action","Character Customization","PvE","Singleplayer","PvP","Massively Multiplayer","Inventory Management","RPG","Fantasy","Sci-fi","Early Access"],"website":"http://www.playark.com","players":34502,"reviewScore":"Mixed","reviewsUp":70143,"reviewsDown":46933,"fetchedOn":"2026-09-07","engine":"Unreal Engine 5"}},{"id":"beast-of-reincarnation","title":"Beast of Reincarnation","path":"%LOCALAPPDATA%\\BeastOfReincarnation\\Saved\\Config\\Windows","note":"Microsoft Store / Xbox App build uses %LOCALAPPDATA%\\BeastOfReincarnation\\Saved\\Config\\WinGDK instead of Windows.","extra":{"steamAppId":2001760,"type":"game","developers":["GAME FREAK inc."],"publishers":["Fictions"],"platforms":["windows"],"releaseDate":"3 Aug, 2026","genres":["Action","Adventure","RPG"],"tags":["Dogs","Action RPG","Female Protagonist","Singleplayer","Souls-like","Adventure","Combat","Action","RPG","Third Person","Action-Adventure","3D","Open World","Fantasy","Story Rich","Post-apocalyptic","Dark Fantasy","Swordplay","Nature","Difficult"],"players":297,"reviewScore":"Mixed","reviewsUp":3539,"reviewsDown":2497,"fetchedOn":"2026-09-07","engine":"Unreal Engine 5"}},{"id":"black-myth-wukong","title":"Black Myth: Wukong","path":"%LOCALAPPDATA%\\b1\\Saved\\Config\\Windows","note":"Project folder is b1. Shipped on UE5; only the 2020 pre-alpha was UE4.","extra":{"steamAppId":2358720,"type":"game","developers":["Game Science"],"publishers":["Game Science"],"platforms":["windows"],"releaseDate":"20 Aug, 2024","genres":["Action","Adventure","RPG"],"tags":["Mythology","Action RPG","Action","Souls-like","RPG","Combat","Story Rich","Singleplayer","Action-Adventure","Dark Fantasy","Atmospheric","Adventure","3D","Fantasy","Hack and Slash","Difficult","Third Person","Music","Violent","Open World"],"website":"https://www.gamesci.cn/wukong","players":19273,"reviewScore":"Overwhelmingly Positive","reviewsUp":1168161,"reviewsDown":42461,"fetchedOn":"2026-09-07","engine":"Unreal Engine 5"}},{"id":"borderlands-4","title":"Borderlands 4","path":"%USERPROFILE%\\Documents\\My Games\\Borderlands 4\\Saved\\Config\\Windows","note":"Config lives under Documents\\My Games, not %LOCALAPPDATA%.","extra":{"steamAppId":1285190,"type":"game","developers":["Gearbox Software"],"publishers":["2K"],"platforms":["windows"],"releaseDate":"11 Sep, 2025","genres":["Action","Adventure","RPG"],"tags":["FPS","Looter Shooter","PvE","Open World","Co-op","Loot","Action RPG","RPG","First-Person","Action-Adventure","Multiplayer","Action","Controller","Sci-fi","Online Co-Op","Funny","Space","Futuristic","Adventure","LGBTQ+"],"metacritic":81,"website":"https://borderlands.2k.com/","players":5439,"reviewScore":"Mixed","reviewsUp":48551,"reviewsDown":34637,"fetchedOn":"2026-09-07","engine":"Unreal Engine 5"}},{"id":"brigandine-abyss","title":"Brigandine Abyss","path":"%LOCALAPPDATA%\\BrigandineAbyss\\Saved_Release\\Config\\Windows","note":"Uses Saved_Release, not Saved.","extra":{"steamAppId":3211430,"type":"game","developers":["Adglobe"],"publishers":["NIS America, Inc.","Happinet"],"platforms":["windows"],"releaseDate":"26 Aug, 2026","genres":["Simulation","Strategy"],"tags":["Turn-Based Strategy","Strategy","Fantasy","Turn-Based Tactics","Tactical RPG","Simulation","Strategy RPG","Atmospheric","Magic","Emotional","Colorful","Dragons","Immersive Sim","Story Rich","Wargame","Dark Fantasy","Tactical","Singleplayer","2D","3D"],"website":"https://brigandine-abyss.happinet-games.com/","players":150,"reviewScore":"Mostly Negative","reviewsUp":87,"reviewsDown":156,"fetchedOn":"2026-09-07","engine":"Unreal Engine 5"}},{"id":"clair-obscur-expedition-33","title":"Clair Obscur: Expedition 33","path":"%LOCALAPPDATA%\\Sandfall\\Saved\\Config\\Windows","note":"Project folder is Sandfall. Microsoft Store / Xbox App build uses %LOCALAPPDATA%\\Sandfall\\Saved\\Config\\WinGDK instead of Windows.","extra":{"steamAppId":1903340,"type":"game","developers":["Sandfall Interactive"],"publishers":["Kepler Interactive"],"platforms":["windows"],"releaseDate":"24 Apr, 2025","genres":["Action","RPG"],"tags":["Turn-Based Combat","Story Rich","Fantasy","Great Soundtrack","RPG","Singleplayer","JRPG","Exploration","Lore-Rich","Adventure","Party-Based RPG","Dark Fantasy","Action RPG","3D","Souls-like","Character Customization","Post-apocalyptic","Action","Indie","Artificial Intelligence"],"metacritic":91,"website":"https://www.expedition33.com/","players":6940,"reviewScore":"Overwhelmingly Positive","reviewsUp":264562,"reviewsDown":13161,"fetchedOn":"2026-09-07","engine":"Unreal Engine 5"}},{"id":"code-vein-2","title":"Code Vein II","path":"%LOCALAPPDATA%\\CodeVein2\\Saved\\Config\\Windows","note":"Initial release - nothing special.","extra":{"steamAppId":2362060,"type":"game","developers":["Bandai Namco Studios Inc."],"publishers":["Bandai Namco Entertainment Inc."],"platforms":["windows"],"releaseDate":"29 Jan, 2026","genres":["Action","RPG"],"tags":["Action","RPG","Souls-like","Anime","Character Customization","Action RPG","Singleplayer","JRPG","Vampires","Open World","Female Protagonist","Story Rich","Difficult","Atmospheric","Dark Fantasy","Sexual Content","Psychological Horror","Great Soundtrack","Third Person","Dating Sim"],"website":"https://playcodevein.com","players":558,"reviewScore":"Mixed","reviewsUp":4687,"reviewsDown":2506,"fetchedOn":"2026-09-07","engine":"Unreal Engine 5"}},{"id":"cronos-the-new-dawn","title":"Cronos: The New Dawn","path":"%LOCALAPPDATA%\\Cronos\\Saved\\Config\\Windows","note":"Microsoft Store / Xbox App build uses %LOCALAPPDATA%\\Cronos\\Saved\\Config\\WinGDK instead of Windows.","extra":{"steamAppId":2101960,"type":"game","developers":["Bloober Team"],"publishers":["Bloober Team SA"],"platforms":["windows","mac","linux"],"releaseDate":"5 Sep, 2025","genres":["Action"],"tags":["Survival Horror","Horror","Sci-fi","Third-Person Shooter","Combat","Post-apocalyptic","Difficult","Atmospheric","Story Rich","Time Travel","Action","Singleplayer","Action-Adventure","Crafting","Gore","Dark","Futuristic","Third Person","Resource Management","Dystopian "],"website":"http://cronosnewdawn.com","players":170,"reviewScore":"Very Positive","reviewsUp":10285,"reviewsDown":1416,"fetchedOn":"2026-09-07","engine":"Unreal Engine 5"}},{"id":"directive-8020","title":"Directive 8020","path":"%LOCALAPPDATA%\\Directive8020\\Saved\\Config\\Windows","note":"Initial release - nothing special.","extra":{"steamAppId":2255370,"type":"game","developers":["Supermassive Games"],"publishers":["Supermassive Games"],"platforms":["windows"],"releaseDate":"12 May, 2026","genres":["Action","Adventure"],"tags":["Choices Matter","Horror","Adventure","Survival Horror","Psychological Horror","Multiple Endings","Choose Your Own Adventure","Aliens","Space","Stealth","Survival","Cinematic","Immersive","Action-Adventure","Story Rich","Singleplayer","Realistic","Quick-Time Events","Third Person","Multiplayer"],"metacritic":72,"website":"https://www.thedarkpictures.com/games/directive-8020","players":28,"reviewScore":"Mixed","reviewsUp":1401,"reviewsDown":843,"fetchedOn":"2026-09-07","engine":"Unreal Engine 5"}},{"id":"echoes-of-aincrad","title":"Echoes of Aincrad","path":"%LOCALAPPDATA%\\EchoesofAincrad\\Saved\\Config\\WindowsClient","note":"WindowsClient, not Windows. Lowercase 'of' in the folder name.","extra":{"steamAppId":2244210,"type":"game","developers":["Game Studio Inc."],"publishers":["Bandai Namco Entertainment Inc."],"platforms":["windows"],"releaseDate":"9 Jul, 2026","genres":["Action","RPG"],"tags":["Anime","Singleplayer","JRPG","Action RPG","Souls-like","Fantasy","Hack and Slash","3D","RPG","Character Customization","Action","Dark","Futuristic","Adventure","Realistic","Dungeon Crawler","Walking Simulator","VR","Mystery","Female Protagonist"],"players":335,"reviewScore":"Mixed","reviewsUp":2483,"reviewsDown":2702,"fetchedOn":"2026-09-07","engine":"Unreal Engine 5"}},{"id":"fatekeeper","title":"Fatekeeper","path":"%LOCALAPPDATA%\\SLASHER\\Saved\\Config\\Windows","note":"Project folder is SLASHER, not Fatekeeper.","extra":{"steamAppId":2186990,"type":"game","developers":["Paraglacial"],"publishers":["THQ Nordic"],"platforms":["windows"],"releaseDate":"2 Jun, 2026","genres":["Action","RPG","Early Access"],"tags":["Early Access","First-Person","Action","RPG","Action RPG","Dark Fantasy","Hack and Slash","Immersive Sim","3D","Gore","Fantasy","Magic","Atmospheric","Realistic","Singleplayer","Physics","Combat","Exploration","Medieval","Stealth"],"website":"http://fatekeeper.thqnordic.com/","players":75,"reviewScore":"Very Positive","reviewsUp":8664,"reviewsDown":2127,"fetchedOn":"2026-09-07","engine":"Unreal Engine 5"}},{"id":"frostpunk-2","title":"Frostpunk 2","path":"%LOCALAPPDATA%\\11bitstudios\\Frostpunk2\\Steam\\Saved\\Config\\Windows","note":"Steam build lives under 11bitstudios\\Frostpunk2\\Steam. Microsoft Store / Xbox App build uses %LOCALAPPDATA%\\11bitstudios\\Frostpunk2\\MS\\Saved\\Config\\WinGDK instead of Windows.","extra":{"steamAppId":1601580,"type":"game","developers":["11 bit studios"],"publishers":["11 bit studios"],"platforms":["windows","mac"],"releaseDate":"20 Sep, 2024","genres":["Simulation","Strategy"],"tags":["City Builder","Strategy","Survival","Resource Management","Post-apocalyptic","Simulation","Singleplayer","Steampunk","Management","Base Building","Atmospheric","Sequel","Choices Matter","Political Sim","Colony Sim","Great Soundtrack","Violent","Snow","Psychological Horror","4X"],"metacritic":85,"website":"http://www.frostpunk2.com/","players":747,"reviewScore":"Mostly Positive","reviewsUp":20204,"reviewsDown":6814,"fetchedOn":"2026-09-07","engine":"Unreal Engine 5"}},{"id":"gears-of-war-e-day","title":"Gears of War: E-Day","path":"%LOCALAPPDATA%\\FairlightConcept\\Saved\\Config\\Windows","note":"Project folder is FairlightConcept. Microsoft Store / Xbox App build uses %LOCALAPPDATA%\\FairlightConcept\\Saved\\Config\\WinGDK instead of Windows.","extra":{"steamAppId":3010850,"type":"game","developers":["The Coalition"],"publishers":["Xbox Game Studios"],"platforms":["windows"],"releaseDate":"6 Oct, 2026","genres":["Action","Adventure"],"tags":["Action","Adventure","Shooter","Gore","Multiplayer","Co-op","Horror","Third-Person Shooter","Online Co-Op","Co-op Campaign","Third Person","Singleplayer","Story Rich","Sci-fi","Hero Shooter","Split Screen","Open World","Local Co-Op","Local Multiplayer","PvP"],"reviewScore":"No user reviews","reviewsUp":0,"reviewsDown":0,"fetchedOn":"2026-09-07","engine":"Unreal Engine 5"}},{"id":"gothic-1-remake","title":"Gothic 1 Remake","path":"%LOCALAPPDATA%\\G1R\\Saved\\Config\\Windows","note":"Project folder is G1R.","extra":{"steamAppId":1297900,"type":"game","developers":["Alkimia Interactive"],"publishers":["Alkimia Interactive","THQ Nordic"],"platforms":["windows"],"releaseDate":"5 Jun, 2026","genres":["Action","RPG"],"tags":["RPG","Action","Exploration","Adventure","Third Person","Atmospheric","Dark Fantasy","Action RPG","Realistic","Gothic","Fantasy","3D","Medieval","Magic","Combat","Singleplayer","Remake","Story Rich","Crafting","Choose Your Own Adventure"],"website":"http://www.gothic-game.com","players":3325,"reviewScore":"Very Positive","reviewsUp":36109,"reviewsDown":4489,"fetchedOn":"2026-09-07","engine":"Unreal Engine 5"}},{"id":"halo-campaign-evolved","title":"Halo: Campaign Evolved","path":"%LOCALAPPDATA%\\Meteorite\\Saved\\Config\\Windows","note":"Project name is Meteorite, not Halo. Microsoft Store / Xbox App build uses %LOCALAPPDATA%\\Meteorite\\Saved\\Config\\WinGDK instead of Windows.","extra":{"steamAppId":2806050,"type":"game","developers":["Halo Studios"],"publishers":["Xbox Game Studios"],"platforms":["windows"],"releaseDate":"28 Jul, 2026","genres":["Action","Adventure"],"tags":["FPS","Action","Co-op","Singleplayer","Sci-fi","Shooter","Remake","First-Person","Artificial Intelligence","Space","Aliens","Adventure","Story Rich","Atmospheric","Violent","Cinematic","Lore-Rich","Political Sim","Multiplayer","Great Soundtrack"],"website":"https://www.halowaypoint.com/","players":517,"reviewScore":"Mixed","reviewsUp":8269,"reviewsDown":5172,"fetchedOn":"2026-09-07","engine":"Unreal Engine 5"}},{"id":"hell-is-us","title":"Hell is Us","path":"%LOCALAPPDATA%\\HellIsUs\\Saved\\Config\\Windows","note":"Microsoft Store / Xbox App build uses %LOCALAPPDATA%\\HellIsUs\\Saved\\Config\\WinGDK instead of Windows.","extra":{"steamAppId":1620730,"type":"game","developers":["Rogue Factor"],"publishers":["Nacon"],"platforms":["windows"],"releaseDate":"4 Sep, 2025","genres":["Action","Adventure"],"tags":["Action","Singleplayer","Adventure","Third Person","Atmospheric","Souls-like","Story Rich","RPG","Exploration","Action-Adventure","Action RPG","Dark Fantasy","Violent","Open World","Dark","Supernatural","Puzzle","Lovecraftian","Sci-fi","Combat"],"website":"https://hell-is-us.com/","players":237,"reviewScore":"Very Positive","reviewsUp":5734,"reviewsDown":1010,"fetchedOn":"2026-09-07","engine":"Unreal Engine 5"}},{"id":"hell-let-loose-vietnam","title":"Hell Let Loose: Vietnam","path":"%LOCALAPPDATA%\\HLLVietnam\\Saved\\Config\\Windows","note":"Initial release - nothing special.","extra":{"steamAppId":3079210,"type":"game","developers":["Expression Games"],"publishers":["Team17"],"platforms":["windows"],"releaseDate":"13 Aug, 2026","genres":["Action","Massively Multiplayer","Simulation","Strategy"],"tags":["Action","Simulation","Strategy","FPS","Shooter","Military","Massively Multiplayer","Realistic","War","Historical","First-Person","Violent","Gore","Singleplayer","Cold War","Multiplayer","Tactical","PvP","Combat","Vehicular Combat"],"website":"https://www.hellletloose.com/","players":4960,"reviewScore":"Mixed","reviewsUp":7107,"reviewsDown":4474,"fetchedOn":"2026-09-07","engine":"Unreal Engine 5"}},{"id":"high-on-life-2","title":"High on Life 2","path":"%LOCALAPPDATA%\\HighOnLife2\\Saved\\Config\\Windows","note":"Microsoft Store / Xbox App build uses %LOCALAPPDATA%\\HighOnLife2\\Saved\\Config\\WinGDK instead of Windows.","extra":{"steamAppId":2069250,"type":"game","developers":["Squanch Games, Inc."],"publishers":["Squanch Games, Inc."],"platforms":["windows"],"releaseDate":"13 Feb, 2026","genres":["Action","Adventure"],"tags":["Comedy","Action-Adventure","Singleplayer","Skateboarding","FPS","Shooter","3D","Action","Adventure","First-Person","Aliens","Sci-fi","Dark Humor","Futuristic","Space","Combat","Violent","Controller","PvE","Indie"],"website":"https://squanchgames.com/","players":82,"reviewScore":"Mostly Positive","reviewsUp":1845,"reviewsDown":724,"fetchedOn":"2026-09-07","engine":"Unreal Engine 5"}},{"id":"inzoi","title":"inZOI","path":"%LOCALAPPDATA%\\BlueClient\\Saved\\Config\\Windows","note":"Project folder is BlueClient.","extra":{"steamAppId":2456740,"type":"game","developers":["inZOI Studio"],"publishers":["KRAFTON, Inc."],"platforms":["windows","mac"],"releaseDate":"27 Mar, 2025","genres":["Adventure","Casual","Simulation","Early Access"],"tags":["Life Sim","Character Customization","Simulation","Realistic","Singleplayer","Building","Family Friendly","Romance","Sandbox","Sexual Content","Dating Sim","Immersive Sim","Modern","Cats","City Builder","Relaxing","Moddable","Casual","Early Access","Cute"],"website":"https://playinzoi.com","players":4093,"reviewScore":"Mostly Positive","reviewsUp":25258,"reviewsDown":7432,"fetchedOn":"2026-09-07","engine":"Unreal Engine 5"}},{"id":"lego-batman-legacy-of-the-dark-knight","title":"LEGO Batman: Legacy of the Dark Knight","path":"%LOCALAPPDATA%\\Dinner\\Saved\\Config\\Windows","note":"Project name is Dinner.","extra":{"steamAppId":2215200,"type":"game","developers":["TT Games"],"publishers":["Warner Bros. Games","Warner Bros. Interactive Entertainment"],"platforms":["windows"],"releaseDate":"22 May, 2026","genres":["Action","Adventure"],"tags":["Co-op","Open World","Superhero","Comic Book","Multiplayer","Action","Action-Adventure","Local Co-Op","Funny","3D Platformer","Third Person","Adventure","Controller","Story Rich","Family Friendly","Singleplayer","Parody ","Combat","Casual","Atmospheric"],"metacritic":84,"website":"https://legobatmangame.com/","players":858,"reviewScore":"Overwhelmingly Positive","reviewsUp":12962,"reviewsDown":595,"fetchedOn":"2026-09-07","engine":"Unreal Engine 5"}},{"id":"lords-of-the-fallen-2023","title":"Lords of the Fallen","path":"%LOCALAPPDATA%\\LOTF2\\Saved\\Config\\Windows","note":"Project folder is LOTF2. Microsoft Store / Xbox App build uses %LOCALAPPDATA%\\LOTF2\\Saved\\Config\\WinGDK instead of Windows.","extra":{"steamAppId":1501750,"type":"game","developers":["CI Games"],"publishers":["CI Games"],"platforms":["windows"],"releaseDate":"13 Oct, 2023","genres":["Action","Adventure","RPG"],"tags":["Souls-like","Online Co-Op","Dark Fantasy","Combat","Exploration","RPG","Action","Singleplayer","Story Rich","Dragons","Action RPG","Medieval","Action-Adventure","Adventure","Multiplayer","Lore-Rich","Character Customization","Magic","Open World","Fantasy"],"metacritic":75,"website":"https://lordsofthefallen.com/","players":1606,"reviewScore":"Mixed","reviewsUp":38067,"reviewsDown":17997,"fetchedOn":"2026-09-07","engine":"Unreal Engine 5"}},{"id":"mafia-the-old-country","title":"Mafia: The Old Country","path":"%LOCALAPPDATA%\\MafiaTheOldCountry\\Saved\\Config\\Windows","note":"Initial release - nothing special.","extra":{"steamAppId":1941540,"type":"game","developers":["Hangar 13"],"publishers":["2K"],"platforms":["windows"],"releaseDate":"7 Aug, 2025","genres":["Action","Adventure"],"tags":["Story Rich","Stealth","Atmospheric","Action","Third-Person Shooter","Immersive","Crime","Cinematic","Third Person","Shooter","Emotional","Linear","Singleplayer","Historical","Realistic","Action-Adventure","Controller","Combat","Open World","Adventure"],"website":"https://mafia.2k.com/","players":757,"reviewScore":"Mostly Positive","reviewsUp":22148,"reviewsDown":8187,"fetchedOn":"2026-09-07","engine":"Unreal Engine 5"}},{"id":"manor-lords","title":"Manor Lords","path":"%LOCALAPPDATA%\\ManorLords\\Saved\\Config\\Windows","note":"Moved from UE4 to UE5 in version 0.7.987 (August 2024). Microsoft Store / Xbox App build uses %LOCALAPPDATA%\\ManorLords\\Saved\\Config\\WinGDK instead of Windows.","extra":{"steamAppId":1363080,"type":"game","developers":["Slavic Magic"],"publishers":["Hooded Horse"],"platforms":["windows"],"releaseDate":"26 Apr, 2024","genres":["Simulation","Strategy","Early Access"],"tags":["Strategy","Simulation","City Builder","Base Building","Grand Strategy","Historical","Management","Sandbox","Building","Resource Management","Economy","Colony Sim","Open World","Survival","Singleplayer","Moddable","4X","RTS","Diplomacy","Early Access"],"website":"http://www.manorlords.com","players":10520,"reviewScore":"Very Positive","reviewsUp":76859,"reviewsDown":14479,"fetchedOn":"2026-09-07","engine":"Unreal Engine 5"}},{"id":"metal-gear-solid-delta-snake-eater","title":"Metal Gear Solid Delta: Snake Eater","path":"%LOCALAPPDATA%\\MGSDelta\\Saved\\Config\\Windows","note":"Project folder is MGSDelta. Microsoft Store / Xbox App build uses %LOCALAPPDATA%\\MGSDelta\\Saved\\Config\\WinGDK instead of Windows.","extra":{"steamAppId":2417610,"type":"game","developers":["KONAMI"],"publishers":["KONAMI"],"platforms":["windows"],"releaseDate":"28 Aug, 2025","genres":["Action","Adventure"],"tags":["Stealth","Action","Story Rich","Cinematic","Cold War","Remake","Military","Singleplayer","Third-Person Shooter","Action-Adventure","Tactical","Survival","3D","Adventure","Third Person","War","Violent","Exploration","Great Soundtrack","LGBTQ+"],"website":"https://www.konami.com/mg/mgs3r/gate","players":605,"reviewScore":"Very Positive","reviewsUp":16210,"reviewsDown":3208,"fetchedOn":"2026-09-07","engine":"Unreal Engine 5"}},{"id":"mortal-shell-2","title":"Mortal Shell 2","path":"%LOCALAPPDATA%\\MortalShell2\\Saved\\Config\\Windows","note":"Reference target, confirmed by hand. Reflex disturbs frame pacing in this game and its menu offers no way to switch it off, so turn on \"Turn off NVIDIA Reflex\" on the Important tab. Measured: pacing is smooth afterwards and input latency stays good.","extra":{"steamAppId":2584270,"type":"game","developers":["Cold Symmetry"],"publishers":["Playstack"],"platforms":["windows"],"releaseDate":"20 Aug, 2026","genres":["Action","RPG"],"tags":["Souls-like","Dark Fantasy","Violent","Action RPG","Singleplayer","Difficult","Open World","Action","Dark","RPG","Horror","Adventure","Exploration","Hack and Slash","Third Person","Atmospheric","Medieval","Lore-Rich","Gore","Demons"],"website":"http://www.mortalshell.com","players":10866,"reviewScore":"Mostly Positive","reviewsUp":14337,"reviewsDown":4124,"fetchedOn":"2026-09-07","engine":"Unreal Engine 5","tuning":"NVIDIA Reflex disturbs frame pacing here and the game stutters throughout. There is no in-game setting for it, so switch on Turn off NVIDIA Reflex."}},{"id":"neverness-to-everness","title":"Neverness to Everness","path":"%LOCALAPPDATA%\\HT\\Saved\\_Global\\Config\\Windows","note":"Project folder is HT. Uses Saved\\_Global, not Saved.","extra":{"steamAppId":4508340,"type":"game","developers":["Hotta Studio"],"publishers":["Perfect World Games"],"platforms":["windows"],"releaseDate":"8 Jul, 2026","genres":["Action","Adventure","RPG","Free To Play"],"tags":["Free to Play","Open World","Anime","RPG","Adventure","Action","Driving","Combat","JRPG","Multiplayer","Life Sim","Romance","Cartoon","Action-Adventure","3D Platformer","Cinematic","Action RPG","Fishing","Surreal","Motorbike"],"website":"https://nte.perfectworld.com","players":5137,"reviewScore":"Very Positive","reviewsUp":5085,"reviewsDown":1029,"fetchedOn":"2026-09-07","engine":"Unreal Engine 5"}},{"id":"ninja-gaiden-2-black","title":"Ninja Gaiden 2 Black","path":"%LOCALAPPDATA%\\NINJAGAIDEN2BLACK\\Saved\\Config\\Windows","note":"Folder is all-caps NINJAGAIDEN2BLACK. Microsoft Store / Xbox App build uses %LOCALAPPDATA%\\NINJAGAIDEN2BLACK\\Saved\\Config\\WinGDK instead of Windows.","extra":{"steamAppId":3287520,"type":"game","developers":["KOEI TECMO GAMES CO., LTD."],"publishers":["KOEI TECMO GAMES CO., LTD."],"platforms":["windows"],"releaseDate":"23 Jan, 2025","genres":["Action","Adventure"],"tags":["Action","Hack and Slash","Ninja","Gore","Martial Arts","Third Person","Action-Adventure","Swordplay","Violent","Adventure","Difficult","Singleplayer","Combat","Spectacle fighter","Character Action Game","Realistic","Sexual Content","Souls-like"],"metacritic":81,"website":"https://teamninja-studio.com/ng2black/","players":34,"reviewScore":"Mostly Positive","reviewsUp":3250,"reviewsDown":907,"fetchedOn":"2026-09-07","engine":"Unreal Engine 5"}},{"id":"no-more-room-in-hell-2","title":"No More Room in Hell 2","path":"%LOCALAPPDATA%\\NMRiH2\\Saved\\Config\\Windows","note":"Initial release - nothing special.","extra":{"steamAppId":292000,"type":"game","developers":["Torn Banner Studios"],"publishers":["Torn Banner Studios"],"platforms":["windows"],"releaseDate":"11 Aug, 2026","genres":["Action","Indie"],"tags":["Zombies","Multiplayer","Online Co-Op","Co-op","Survival Horror","Action","Survival","FPS","First-Person","Indie","Horror","Shooter","Outbreak Sim","Looter Shooter","Atmospheric","Dark","PvE","Lore-Rich","Adventure","Character Customization"],"metacritic":78,"website":"https://www.nmrih2.com","players":4900,"reviewScore":"Mixed","reviewsUp":15504,"reviewsDown":12004,"fetchedOn":"2026-09-07","engine":"Unreal Engine 5"}},{"id":"palworld","title":"Palworld","path":"%LOCALAPPDATA%\\Pal\\Saved\\Config\\Windows","note":"Microsoft Store / Xbox App build uses %LOCALAPPDATA%\\Pal\\Saved\\Config\\WinGDK instead of Windows.","extra":{"steamAppId":1623730,"type":"game","developers":["Pocketpair"],"publishers":["Pocketpair"],"platforms":["windows"],"releaseDate":"10 Jul, 2026","genres":["Action","Adventure","Indie","RPG"],"tags":["Open World","Survival","Creature Collector","Multiplayer","Open World Survival Craft","Online Co-Op","Crafting","Indie","Co-op","Adventure","Base Building","Sandbox","Building","Automation","Third-Person Shooter","RPG","Action","Anime","Exploration","Singleplayer"],"website":"https://www.pocketpair.jp/palworld","players":129000,"reviewScore":"Very Positive","reviewsUp":459062,"reviewsDown":26422,"fetchedOn":"2026-09-07","engine":"Unreal Engine 5.1"}},{"id":"robocop-rogue-city","title":"RoboCop: Rogue City","path":"%LOCALAPPDATA%\\RoboCop\\Saved\\Config\\Windows","note":"Microsoft Store / Xbox App build uses %LOCALAPPDATA%\\RoboCop\\Saved\\Config\\WinGDK instead of Windows.","extra":{"steamAppId":1681430,"type":"game","developers":["Teyon"],"publishers":["Nacon"],"platforms":["windows","mac"],"releaseDate":"2 Nov, 2023","genres":["Action","Adventure"],"tags":["FPS","Action","Singleplayer","First-Person","Cyberpunk","Story Rich","Shooter","Gore","Sci-fi","Atmospheric","Adventure","Violent","Robots","Soundtrack","RPG","Dystopian ","Crime","Action RPG","Futuristic","1980s"],"metacritic":76,"players":489,"reviewScore":"Very Positive","reviewsUp":32348,"reviewsDown":4812,"fetchedOn":"2026-09-07","engine":"Unreal Engine 5"}},{"id":"routine","title":"Routine","path":"%LOCALAPPDATA%\\Routine\\Saved\\Config\\Windows","note":"Microsoft Store / Xbox App build uses %LOCALAPPDATA%\\Routine\\Saved\\Config\\WinGDK instead of Windows.","extra":{"steamAppId":606160,"type":"game","developers":["Lunar Software"],"publishers":["Raw Fury"],"platforms":["windows"],"releaseDate":"4 Dec, 2025","genres":["Action","Adventure","Indie"],"tags":["Singleplayer","Sci-fi","Psychological Horror","Atmospheric","Cinematic","Dark","Adventure","Horror","Puzzle","First-Person","Walking Simulator","Exploration","Survival Horror","Stealth","Space","Story Rich","Thriller","3D","Action","Aliens"],"metacritic":79,"website":"http://routinegame.com/","players":34,"reviewScore":"Very Positive","reviewsUp":7631,"reviewsDown":671,"fetchedOn":"2026-09-07","engine":"Unreal Engine 5"}},{"id":"stalker-2-heart-of-chornobyl","title":"S.T.A.L.K.E.R. 2: Heart of Chornobyl","path":"%LOCALAPPDATA%\\Stalker2\\Saved\\Config\\Windows","note":"Microsoft Store / Xbox App build uses %LOCALAPPDATA%\\Stalker2\\Saved\\Config\\WinGDK instead of Windows.","extra":{"steamAppId":1643320,"type":"game","developers":["GSC Game World"],"publishers":["GSC Game World (worldwide)","SEGA (Japan)","4Divinity (China and South East Asia)"],"platforms":["windows"],"releaseDate":"20 Nov, 2024","genres":["Action","Adventure","RPG"],"tags":["Open World","FPS","Post-apocalyptic","Survival","Atmospheric","Singleplayer","Shooter","Exploration","RPG","Story Rich","First-Person","Action","Lore-Rich","Sci-fi","Multiple Endings","Nonlinear","Realistic","Choices Matter","Immersive Sim","Cinematic"],"website":"https://www.stalker2.com/","players":23699,"reviewScore":"Mostly Positive","reviewsUp":111584,"reviewsDown":28180,"fetchedOn":"2026-09-07","engine":"Unreal Engine 5"}},{"id":"samson","title":"Samson","path":"%LOCALAPPDATA%\\Samson\\Saved\\Config\\Windows","note":"Initial release - nothing special.","extra":{"steamAppId":3634520,"type":"game","developers":["Liquid Swords"],"publishers":["Liquid Swords"],"platforms":["windows"],"releaseDate":"8 Apr, 2026","genres":["Action","Adventure","Racing"],"tags":["Combat","Singleplayer","Action-Adventure","Fighting","Roguelite","3D","Combat Racing","Beat 'em up","Driving","1990's","3D Fighter","Cinematic","Open World","Violent","Action","Adventure","Racing","Third Person","Controller","Story Rich"],"website":"https://thesamson.com","players":26,"reviewScore":"Mixed","reviewsUp":1807,"reviewsDown":1484,"fetchedOn":"2026-09-07","engine":"Unreal Engine 5"}},{"id":"senuas-saga-hellblade-2","title":"Senua's Saga: Hellblade II","path":"%LOCALAPPDATA%\\Hellblade2\\Saved\\Config\\Windows","note":"Project folder is Hellblade2. Microsoft Store / Xbox App build uses %LOCALAPPDATA%\\Hellblade2\\Saved\\Config\\WinGDK instead of Windows.","extra":{"steamAppId":2461850,"type":"game","developers":["Ninja Theory"],"publishers":["Xbox Game Studios"],"platforms":["windows"],"releaseDate":"21 May, 2024","genres":["Action","Adventure"],"tags":["Action-Adventure","Psychological Horror","Story Rich","Female Protagonist","Cinematic","Mythology","Dark","Action","Adventure","Atmospheric","Singleplayer","Third Person","Horror","Walking Simulator","Psychological","Dark Fantasy","Swordplay","Realistic","Vikings","Combat"],"players":40,"reviewScore":"Very Positive","reviewsUp":8656,"reviewsDown":1332,"fetchedOn":"2026-09-07","engine":"Unreal Engine 5"}},{"id":"silent-hill-2","title":"Silent Hill 2","path":"%LOCALAPPDATA%\\SilentHill2\\Saved\\Config\\Windows","note":"Microsoft Store / Xbox App build uses %LOCALAPPDATA%\\SilentHill2\\Saved\\Config\\WinGDK instead of Windows.","extra":{"steamAppId":2124490,"type":"game","developers":["Bloober Team SA"],"publishers":["KONAMI"],"platforms":["windows"],"releaseDate":"7 Oct, 2024","genres":["Action","Adventure"],"tags":["Psychological Horror","Horror","Story Rich","Survival Horror","Atmospheric","Psychological","Great Soundtrack","Remake","Singleplayer","Third Person","Multiple Endings","Adventure","Exploration","Cinematic","Action","Sexual Content","Violent","Classic","3D","Action-Adventure"],"website":"https://www.konami.com/games/silenthill/2r/","players":1323,"reviewScore":"Very Positive","reviewsUp":61119,"reviewsDown":3463,"fetchedOn":"2026-09-07","engine":"Unreal Engine 5"}},{"id":"silent-hill-f","title":"Silent Hill f","path":"%LOCALAPPDATA%\\SHf\\Saved\\Config\\Windows","note":"Project folder is SHf. Microsoft Store / Xbox App build uses %LOCALAPPDATA%\\SHf\\Saved\\Config\\WinGDK instead of Windows.","extra":{"steamAppId":2947440,"type":"game","developers":["NeoBards Entertainment Ltd."],"publishers":["KONAMI"],"platforms":["windows"],"releaseDate":"24 Sep, 2025","genres":["Action","Adventure"],"tags":["Psychological Horror","Horror","Female Protagonist","Survival Horror","Story Rich","Souls-like","Action","Psychological","Adventure","Atmospheric","Action-Adventure","Exploration","Cinematic","Multiple Endings","Gore","Third Person","Singleplayer","Violent","3D","Combat"],"website":"https://www.konami.com/games/silenthill/f/","players":764,"reviewScore":"Very Positive","reviewsUp":23278,"reviewsDown":5648,"fetchedOn":"2026-09-07","engine":"Unreal Engine 5"}},{"id":"species-unknown","title":"Species: Unknown","path":"%LOCALAPPDATA%\\SpeciesUnknown\\Saved\\Config\\Windows","note":"UE5, dev-confirmed in the Steam 'Which game engine?' discussion. Initial release - nothing special.","extra":{"steamAppId":2747330,"type":"game","developers":["WanadevStudio"],"publishers":["WanadevStudio"],"platforms":["windows"],"releaseDate":"23 Oct, 2025","genres":["Action","Indie","Early Access"],"tags":["Early Access","Horror","Online Co-Op","First-Person","Atmospheric","Aliens","Survival Horror","Multiplayer","Exploration","Stealth","PvE","Sci-fi","FPS","Shooter","Investigation","3D","Psychological Horror","Action","Indie","Space"],"website":"https://www.species-unknown-game.com/","players":484,"reviewScore":"Very Positive","reviewsUp":10392,"reviewsDown":589,"fetchedOn":"2026-09-07","engine":"Unreal Engine 5"}},{"id":"star-wars-zero-company","title":"Star Wars: Zero Company","path":"%LOCALAPPDATA%\\SWZeroCompany\\Saved\\Config\\Windows","note":"Initial release - nothing special.","extra":{"steamAppId":2075800,"type":"game","developers":["Bit Reactor"],"publishers":["Electronic Arts"],"platforms":["windows"],"releaseDate":"27 Aug, 2026","genres":["Adventure","RPG","Simulation","Sports","Strategy"],"tags":["Turn-Based Tactics","Turn-Based Strategy","Sci-fi","Singleplayer","Strategy","Turn-Based Combat","Tactical","Turn-Based","Character Customization","PvE","Isometric","Cinematic","Replay Value","RPG","Strategy RPG","Comedy","Action RTS","Shooter","Grid-Based Movement","Arcade"],"website":"https://www.ea.com/games/starwars/zero-company","players":26127,"reviewScore":"Very Positive","reviewsUp":13455,"reviewsDown":3160,"fetchedOn":"2026-09-07","engine":"Unreal Engine 5"}},{"id":"subnautica-2","title":"Subnautica 2","path":"%LOCALAPPDATA%\\Subnautica2\\Saved\\Config\\Windows","note":"Microsoft Store / Xbox App build uses %LOCALAPPDATA%\\Subnautica2\\Saved\\Config\\WinGDK instead of Windows.","extra":{"steamAppId":1962700,"type":"game","developers":["Unknown Worlds Entertainment"],"publishers":["Unknown Worlds Entertainment"],"platforms":["windows"],"releaseDate":"14 May, 2026","genres":["Action","Adventure","Early Access"],"tags":["Multiplayer","Survival","Underwater","Horror","Exploration","Co-op","Open World","Survival Horror","First-Person","Adventure","Atmospheric","Early Access","Psychological Horror","Sci-fi","Singleplayer","3D","Sandbox","Action","Base Building","Casual"],"website":"https://subnautica.com","players":3310,"reviewScore":"Very Positive","reviewsUp":115642,"reviewsDown":11337,"fetchedOn":"2026-09-07","engine":"Unreal Engine 5"}},{"id":"tekken-8","title":"Tekken 8","path":"%LOCALAPPDATA%\\TEKKEN 8\\Saved\\Config\\Windows","note":"Config folder is 'TEKKEN 8' with a space.","extra":{"steamAppId":1778820,"type":"game","developers":["Bandai Namco Studios Inc."],"publishers":["Bandai Namco Entertainment"],"platforms":["windows"],"releaseDate":"25 Jan, 2024","genres":["Action"],"tags":["Fighting","3D Fighter","Multiplayer","Action","Local Multiplayer","PvP","eSports","Arcade","Singleplayer","Competitive","Character Customization","Martial Arts","Sexual Content","Anime","Controller","Great Soundtrack","Difficult","Gambling","Casual","Nudity"],"metacritic":91,"website":"https://tk8.tekken-official.jp/","players":6962,"reviewScore":"Mixed","reviewsUp":40986,"reviewsDown":31492,"fetchedOn":"2026-09-07","engine":"Unreal Engine 5"}},{"id":"the-blood-of-dawnwalker","title":"The Blood of Dawnwalker","path":"%LOCALAPPDATA%\\Dawnwalker\\Saved\\Config\\Windows","note":"Project folder is Dawnwalker. Microsoft Store / Xbox App build uses %LOCALAPPDATA%\\Dawnwalker\\Saved\\Config\\WinGDK instead of Windows.","extra":{"steamAppId":3751260,"type":"game","developers":["Rebel Wolves"],"publishers":["Bandai Namco Entertainment"],"platforms":["windows"],"releaseDate":"2 Sep, 2026","genres":["Action","Adventure","RPG"],"tags":["RPG","Open World","Dark Fantasy","Adventure","Action RPG","Third Person","Vampires","Singleplayer","Fantasy","Action","Atmospheric","Story Rich","Time Management","Combat","Action-Adventure","Choices Matter","Realistic","Historical","Multiple Endings","Gore"],"website":"https://dawnwalkergame.com","players":59552,"reviewScore":"Very Positive","reviewsUp":10936,"reviewsDown":2180,"fetchedOn":"2026-09-07","engine":"Unreal Engine 5"}},{"id":"oblivion-remastered","title":"The Elder Scrolls IV: Oblivion Remastered","path":"%USERPROFILE%\\Documents\\My Games\\Oblivion Remastered\\Saved\\Config\\Windows","note":"Config lives under Documents\\My Games, not %LOCALAPPDATA%. Microsoft Store / Xbox App build uses %USERPROFILE%\\Documents\\My Games\\Oblivion Remastered\\Saved\\Config\\WinGDK instead of Windows.","extra":{"steamAppId":2623190,"type":"game","developers":["Bethesda Game Studios","Virtuos"],"publishers":["Bethesda Softworks"],"platforms":["windows"],"releaseDate":"22 Apr, 2025","genres":["RPG"],"tags":["RPG","Open World","Fantasy","Singleplayer","Adventure","Character Customization","Exploration","First-Person","Action RPG","Third Person","Story Rich","Action-Adventure","Great Soundtrack","Atmospheric","Violent","Action","Sexual Content","Gore","Medieval","Nudity"],"website":"http://www.elderscrolls.com","players":1800,"reviewScore":"Mostly Positive","reviewsUp":52897,"reviewsDown":17288,"fetchedOn":"2026-09-07","engine":"Unreal Engine 5"}},{"id":"the-finals","title":"THE FINALS","path":"%LOCALAPPDATA%\\Discovery\\Saved\\Config\\WindowsClient","note":"Project folder is Discovery. WindowsClient, not Windows. Microsoft Store / Xbox App build uses %LOCALAPPDATA%\\Discovery\\Saved\\Config\\WinGDKClient instead of WindowsClient.","extra":{"steamAppId":2073850,"type":"game","developers":["Embark Studios"],"publishers":["Embark Studios"],"platforms":["windows"],"releaseDate":"7 Dec, 2023","genres":["Action","Free To Play"],"tags":["Destruction","Free to Play","FPS","Multiplayer","Shooter","PvP","Team-Based","Competitive","Action","First-Person","Arena Shooter","Tactical","Character Customization","Online Co-Op","Combat","Co-op","Class-Based","Atmospheric","Realistic","Battle Royale"],"website":"https://www.reachthefinals.com/","players":13500,"reviewScore":"Mostly Positive","reviewsUp":215754,"reviewsDown":60058,"fetchedOn":"2026-09-07","engine":"Unreal Engine 5"}},{"id":"the-outer-worlds-2","title":"The Outer Worlds 2","path":"%LOCALAPPDATA%\\Arkansas\\Saved\\Config\\Windows","note":"Project folder is Arkansas. Microsoft Store / Xbox App build uses %LOCALAPPDATA%\\Arkansas\\Saved\\Config\\WinGDK instead of Windows.","extra":{"steamAppId":1449110,"type":"game","developers":["Obsidian Entertainment"],"publishers":["Xbox Game Studios"],"platforms":["windows"],"releaseDate":"29 Oct, 2025","genres":["Action","Adventure","RPG"],"tags":["RPG","Singleplayer","Action RPG","Open World","Exploration","First-Person","Sci-fi","Adventure","Character Customization","Action","Choices Matter","Violent","Story Rich","Third Person","Gore","Capitalism","Space","Shooter","Dystopian ","Funny"],"players":282,"reviewScore":"Mostly Positive","reviewsUp":6507,"reviewsDown":2334,"fetchedOn":"2026-09-07","engine":"Unreal Engine 5"}},{"id":"the-sinking-city-2","title":"The Sinking City 2","path":"%LOCALAPPDATA%\\TSC2\\Saved\\Config\\Windows","note":"Initial release - nothing special.","extra":{"steamAppId":2825860,"type":"game","developers":["Frogwares"],"publishers":["Frogwares"],"platforms":["windows"],"releaseDate":"18 Aug, 2026","genres":["Action","Adventure"],"tags":["Lovecraftian","Action","Horror","Third-Person Shooter","Mystery","Story Rich","Action-Adventure","Adventure","Third Person","Realistic","Survival Horror","Combat","Gore","Singleplayer","Violent","Detective","Psychological Horror","Investigation","Sexual Content","Shooter"],"website":"https://frogwares.com","players":244,"reviewScore":"Very Positive","reviewsUp":1322,"reviewsDown":273,"fetchedOn":"2026-09-07","engine":"Unreal Engine 5"}},{"id":"windrose","title":"Windrose","path":"%LOCALAPPDATA%\\R5\\Saved\\Config\\Windows","note":"Project folder is R5. UE5, migrated from the studio's own engine (Steam discussions).","extra":{"steamAppId":3041230,"type":"game","developers":["Kraken Express"],"publishers":["Kraken Express","Pocketpair Publishing (Japan)"],"platforms":["windows"],"releaseDate":"14 Apr, 2026","genres":["Action","Adventure","RPG","Early Access"],"tags":["Early Access","Pirates","Online Co-Op","Open World Survival Craft","Survival","Crafting","PvE","Exploration","Naval Combat","Building","Sailing","Open World","Base Building","Massively Multiplayer","Adventure","Combat","Action-Adventure","Third Person","Action","Singleplayer"],"website":"https://playwindrose.com/","players":5378,"reviewScore":"Very Positive","reviewsUp":45596,"reviewsDown":6886,"fetchedOn":"2026-09-07","engine":"Unreal Engine 5"}},{"id":"wuchang-fallen-feathers","title":"Wuchang: Fallen Feathers","path":"%LOCALAPPDATA%\\Project_Plague\\Saved\\Config\\Windows","note":"Project folder is Project_Plague. Microsoft Store / Xbox App build uses %LOCALAPPDATA%\\Project_Plague\\Saved\\Config\\WinGDK instead of Windows.","extra":{"steamAppId":2277560,"type":"game","developers":["Leenzee"],"publishers":["505 Games"],"platforms":["windows"],"releaseDate":"23 Jul, 2025","genres":["Action","Adventure","RPG"],"tags":["Souls-like","Female Protagonist","Action RPG","Difficult","Hack and Slash","Third Person","Exploration","Open World","Dark Fantasy","Gore","Action-Adventure","Action","RPG","Character Customization","Singleplayer","Dark","Adventure","Combat","Story Rich","Atmospheric"],"metacritic":77,"website":"https://www.wuchanggame.com/","players":1363,"reviewScore":"Mixed","reviewsUp":60312,"reviewsDown":45434,"fetchedOn":"2026-09-07","engine":"Unreal Engine 5"}}]</script>
+<script id="gamefields" type="application/json">[{"key":"engine","label":"Engine","shape":"fact"},{"key":"releaseDate","label":"Released","shape":"fact"},{"key":"developers","label":"Developer","shape":"list"},{"key":"publishers","label":"Publisher","shape":"list"},{"key":"platforms","label":"Platforms","shape":"list"},{"key":"genres","label":"Genres","shape":"list"},{"key":"metacritic","label":"Metacritic","shape":"fact"},{"key":"players","label":"Playing now","shape":"number"},{"key":"reviewScore","label":"Steam reviews","shape":"reviews"},{"key":"website","label":"Official site","shape":"url"},{"key":"tags","label":"Popular tags","shape":"tags"},{"key":"tuning","label":"Our take","shape":"text","empty":"No runtime analysis recorded for this title yet."}]</script>
 <script>
 (function () {
   "use strict";
@@ -601,6 +786,13 @@ configuration cannot — including that a value was wrong.</p>
   var navEl = document.getElementById("nav");
   var mainEl = document.getElementById("main");
   var qEl = document.getElementById("q");
+  var GAMES = JSON.parse(document.getElementById("games").textContent);
+  // Labels, order and shapes come from the FIELDS table in build_site.py,
+  // so a new field on the site is a row there rather than a change here.
+  var GAMEFIELDS = JSON.parse(document.getElementById("gamefields").textContent);
+  var sideEl = document.getElementById("gameside");
+  var filterEl = document.getElementById("filter");
+  var tabsEl = document.getElementById("tabs");
 
   var filled = function (c) { return c.commands.filter(function (e) { return e.filled; }); };
   var written = CATS.filter(function (c) { return filled(c).length; });
@@ -787,8 +979,210 @@ configuration cannot — including that a value was wrong.</p>
   }
 
   // ----------------------------------------------------------- router
+  // --------------------------------------------------------- game catalog
+  var pickedGame = null;
+  var onGamesTab = false;
+
+  function gameCard(g) {
+    // The picked card points at "#games" rather than at itself, so clicking
+    // it again closes the panel. Doing it with the href rather than a click
+    // handler also means the second click is a real navigation, and the back
+    // button undoes it like everything else on the page.
+    var on = !!pickedGame && pickedGame.id === g.id;
+    var cls = "gcard" + (on ? " on" : "") + (g.extra ? " has" : "");
+    // loading="lazy" is not a nicety. Fifty covers are about 15MB, and
+    // fetching all of them on a tab switch would stall the page for anyone
+    // not on a fast line.
+    return el("a", { class: cls, href: on ? "#games" : "#games/" + g.id,
+                     "data-game": g.id }, [
+      el("img", { class: "gcard-art", src: "images/" + g.id + ".png",
+                  alt: g.title, loading: "lazy", decoding: "async" }),
+      el("span", { class: "gcard-name", text: g.title })
+    ]);
+  }
+
+  function thousands(n) {
+    return String(n).replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  }
+
+  function gameRow(label, value) {
+    return el("div", { class: "gp-row" }, [
+      el("div", { class: "gp-key", text: label }),
+      el("div", { class: "gp-val" }, [value])
+    ]);
+  }
+
+  // Every field, every time, whether the game has it or not. Drawing only
+  // what is present made the panel between seven and ten rows tall depending
+  // on the game, so the grid below jumped on every click. A row that is
+  // always there costs one dash and holds the page still.
+  function gameFields(x) {
+    var rows = [];
+    GAMEFIELDS.forEach(function (f) {
+      var v = x[f.key];
+      var missing = v === undefined || v === null || v === ""
+                 || (v.length === 0 && typeof v !== "number");
+      if (missing) {
+        rows.push(gameRow(f.label, el("span", { class: "gp-none",
+                                               text: f.empty || "\u2014" })));
+        return;
+      }
+      var node = null;
+
+      if (f.shape === "fact" || f.shape === "list") {
+        node = el("span", { text: v.join ? v.join(", ") : String(v) });
+      } else if (f.shape === "number") {
+        node = el("span", { text: thousands(v) });
+      } else if (f.shape === "text") {
+        node = el("span", { class: "gp-prose", text: String(v) });
+      } else if (f.shape === "url") {
+        node = el("a", { class: "gp-a", href: v, target: "_blank",
+                         rel: "noopener noreferrer",
+                         text: String(v).replace(/^https?:\/\//, "")
+                                        .replace(/\/$/, "") });
+      } else if (f.shape === "tags") {
+        node = el("div", { class: "gp-tags" });
+        // Steam hands over twenty. Past a dozen they stop describing the
+        // game and start describing the store.
+        v.slice(0, 12).forEach(function (t) {
+          node.appendChild(el("span", { class: "gp-tag", text: t }));
+        });
+      } else if (f.shape === "reviews") {
+        // The word on its own is Valve's summary; the share and the total
+        // are what let a reader disagree with it.
+        var up = x.reviewsUp, dn = x.reviewsDown, txt = String(v);
+        if (typeof up === "number" && typeof dn === "number" && up + dn > 0) {
+          txt += " \u00b7 " + Math.round(up * 100 / (up + dn)) + "% of "
+               + thousands(up + dn);
+        }
+        node = el("span", { text: txt });
+      }
+      rows.push(gameRow(f.label, node
+        || el("span", { class: "gp-none", text: f.empty || "\u2014" })));
+    });
+    return rows;
+  }
+
+  // Three links, and not one of them is stored: an app id is all any of them
+  // needs, so storing the URLs would be storing the same number three more
+  // times and inviting them to disagree.
+  function steamLinks(appid) {
+    var box = el("div", { class: "gp-links" });
+    [["Steam store", "https://store.steampowered.com/app/" + appid + "/"],
+     ["Community hub", "https://steamcommunity.com/app/" + appid],
+     ["Patch notes", "https://store.steampowered.com/news/app/" + appid]
+    ].forEach(function (p) {
+      box.appendChild(el("a", { class: "gp-btn", href: p[1], target: "_blank",
+                                rel: "noopener noreferrer", text: p[0] }));
+    });
+    return box;
+  }
+
+  function gamePanel(g) {
+    var x = g.extra || {};
+    var panel = el("div", { class: "gpanel" });
+
+    panel.appendChild(el("div", { class: "gp-head" }, [
+      el("img", { class: "gp-art", src: "images/" + g.id + ".png", alt: "" }),
+      el("h3", { class: "gp-name", text: g.title }),
+      // A link, not a button, for the same reason the picked card is one.
+      el("a", { class: "gp-x", href: "#games", title: "Close",
+                "aria-label": "Close", text: "\u00d7" })
+    ]));
+
+    // A game nobody has written up gets the message AND the skeleton, rather
+    // than the message instead of it. Swapping the whole body out would move
+    // the grid again, which is the thing this is here to stop.
+    if (!g.extra) {
+      panel.appendChild(el("p", { class: "gp-empty",
+        text: "Nothing extra recorded for this game yet." }));
+    }
+    var body = el("div", { class: "gp-rows" });
+    gameFields(x).forEach(function (r) { body.appendChild(r); });
+    panel.appendChild(body);
+
+    if (x.steamAppId) panel.appendChild(steamLinks(x.steamAppId));
+    if (x.fetchedOn) {
+      // Player counts and review totals are a moment, not a fact. Undated
+      // they would read as live, which they are not.
+      panel.appendChild(el("p", { class: "gp-stamp",
+        text: "Steam data fetched " + x.fetchedOn }));
+    }
+    return panel;
+  }
+
+  function gamesPage() {
+    var wrap = el("div", { class: "page" });
+    // The picked game goes above the heading, not inside the grid. Expanding
+    // a panel under one tile would mean inserting a full-width row after that
+    // tile's row, and which row that is changes with the window width. Here
+    // nothing reflows: the grid keeps its shape and simply starts lower.
+    if (pickedGame) wrap.appendChild(gamePanel(pickedGame));
+    wrap.appendChild(el("h2", { text: "Game Catalog" }));
+    wrap.appendChild(el("p", { class: "lede", text:
+      GAMES.length + " Unreal Engine 5 games the app knows the config folder for. " +
+      "Pick one to see where its Engine.ini belongs." }));
+    var grid = el("div", { class: "ggrid" });
+    GAMES.forEach(function (g) { grid.appendChild(gameCard(g)); });
+    wrap.appendChild(grid);
+    return wrap;
+  }
+
+  function gameSide(g) {
+    sideEl.innerHTML = "";
+    if (!g) {
+      sideEl.appendChild(el("p", { class: "gs-hint", text:
+        "Search above, or pick any game, to see the folder its Engine.ini " +
+        "belongs in and what is unusual about it." }));
+      return;
+    }
+    sideEl.appendChild(el("img", { class: "gs-art", src: "images/" + g.id + ".png",
+                                   alt: g.title, loading: "lazy" }));
+    sideEl.appendChild(el("h3", { class: "gs-name", text: g.title }));
+    sideEl.appendChild(el("p", { class: "gs-label", text: "Config folder" }));
+    sideEl.appendChild(el("p", { class: "gs-path", text: g.path }));
+    if (g.note) {
+      sideEl.appendChild(el("p", { class: "gs-label", text: "Worth knowing" }));
+      sideEl.appendChild(el("p", { class: "gs-note", text: g.note }));
+    }
+  }
+
   function show(id) {
     mainEl.innerHTML = "";
+
+    // "#games" and "#games/<id>" are the same page. The id only decides
+    // what the sidebar shows beside it.
+    var games = id === "games" || id.indexOf("games/") === 0;
+    if (games) {
+      pickedGame = null;
+      var want = id.slice(6);
+      for (var g = 0; g < GAMES.length; g++) {
+        if (GAMES[g].id === want) pickedGame = GAMES[g];
+      }
+      gameSide(pickedGame);
+    }
+    navEl.hidden = games;
+    sideEl.hidden = !games;
+    // One box, two jobs. A command filter is meaningless as a game filter,
+    // so it starts empty on a tab change rather than hiding half the list
+    // for a reason that is two clicks behind you.
+    if (games !== onGamesTab) { qEl.value = ""; onGamesTab = games; }
+    qEl.setAttribute("placeholder",
+                     games ? "Filter games\u2026" : "Filter commands\u2026");
+
+    Array.prototype.forEach.call(tabsEl.querySelectorAll("a"), function (a) {
+      a.classList.toggle("on", (a.getAttribute("href") === "#games") === games);
+    });
+
+    if (games) {
+      mainEl.appendChild(gamesPage());
+      applyGameFilter();
+      // Without this a click on a tile near the bottom opens the panel above
+      // the fold, and nothing appears to have happened.
+      mainEl.scrollIntoView({ block: "start" });
+      return;
+    }
+
     var cat = null;
     for (var i = 0; i < CATS.length; i++) if (CATS[i].id === id) cat = CATS[i];
     mainEl.appendChild(cat ? categoryPage(cat) : homePage());
@@ -813,6 +1207,39 @@ configuration cannot — including that a value was wrong.</p>
   });
 
   // ----------------------------------------------------------- filter
+  // Matched against more than the title on purpose. "souls", "extraction"
+  // and "Embark" are all reasonable things to type at a wall of fifty box
+  // arts, and the data to answer them is already on the page.
+  function gameHaystack(g) {
+    if (g._hay) return g._hay;
+    var x = g.extra || {};
+    g._hay = [g.title, g.id]
+      .concat(x.developers || [], x.publishers || [], x.genres || [],
+              x.tags || [])
+      .join(" ").toLowerCase();
+    return g._hay;
+  }
+
+  function applyGameFilter() {
+    var q = qEl.value.trim().toLowerCase();
+    var cards = mainEl.querySelectorAll(".gcard"), shown = 0;
+    Array.prototype.forEach.call(cards, function (c) {
+      var g = null;
+      for (var i = 0; i < GAMES.length; i++) {
+        if (GAMES[i].id === c.dataset.game) g = GAMES[i];
+      }
+      var hit = !q || (g && gameHaystack(g).indexOf(q) !== -1);
+      c.classList.toggle("hidden", !hit);
+      if (hit) shown++;
+    });
+    var lede = mainEl.querySelector(".lede");
+    if (lede && q) {
+      lede.textContent = shown
+        ? shown + " of " + cards.length + " games match \u201c" + q + "\u201d."
+        : "No game matches \u201c" + q + "\u201d.";
+    }
+  }
+
   function applyFilter() {
     var q = qEl.value.trim().toLowerCase();
     var cards = mainEl.querySelectorAll("details.cmd");
@@ -825,7 +1252,9 @@ configuration cannot — including that a value was wrong.</p>
     var n = mainEl.querySelector(".bar .n");
     if (n) n.textContent = q ? shown + " of " + cards.length + " commands" : cards.length + " commands";
   }
-  qEl.addEventListener("input", applyFilter);
+  qEl.addEventListener("input", function () {
+    (onGamesTab ? applyGameFilter : applyFilter)();
+  });
 
   show((location.hash || "#home").slice(1));
 
