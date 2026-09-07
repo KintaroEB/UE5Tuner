@@ -159,7 +159,7 @@ nav .brand h1 {
   font-size: 12px; margin: 0 0 6px; letter-spacing: 1.4px;
   text-transform: uppercase; color: var(--text); font-weight: 700;
 }
-nav .brand p { margin: 0; font-size: 11.5px; color: var(--faint); line-height: 1.5; }
+nav .brand h1 { margin-bottom: 0; }
 
 /* ------------------------------------------------------- get the app */
 .get { padding: 16px 18px 4px; }
@@ -397,7 +397,6 @@ footer { margin-top: 60px; padding-top: 22px; border-top: 1px solid var(--line-s
   <nav>
     <div class="brand">
       <h1>UE5 Tuner — Technical Analysis</h1>
-      <p id="brandsub"></p>
     </div>
 
     <!-- The only place the app is offered, so it sits above the filter and
@@ -605,9 +604,6 @@ configuration cannot — including that a value was wrong.</p>
 
   var filled = function (c) { return c.commands.filter(function (e) { return e.filled; }); };
   var written = CATS.filter(function (c) { return filled(c).length; });
-
-  document.getElementById("brandsub").textContent =
-    DATA.counts.filled + " commands documented across " + written.length + " of " + CATS.length + " categories";
 
   function el(tag, attrs, children) {
     var n = document.createElement(tag);
