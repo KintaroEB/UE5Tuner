@@ -440,6 +440,8 @@ footer { margin-top: 60px; padding-top: 22px; border-top: 1px solid var(--line-s
   .kv { grid-template-columns: 1fr; }
   .kv dt { padding-bottom: 0; border-top: 1px solid var(--line-soft); }
   .kv dd { border-top: 0; padding-top: 2px; }
+  /* Two across once the sidebar stops being a sidebar. */
+  .gtiles { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }
 
 /* --------------------------------------------------- the game list */
@@ -481,19 +483,22 @@ footer { margin-top: 60px; padding-top: 22px; border-top: 1px solid var(--line-s
 
 /* --------------------------------------- latest additions, when nothing
    is picked. The main column is empty until a game is chosen, and an empty
-   column beside a full sidebar reads as a page that failed to load. Three
+   column beside a full sidebar reads as a page that failed to load. Six
    tiles give it something to be, and they answer the one question a first
    visit actually has: what is new here.
 
-   auto-fit rather than a fixed three, so the row becomes two and then one as
-   the column narrows instead of squeezing three covers to postage stamps. */
+   Three explicit columns, not auto-fit. The column is about 1340px wide on a
+   desktop, which auto-fit would fill with all six tiles in one short row of
+   210px covers. Fixing the count at three makes it two rows of readable ones
+   and keeps the shape the same whatever the catalogue holds. The count drops
+   to two and then one at the page's own breakpoints. */
 .gt-label {
   margin: 30px 0 12px; font-size: 11px; font-weight: 600;
   letter-spacing: 1.4px; text-transform: uppercase; color: var(--dim);
 }
 .gtiles {
   display: grid; gap: 14px;
-  grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+  grid-template-columns: repeat(3, minmax(0, 1fr));
 }
 .gt {
   display: flex; flex-direction: column; text-decoration: none;
@@ -521,11 +526,11 @@ footer { margin-top: 60px; padding-top: 22px; border-top: 1px solid var(--line-s
   color: var(--text);
 }
 .gt-date { margin: 5px 0 11px; font-size: 12px; color: var(--dim); }
-/* The score block is pushed to the foot of the tile, so the three meters sit
-   on one line even when one title wraps to two lines and the others do not.
-   The auto margin goes on whichever element starts that block: the meter when
-   there are reviews, the grey line when there are none. */
-.gt-meter, .gt-score.gt-none { margin-top: auto; }
+/* The score block is pushed to the foot of the tile, so the meters sit on one
+   line even when one title wraps to two lines and the others do not. The
+   meter is always present now -- empty when nothing has been measured -- so
+   the auto margin has one home rather than two. */
+.gt-meter { margin-top: auto; }
 .gt-meter {
   height: 4px; border-radius: 3px;
   background: var(--panel-2); overflow: hidden;
@@ -539,8 +544,11 @@ footer { margin-top: 60px; padding-top: 22px; border-top: 1px solid var(--line-s
 .gt-good { color: var(--good); }
 .gt-mid { color: var(--warn); }
 .gt-bad { color: var(--bad); }
-/* No reviews is not a bad score. It gets the furniture grey, not the red. */
+/* No reviews is not a bad score. It gets the furniture grey, not the red --
+   and its track is left empty rather than filled to zero, so there is no
+   coloured sliver at the left edge to read as a verdict. */
 .gt-none { color: var(--faint); }
+.gt-meter.gt-none { background: var(--line-soft); }
 
 /* ------------------------------------------------ the picked game panel */
 /* Sits above the heading, so a pick is the first thing on the page, and the
@@ -649,6 +657,9 @@ footer { margin-top: 60px; padding-top: 22px; border-top: 1px solid var(--line-s
 @media (max-width: 720px) {
   .gp-row { grid-template-columns: 1fr; gap: 2px; }
   .gp-art { width: 92px; }
+  /* One across. Two covers side by side on a phone are thumbnails, and the
+     review line under them wraps to three lines to fit. */
+  .gtiles { grid-template-columns: 1fr; }
 }
 
 /* ------------------------------------------ the panel, install block */
@@ -1287,10 +1298,15 @@ configuration cannot — including that a value was wrong.</p>
     return panel;
   }
 
-  // How many tiles fill the page when nothing is picked. Three because they
-  // sit in one row at every width the grid has a column count for, and a
-  // fourth would either shrink them all or wrap alone onto a second line.
-  var TILE_COUNT = 3;
+  // How many tiles fill the page when nothing is picked. Six, as two rows of
+  // three: the main column is about 1340px wide on a desktop, so three tiles
+  // across leaves each one large enough to read, and one row of them left the
+  // bottom two thirds of the column empty.
+  //
+  // The row width is set in CSS as an explicit three columns rather than by
+  // auto-fit, which would have packed all six into a single row of small ones
+  // at that width.
+  var TILE_COUNT = 6;
 
   // The most recently added games, newest first.
   //
@@ -1337,20 +1353,23 @@ configuration cannot — including that a value was wrong.</p>
     meta.push(el("p", { class: "gt-date",
                         text: x.releaseDate || "Release date not listed" }));
 
-    if (share) {
-      var band = reviewBand(share.pct);
-      meta.push(el("div", { class: "gt-meter gt-" + band }, [
-        el("i", { style: "width:" + share.pct + "%" })
-      ]));
-      // The word is Valve's summary; the share and the total are what let a
-      // reader disagree with it. The same rule as the panel row.
-      meta.push(el("p", { class: "gt-score gt-" + band,
-        text: (x.reviewScore || "Reviewed") + " · " + share.pct
-              + "% of " + thousands(share.total) }));
-    } else {
-      meta.push(el("p", { class: "gt-score gt-none",
-        text: x.reviewScore || "No Steam reviews yet" }));
-    }
+    // The track is drawn either way, so six tiles line up on one baseline
+    // whether or not a game has been reviewed yet.
+    //
+    // With nothing measured it carries no fill element at all, rather than a
+    // fill at zero width. The distinction is the whole point: an empty track
+    // reads as "not measured", and a bar of the score colour sitting at 0%
+    // reads as "measured, and nobody liked it". Steam's own word for this
+    // state is "No user reviews", which the line underneath prints verbatim.
+    var band = share ? reviewBand(share.pct) : "none";
+    meta.push(el("div", { class: "gt-meter gt-" + band },
+      share ? [el("i", { style: "width:" + share.pct + "%" })] : []));
+    // The word is Valve's summary; the share and the total are what let a
+    // reader disagree with it. The same rule as the panel row.
+    meta.push(el("p", { class: "gt-score gt-" + band,
+      text: share ? (x.reviewScore || "Reviewed") + " · " + share.pct
+                    + "% of " + thousands(share.total)
+                  : (x.reviewScore || "No user reviews") }));
 
     return el("a", { class: "gt", href: "#" + g.id }, [
       el("img", { class: "gt-art", src: "images/" + g.id + ".png", alt: "",
