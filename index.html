@@ -35,6 +35,12 @@
      light magenta for the build stamp, which belongs to neither the page
      palette nor the host and should not be mistaken for either. */
   --cloudflare: #f6821f;
+  /* The download tab and its page. A third orange on this site, and the
+     brightest of them on purpose: 9.6:1 against the page ground, against
+     Cloudflare's 7.7 and the app icon's 5.4. They are never on screen
+     together -- the boot screen has faded before a tab is clickable -- and
+     this one has to read as a button rather than as somebody's logo. */
+  --get: #ff9d3d;
   /* steamdb.nexus's own two accents, for its mark on a game panel. Written
      out rather than pointed at ours: it is a different site's identity, and
      if this page's blue or magenta is ever re-toned, their logo must not
@@ -186,29 +192,135 @@ nav {
      stays for the browsers that overlay their scrollbars instead. */
   overflow-y: scroll; scrollbar-gutter: stable;
 }
-/* ------------------------------------------------------------- tabs */
-/* The coloured rule on top is the whole of the selected state. A tab that
-   is not current keeps its colour at a third strength, so you can see
-   where the other one is without it competing. */
+/* --------------------------------------------------- masthead and tabs */
+/* The name sits above the tabs instead of at the front of two of them, which
+   is where it used to be: "UE5 Tuner — Technical Analysis" and "UE5 Tuner —
+   App Download" spent a third of the width saying the same thing twice.
+   Split out, the labels are short enough to read at a glance. */
+.masthead {
+  margin: 0; padding: 21px 22px 15px;
+  font-size: 21px; font-weight: 700; letter-spacing: -.5px; line-height: 1;
+  color: var(--text);
+}
+/* The same two-tone wordmark the boot screen draws, so the page a visitor
+   lands on is the one they just watched load. */
+.masthead span { color: var(--accent); }
+
+/* THREE TABS, ONE ACCENT AT A TIME.
+   
+   They used to carry a filled colour each, at rest and selected -- blue,
+   orange, magenta. Two of those read as a toggle; three read as a legend,
+   and the colour said nothing the label did not already say.
+   
+   The orange could not be fixed by choosing a better orange. A tab ground has
+   to be dark to sit on this page, and #2a1706 is hue 29 at 9% lightness,
+   which is brown by any definition -- as is every orange at that lightness.
+   The fault was using a dark tint as a background, not the hue.
+   
+   So no tab is filled at rest now. The current one lifts one step onto the
+   panel's own second tone and takes a solid rule in its section's colour,
+   and that rule is the only colour in the strip. */
 .tabs { border-bottom: 1px solid var(--line); }
 .tab {
   display: block; text-decoration: none;
-  padding: 20px 22px; font-size: 13px; font-weight: 700;
-  letter-spacing: 1.2px; text-transform: uppercase;
-  color: var(--dim); border-top: 3px solid transparent;
+  padding: 13px 22px; font-size: 12px; font-weight: 700;
+  letter-spacing: 1.1px; text-transform: uppercase;
+  color: var(--dim); background: transparent;
+  border-top: 3px solid transparent;
+  border-bottom: 1px solid var(--line-soft);
 }
-.tab + .tab { border-bottom: 1px solid var(--line-soft); }
+.tab:hover { background: var(--panel-2); color: var(--text); }
+.tab.on { background: var(--panel-2); color: var(--text); }
 
-/* Each tab carries its own colour at all times, so the pair reads as two
-   buttons rather than as a heading with something under it. The current
-   one is the same colour turned up, with white text and a solid rule. */
-.tab-doc { background: #0b1e2e; border-top-color: #16405e; }
-.tab-doc:hover { background: #0f2c43; color: var(--text); }
-.tab-doc.on { background: #123a58; border-top-color: var(--accent); color: var(--text); }
+/* The section's colour, and only on the rule of the one you are reading. */
+.tab-doc.on { border-top-color: var(--accent); }
+.tab-get.on { border-top-color: var(--get); }
+.tab-games.on { border-top-color: var(--games); }
 
-.tab-games { background: #341031; border-top-color: #632159; }
-.tab-games:hover { background: #4a1744; color: var(--text); }
-.tab-games.on { background: #6e1f63; border-top-color: var(--games); color: var(--text); }
+/* ----------------------------------------------------- the download page */
+/* Three sections in the order they have to be done: the runtime has to be
+   there before the app is run, and reversed the failure is a Windows dialog
+   rather than anything this site can explain.
+   
+   They carried 01/02/03 labels for a while. The headings already say what
+   each step is and a stack already reads downwards, so the numbers were
+   restating the layout. */
+/* THE MEASURE, 136ch against the paper's 72.
+
+   72ch is right for a document read top to bottom. This page is nine short
+   paragraphs and two buttons, and at 72 they wrapped into a narrow ribbon
+   with two thirds of the column empty beside it.
+
+   136 was arrived at on the page rather than by rule. The one measurement
+   that mattered: the longest paragraph here is 220 characters, which is three
+   lines at 108 and two from 118 up. Four paragraphs fit on a single line at
+   136 that did not at 118. The main column holds about 184ch at this size, so
+   the text still stops short of the window rather than running to it.
+
+   What says nothing at all is "how close is the longest line to the edge".
+   Wrapped text always ends near the limit, whatever the limit is; that was
+   checked once and reported as a risk, and it was neither.
+
+   THE SELECTOR IS THREE CLASSES ON PURPOSE.
+
+   `.dl-page .lede` was the obvious form and it did not work: it ties on
+   specificity with the `.hero .lede` rule two hundred lines below it, so that
+   one won on order alone and this page's lede stayed at 72ch -- a 107
+   character sentence broken onto two lines for no reason a reader could see.
+   Three classes beat two wherever either sits in the file.
+
+   THE NUMBER IS WRITTEN ONCE.
+
+   It was written three times, and the third was missed: `.hero` carries the
+   rule under the page title and has no max-width of its own, so that line ran
+   the full width of the column while every line below it stopped at 136ch.
+   A divider that does not line up with the next divider is visible from
+   across the room. One custom property, three users. */
+.dl-page { --measure: 136ch; }
+.dl-page .hero { max-width: var(--measure); }
+.dl-page .hero .lede { max-width: var(--measure); }
+.dl-step {
+  padding: 0 0 30px; margin: 0 0 30px;
+  border-bottom: 1px solid var(--line);
+  max-width: var(--measure);
+}
+.dl-step:last-child { border-bottom: 0; margin-bottom: 0; }
+.dl-step h3 {
+  margin: 0 0 14px; font-size: 20px; font-weight: 600;
+  letter-spacing: -.015em; color: var(--text);
+}
+.dl-step p { margin: 0 0 12px; font-size: 15px; color: var(--dim); }
+/* The one line on this page somebody will otherwise learn the hard way. */
+/* Red, not the page's own orange: this line is the one thing on the page
+   somebody can get wrong, and a rule in the same colour as the buttons reads
+   as decoration rather than as a caution. */
+.dl-warn {
+  color: var(--text); border-left: 2px solid var(--bad);
+  padding: 2px 0 2px 14px;
+}
+.dl-note { font-size: 13.5px; color: var(--faint); }
+.dl-from { margin: 8px 0 0; font-size: 12px; color: var(--faint); }
+/* Big enough to be the point of the section, and the same shape as the
+   sidebar button so the two read as the same offer. */
+.dl-btn {
+  display: inline-flex; align-items: center; gap: 2px;
+  text-decoration: none; background: var(--get); color: #2a1401;
+  font-weight: 700; font-size: 14px; letter-spacing: .3px;
+  padding: 12px 20px; border-radius: var(--r);
+  border: 1px solid var(--get);
+}
+.dl-btn:hover { filter: brightness(1.1); text-decoration: none; color: #2a1401; }
+/* The runtime is somebody else's download, so it does not get the loud
+   colour. Step 2 is the one this site is actually offering. */
+.dl-btn-quiet {
+  background: transparent; color: var(--text);
+  border-color: var(--line); font-weight: 600;
+}
+.dl-btn-quiet:hover {
+  background: var(--panel-2); border-color: var(--get);
+  color: var(--text); filter: none;
+}
+.dl-arrow { font-family: var(--mono); }
 
 /* ------------------------------------------------------- get the app */
 .get { padding: 16px 18px 4px; }
@@ -283,12 +395,27 @@ nav ol li a.empty .count { color: #3c434c; }
 main { flex: 1 1 auto; min-width: 0; padding: 46px 56px 120px; max-width: 1460px; }
 
 /* --------------------------------------------------------- typography */
+/* THE READING MEASURE, in five places, all of them widened by 40% together.
+   
+   They were 72, 74, 76 and 78ch, which is drift rather than intent -- nothing
+   records why any one of them differs from the others. The relative spacing
+   is kept rather than flattened, because flattening them would change how the
+   page looks in ways nobody asked for; what changed is only the scale.
+   
+       .hero .lede   72 -> 101ch     the home page's opening sentence
+       .intro        74 -> 104ch     a category's opening paragraphs
+       .prose        74 -> 104ch     the written-up prose, home and category
+       .notes p      76 -> 106ch     the aside box inside a card
+       .kv dd        78 -> 109ch     the value column of a command's table
+   
+   The main column holds about 184ch at 15px, so the widest of these still
+   stops well short of the window. */
 h2.cat { font-size: 27px; margin: 6px 0 4px; letter-spacing: -.4px; font-weight: 700; }
 .cat-id {
   font-family: var(--mono); font-size: 11px; color: var(--accent);
   text-transform: uppercase; letter-spacing: 1.2px;
 }
-.intro { color: var(--dim); margin: 18px 0 34px; max-width: 74ch; }
+.intro { color: var(--dim); margin: 18px 0 34px; max-width: 104ch; }
 .intro p { margin: 0 0 13px; }
 .intro ul { margin: 0 0 13px; padding-left: 20px; }
 .intro strong { color: var(--text); }
@@ -356,14 +483,14 @@ details.cmd[open] .chev { transform: rotate(90deg); color: var(--accent); }
 }
 .kv dd {
   margin: 0; padding: 10px 0; border-top: 1px solid var(--line-soft);
-  color: var(--dim); max-width: 78ch;
+  color: var(--dim); max-width: 109ch;
 }
 .kv dd strong { color: var(--text); }
 .kv dd.mono { font-family: var(--mono); font-size: 13px; color: var(--text); }
 
 .notes { margin: 18px 0 0; padding: 15px 18px; background: var(--panel-2);
          border-left: 2px solid var(--accent); border-radius: 0 var(--r) var(--r) 0; }
-.notes p { margin: 0 0 11px; color: var(--dim); max-width: 76ch; }
+.notes p { margin: 0 0 11px; color: var(--dim); max-width: 106ch; }
 .notes p:last-child { margin-bottom: 0; }
 .notes ul { margin: 0 0 11px; padding-left: 20px; color: var(--dim); }
 .notes strong { color: var(--text); }
@@ -389,7 +516,7 @@ details.cmd[open] .chev { transform: rotate(90deg); color: var(--accent); }
 /* --------------------------------------------------------- home page */
 .hero { border-bottom: 1px solid var(--line); padding-bottom: 30px; margin-bottom: 30px; }
 .hero h2 { font-size: 34px; margin: 8px 0 12px; letter-spacing: -.8px; font-weight: 700; line-height: 1.2; }
-.hero .lede { font-size: 17px; color: var(--dim); max-width: 72ch; margin: 0; }
+.hero .lede { font-size: 17px; color: var(--dim); max-width: 101ch; margin: 0; }
 
 .stats {
   display: flex; gap: 1px; flex-wrap: wrap; margin: 26px 0 0;
@@ -400,7 +527,7 @@ details.cmd[open] .chev { transform: rotate(90deg); color: var(--accent); }
 .stat b { display: block; font-family: var(--mono); font-size: 23px; color: var(--text); line-height: 1.2; }
 .stat span { font-size: 10.5px; color: var(--faint); text-transform: uppercase; letter-spacing: 1px; font-weight: 600; }
 
-.prose { max-width: 74ch; color: var(--dim); }
+.prose { max-width: 104ch; color: var(--dim); }
 .prose h3 {
   color: var(--text); font-size: 13px; margin: 40px 0 12px;
   text-transform: uppercase; letter-spacing: 1.3px; font-weight: 700;
@@ -690,10 +817,18 @@ footer { margin-top: 60px; padding-top: 22px; border-top: 1px solid var(--line-s
 </div>
 <div class="shell">
   <nav>
-    <!-- Two tabs, and the coloured rule above each is what marks the one
-         you are on. The paper is the default, so the page opens on it. -->
+    <!-- The name once, above the tabs, rather than at the front of two of
+         them. It is the same wordmark the boot screen shows, so the page a
+         visitor lands on is the one they just watched load. -->
+    <p class="masthead"><span>UE5</span> Tuner</p>
+
+    <!-- Three tabs, all quiet until chosen. The rule above the current one
+         carries that section's colour and nothing else does, so exactly one
+         accent is on screen at a time. The paper is the default, so the page
+         opens on it. -->
     <div class="tabs" id="tabs">
-      <a class="tab tab-doc on" href="#home">UE5 Tuner — Technical Analysis</a>
+      <a class="tab tab-doc on" href="#home">Technical Analysis</a>
+      <a class="tab tab-get" href="#download">App Download</a>
       <a class="tab tab-games" href="#games">Game Catalog</a>
     </div>
 
@@ -913,6 +1048,9 @@ configuration cannot — including that a value was wrong.</p>
   var mainEl = document.getElementById("main");
   var qEl = document.getElementById("q");
   var GAMES = JSON.parse(document.getElementById("games").textContent);
+  // One download URL on this page, baked in from data/app.json. Typed twice
+  // it is two URLs, and the day one moves only one of them follows.
+  var DOWNLOAD = "https://ue5tuner.pages.dev/UE5Tuner.zip";
   // Labels, order and shapes come from the FIELDS table in build_site.py,
   // so a new field on the site is a row there rather than a change here.
   var GAMEFIELDS = JSON.parse(document.getElementById("gamefields").textContent);
@@ -1380,6 +1518,101 @@ configuration cannot — including that a value was wrong.</p>
     ]);
   }
 
+  // ------------------------------------------------- the download page
+  // Two steps in the order they have to happen: the runtime first, then the
+  // app. Reversed, the app is downloaded, run, and fails with a dialog from
+  // Windows rather than from us.
+  //
+  // Both links are the ones the sidebar button already used, so there is one
+  // download URL on this site and not two that can drift apart.
+  // Named downloadStep and not step. The boot loader further down declares
+  // `var step = function ()` inside an if block, and `var` is function-scoped
+  // -- so it hoists to the top of this IIFE and overwrites a `function step`
+  // declared anywhere in it. The boot runs first, so by the time this page is
+  // asked for, `step` would be the loader's tick function, which returns
+  // undefined. It failed exactly that way once.
+  function downloadStep(title, body) {
+    return el("section", { class: "dl-step" }, [
+      el("h3", { text: title })
+    ].concat(body));
+  }
+
+  function downloadPage() {
+    var wrap = el("div", { class: "dl-page" });
+    wrap.appendChild(el("div", { class: "hero" }, [
+      el("h2", { text: "Get the app" }),
+      el("p", { class: "lede", text:
+        // 107 characters, which lands inside the 118ch measure. At 122 it
+        // wrapped and left "64-bit." alone on a line of its own.
+        "Two downloads, in this order. Neither needs an installer or "
+        + "administrator rights. Windows 10 or 11, 64-bit." })
+    ]));
+
+    wrap.appendChild(downloadStep("Install the .NET 8 Desktop Runtime", [
+      el("p", { text:
+        "UE5 Tuner is a .NET 8 desktop application, so Windows needs that "
+        + "runtime before it will start. Most machines do not have it "
+        + "already." }),
+      // Not a caution invented for the page: the app carries
+      // RollForward=LatestMinor, which was measured to refuse .NET 9 and 10
+      // rather than start on a major nobody has tested it against. See
+      // .agent/memory/dotnet-stack.md.
+      // 129 characters, inside the 136ch measure. At 147 it wrapped and left
+      // "oversight." alone on a line -- on the one paragraph here that most
+      // needs to be read in a single glance.
+      el("p", { class: "dl-warn", text:
+        "It has to be .NET 8. Having .NET 9 or .NET 10 does not count, and "
+        + "the app will not start on them -- deliberate, not an oversight." }),
+      el("p", { class: "dl-note", text:
+        "The link goes straight to the x64 desktop installer. Microsoft's "
+        + "download index lists the ASP.NET and console runtimes beside it, "
+        + "and the wrong one installs without complaining." }),
+      el("p", {}, [
+        el("a", { class: "dl-btn dl-btn-quiet",
+                  href: "https://dotnet.microsoft.com/en-us/download/dotnet/"
+                      + "thank-you/runtime-desktop-8.0.30-windows-x64-installer",
+                  target: "_blank", rel: "noopener noreferrer" }, [
+          el("span", { class: "dl-arrow", text: "↓" }),
+          el("span", { text: " .NET 8 Desktop Runtime (x64)" })
+        ])
+      ]),
+      el("p", { class: "dl-from", text: "From dotnet.microsoft.com, Microsoft's own site." })
+    ]));
+
+    wrap.appendChild(downloadStep("Download UE5 Tuner", [
+      el("p", { text:
+        "A zip. Extract it wherever you like -- your desktop, a documents "
+        + "folder, a USB stick -- and run UE5Tuner.exe from there. There is "
+        + "nothing to install and nothing is written outside that folder." }),
+      el("p", { class: "dl-note", text:
+        "Settings live in UE5Tuner.json beside the exe, so the whole folder "
+        + "is portable: copy it to another machine and your games, presets "
+        + "and custom lines travel with it. To remove the app, delete the "
+        + "folder." }),
+      el("p", {}, [
+        el("a", { class: "dl-btn", href: DOWNLOAD }, [
+          el("span", { class: "dl-arrow", text: "↓" }),
+          el("span", { text: " Download UE5 Tuner" })
+        ])
+      ]),
+      el("p", { class: "dl-from", text: "Free. No account, no telemetry, no advertising." })
+    ]));
+
+    wrap.appendChild(downloadStep("First run", [
+      el("p", { text:
+        "The app fetches its game list when it starts, so the first run "
+        + "needs an internet connection. Nothing is shipped inside the "
+        + "download except a copy to fall back on, which is how a new game "
+        + "can appear without a new release." }),
+      el("p", { class: "dl-note", text:
+        "Windows SmartScreen may warn about an unsigned app from an unknown "
+        + "publisher. That is what an unsigned executable looks like; a code "
+        + "signing certificate costs more per year than this project does." })
+    ]));
+
+    return wrap;
+  }
+
   // The whole main column belongs to whichever game is open. Nothing else
   // competes with it, because the list it was picked from is still on screen
   // in the sidebar and does not need repeating here.
@@ -1425,16 +1658,22 @@ configuration cannot — including that a value was wrong.</p>
     mainEl.innerHTML = "";
 
     var games = r.view === "games";
+    var getting = r.view === "download";
     if (games) {
       pickedGame = r.game || null;
       gameList();
     }
-    navEl.hidden = games;
+    navEl.hidden = games || getting;
     sideEl.hidden = !games;
-    // The download offer belongs to the paper, where somebody reading about
-    // a setting is being shown the tool that writes it. Above a list of games
-    // it is just the first thing in the way of the list.
-    getEl.hidden = games;
+    // The download offer belongs to the paper, where somebody reading about a
+    // setting is being shown the tool that writes it. Above a list of games it
+    // is just the first thing in the way of the list -- and on the download
+    // page it is the page, so the sidebar copy would be a second button for
+    // the same file a hand's width from the first.
+    getEl.hidden = games || getting;
+    // There is nothing on the download page to filter, and a search box that
+    // does nothing is worse than no search box.
+    filterEl.hidden = getting;
     // One box, two jobs. A command filter is meaningless as a game filter,
     // so it starts empty on a tab change rather than hiding half the list
     // for a reason that is two clicks behind you.
@@ -1443,9 +1682,16 @@ configuration cannot — including that a value was wrong.</p>
     qEl.setAttribute("placeholder",
                      games ? "Filter games\u2026" : "Filter commands\u2026");
 
+    var here = games ? "#games" : getting ? "#download" : "#home";
     Array.prototype.forEach.call(tabsEl.querySelectorAll("a"), function (a) {
-      a.classList.toggle("on", (a.getAttribute("href") === "#games") === games);
+      a.classList.toggle("on", a.getAttribute("href") === here);
     });
+
+    if (getting) {
+      mainEl.appendChild(downloadPage());
+      mainEl.scrollIntoView({ block: "start" });
+      return;
+    }
 
     if (games) {
       mainEl.appendChild(gamesPage());
@@ -1494,6 +1740,7 @@ configuration cannot — including that a value was wrong.</p>
     if (id === "home") id = "";
     if (id === "") return { id: "", view: "home" };
     if (id === "games") return { id: "games", view: "games" };
+    if (id === "download") return { id: "download", view: "download" };
     if (GAMEBYID[id]) return { id: id, view: "games", game: GAMEBYID[id] };
     if (CATBYID[id]) return { id: id, view: "cat", cat: CATBYID[id] };
     // An id nothing answers to. The overview is the honest landing place.
