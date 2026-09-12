@@ -464,6 +464,15 @@
    "notes": "Initial release - nothing special."
   },
   {
+   "id": "stellar-blade",
+   "title": "Stellar Blade",
+   "configPath": "%LOCALAPPDATA%\\SB\\Saved\\Config\\WindowsNoEditor",
+   "engineVersion": null,
+   "verified": false,
+   "verifiedOn": null,
+   "notes": "Project folder is SB, not StellarBlade. Config sits in WindowsNoEditor, not Windows."
+  },
+  {
    "id": "subnautica-2",
    "title": "Subnautica 2",
    "configPath": "%LOCALAPPDATA%\\Subnautica2\\Saved\\Config\\Windows",
